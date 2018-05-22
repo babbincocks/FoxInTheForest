@@ -11,8 +11,18 @@ namespace Main_Game
         int number;
         string suit;
 
+        public Card Trump(string suit, int number)
+        {
+            Card trump = new Card(number, suit);
 
+            return trump;
+        }
         
+        public Card()
+        {
+            number = 1;
+            suit = "Bell";
+        }
 
         public Card(int cardNumber, string cardSuit)
         {
@@ -32,30 +42,33 @@ namespace Main_Game
             set { suit = value; }
         }
 
-        public Card(int cardNumber)
+        public void Effect(int yourCard, int oppCard)
         {
 
-            if (cardNumber == 1)
+            if (yourCard == 1)
             {
 
             }
-            else if (cardNumber == 3)
+            else if (yourCard == 3)
             {
 
             }
-            else if (cardNumber == 5)
+            else if (yourCard == 5)
             {
 
             }
-            else if (cardNumber == 7)
+            else if (yourCard == 7)
             {
 
             }
-            else if (cardNumber == 9)
+            else if (yourCard == 9)
             {
+                if (oppCard != 9)
+                {
 
+                }
             }
-            else if (cardNumber == 11)
+            else if (yourCard == 11)
             {
 
             }
