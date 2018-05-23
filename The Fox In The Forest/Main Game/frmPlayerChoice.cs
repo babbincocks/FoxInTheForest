@@ -17,37 +17,45 @@ namespace Main_Game
         {
             InitializeComponent();
         }
-        const string fileLocation = @"../../../Profiles/Profiles.csv";
-        StreamReader playerRead;
         StreamWriter playerWrite;
 
         List<Player> players = new List<Player>();
         Player newPlayer;
+        const string fileLocation = @"../../Profiles.csv";
 
         private void frmPlayerChoice_Load(object sender, EventArgs e)
         {
             try
             {
-                playerRead = new StreamReader(fileLocation);
-                while (!playerRead.EndOfStream)
+                
+                //playerRead = new StreamReader(fileLocation);
+                //while (!playerRead.EndOfStream)
+                //{
+                //    string[] player = new string[5];
+                //    player = playerRead.ReadLine().Split(',');
+                //    int i = 0;
+                //    foreach (string cell in player)
+                //    {
+                //        if (cell == null)
+                //        {
+                //            player[i] = "0";
+                //        }
+                //        i++;
+                //    }
+                //    newPlayer = new Player(player[0], int.Parse(player[1]), int.Parse(player[2]), int.Parse(player[3]), int.Parse(player[4]));
+                //        players.Add(newPlayer);
+                //        lbExistingPlayers.Items.Add(newPlayer.Name);
+
+                //}
+                //playerRead.Close();
+
+                List<Player> players = Player.PlayerList(fileLocation);
+                for (int i = 0; i < players.Count(); i++)
                 {
-                    string[] player = new string[5];
-                    player = playerRead.ReadLine().Split(',');
-                    int i = 0;
-                    foreach (string cell in player)
-                    {
-                        if (cell == null)
-                        {
-                            player[i] = "0";
-                        }
-                        i++;
-                    }
-                    newPlayer = new Player(player[0], int.Parse(player[1]), int.Parse(player[2]), int.Parse(player[3]), int.Parse(player[4]));
-                        players.Add(newPlayer);
-                        lbExistingPlayers.Items.Add(newPlayer.Name);
-                    
+                    lbExistingPlayers.Items.Add(players[i].Name);
                 }
-                playerRead.Close();
+                
+
             }
             catch (Exception ex)
             {
@@ -59,7 +67,7 @@ namespace Main_Game
         {
             try
             {
-                if (txtNewName.Text.Length > 25)
+                if (txtNewName.Text.Length > 15)
                 {
                     throw new Exception("Name is too long. Please shorten profile name.");
                 }
@@ -75,18 +83,21 @@ namespace Main_Game
 
                 if (c == true)
                 {
-                    Player newPlayer = new Player(txtNewName.Text);
+                    newPlayer = new Player(txtNewName.Text);
                     players.Add(newPlayer);
                     lbExistingPlayers.Items.Add(newPlayer.Name);
 
-                    using (playerWrite = File.AppendText(@"../../../Profiles/Profiles.csv"))
+                    using (playerWrite = File.AppendText(fileLocation))
                     {
-                        playerWrite.WriteLine(newPlayer.PlayStats);
+                        playerWrite.WriteLine(Environment.NewLine + newPlayer.PlayStats);
                     }
                     playerWrite.Close();
                     int a = (players.Count - 1);
                     lbExistingPlayers.SelectedIndex = a;//(txtNewName.Text);
                     txtNewName.Clear();
+
+                    Player.SetCurrentPlayer(lbExistingPlayers.SelectedIndex);
+                    
                     
                 }
             }
@@ -101,9 +112,9 @@ namespace Main_Game
             int index = lbExistingPlayers.IndexFromPoint(e.Location);
             if (index != System.Windows.Forms.ListBox.NoMatches)
             {
-                newPlayer = players[lbExistingPlayers.SelectedIndex];
+                Player.SetCurrentPlayer(lbExistingPlayers.SelectedIndex);
 
-                this.DialogResult = DialogResult.No;
+               // this.DialogResult = DialogResult.No;
                 
             }
         }

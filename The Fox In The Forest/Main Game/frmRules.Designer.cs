@@ -77,7 +77,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "frmRules";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "frmRules";
+            this.Text = "Rules";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

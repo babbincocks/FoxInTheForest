@@ -68,15 +68,63 @@ namespace Main_Game
         }
 
 
+        private static StreamReader playerRead;
+        private static Player newPlayer;
+        private static List<Player> players;
+        private static Player currPlayer = new Player("Guest");
 
 
-        //????? WILL THIS WORK????
-        public List<Player> PlayerList (StreamReader path)
+        public static List<Player> PlayerList (string path)
         {
-            const string fileLocation = @"../../../Profiles/Profiles.csv";
+            //const string fileLocation = @"../../../Profiles/Profiles.csv";
 
-            List<Player> players = new List<Player>();
-            return players;
+            players = new List<Player>();
+            try
+            {
+
+                playerRead = new StreamReader(path);
+                while (!playerRead.EndOfStream)
+                {
+                    string[] player = new string[5];
+                    player = playerRead.ReadLine().Split(',');
+                    int i = 0;
+                    foreach (string cell in player)
+                    {
+                        if (cell == null)
+                        {
+                            player[i] = "0";
+                        }
+                        i++;
+                    }
+                    newPlayer = new Player(player[0], int.Parse(player[1]), int.Parse(player[2]), int.Parse(player[3]), int.Parse(player[4]));
+                    players.Add(newPlayer);
+                }
+                playerRead.Close();
+                return players;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static Player SetCurrentPlayer(int playIndex)
+        {
+
+            //The default player is just a Guest account.
+
+            //If a player has been chosen, their information is loaded, and turned into the 
+            if (players.Count() > 0)
+            {
+                currPlayer = players[playIndex];
+            }
+
+            return currPlayer;
+        }
+
+        public static Player CurrentPlayer()
+        {
+            return currPlayer;
         }
 
     }

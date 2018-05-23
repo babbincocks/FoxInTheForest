@@ -14,7 +14,7 @@ namespace Main_Game
 
     public partial class frmGame : Form
     {
-        Player curPlayer;
+        Player curPlayer = Player.CurrentPlayer();
          Card trump = new Card(1, "Bell");
         
         public frmGame()
@@ -112,15 +112,19 @@ namespace Main_Game
             frmPlayerChoice newForm = new frmPlayerChoice();
             newForm.ShowDialog();
             //refer to csv and get name if created, or get from list box if selected
-            if (newForm.DialogResult == DialogResult.Yes)
+
+            curPlayer = Player.CurrentPlayer();
+            if (curPlayer.Name.Length >= 5)
             {
-                string a = newForm.lbExistingPlayers.SelectedItem.ToString();
-                curPlayer = new Player(a);
+                lblName.Text = curPlayer.Name + "'s" + Environment.NewLine + "Score";
+                lblName.Location = new Point(699,479);
             }
-            else if (newForm.DialogResult == DialogResult.No)
+            else
             {
-                
+                lblName.Text = curPlayer.Name + "'s Score";
+                lblName.Location = new Point(699, 479);
             }
+            
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
