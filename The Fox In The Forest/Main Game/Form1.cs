@@ -14,7 +14,7 @@ namespace Main_Game
 
     public partial class frmGame : Form
     {
-
+        Player curPlayer;
          Card trump = new Card(1, "Bell");
         
         public frmGame()
@@ -105,6 +105,27 @@ namespace Main_Game
             frmRules newForm = new frmRules();
 
             newForm.ShowDialog();
+        }
+
+        private void choosePlayerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmPlayerChoice newForm = new frmPlayerChoice();
+            newForm.ShowDialog();
+            //refer to csv and get name if created, or get from list box if selected
+            if (newForm.DialogResult == DialogResult.Yes)
+            {
+                string a = newForm.lbExistingPlayers.SelectedItem.ToString();
+                curPlayer = new Player(a);
+            }
+            else if (newForm.DialogResult == DialogResult.No)
+            {
+                
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

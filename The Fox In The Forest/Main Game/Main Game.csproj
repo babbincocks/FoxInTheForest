@@ -52,6 +52,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPlayerChoice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPlayerChoice.Designer.cs">
+      <DependentUpon>frmPlayerChoice.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmRules.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,10 +70,14 @@
     <Compile Include="frmTrickTake.Designer.cs">
       <DependentUpon>frmTrickTake.cs</DependentUpon>
     </Compile>
+    <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPlayerChoice.resx">
+      <DependentUpon>frmPlayerChoice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRules.resx">
       <DependentUpon>frmRules.cs</DependentUpon>
