@@ -49,12 +49,13 @@ namespace Main_Game
                 //}
                 //playerRead.Close();
 
-                List<Player> players = Player.PlayerList(fileLocation);
+                players = Player.PlayerList(fileLocation);
                 for (int i = 0; i < players.Count(); i++)
                 {
                     lbExistingPlayers.Items.Add(players[i].Name);
                 }
-                
+
+                this.MaximizeBox = false;
 
             }
             catch (Exception ex)
@@ -89,12 +90,12 @@ namespace Main_Game
 
                     using (playerWrite = File.AppendText(fileLocation))
                     {
-                        playerWrite.WriteLine(Environment.NewLine + newPlayer.PlayStats);
+                        playerWrite.WriteLine(newPlayer.PlayStats);
                     }
                     playerWrite.Close();
-                    int a = (players.Count - 1);
+                    int a = players.Count - 1;
                     lbExistingPlayers.SelectedIndex = a;//(txtNewName.Text);
-                    txtNewName.Clear();
+                    
 
                     Player.SetCurrentPlayer(lbExistingPlayers.SelectedIndex);
                     
@@ -113,9 +114,7 @@ namespace Main_Game
             if (index != System.Windows.Forms.ListBox.NoMatches)
             {
                 Player.SetCurrentPlayer(lbExistingPlayers.SelectedIndex);
-
-               // this.DialogResult = DialogResult.No;
-                
+                Close();
             }
         }
     }

@@ -61,6 +61,7 @@
             this.Name = "frmTrickTake";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Trick Taking";
+            this.Load += new System.EventHandler(this.frmTrickTake_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

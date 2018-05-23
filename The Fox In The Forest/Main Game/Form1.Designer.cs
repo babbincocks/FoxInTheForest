@@ -33,6 +33,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.choosePlayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rulesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +48,6 @@
             this.gbCards = new System.Windows.Forms.GroupBox();
             this.gbOpponent = new System.Windows.Forms.GroupBox();
             this.btnDraw = new System.Windows.Forms.Button();
-            this.choosePlayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pbDeck = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).BeginInit();
@@ -82,6 +82,13 @@
             this.newGameToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.newGameToolStripMenuItem.Text = "&New Game";
             // 
+            // choosePlayerToolStripMenuItem
+            // 
+            this.choosePlayerToolStripMenuItem.Name = "choosePlayerToolStripMenuItem";
+            this.choosePlayerToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.choosePlayerToolStripMenuItem.Text = "Choose &Player";
+            this.choosePlayerToolStripMenuItem.Click += new System.EventHandler(this.choosePlayerToolStripMenuItem_Click);
+            // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
@@ -106,14 +113,14 @@
             // rulesToolStripMenuItem1
             // 
             this.rulesToolStripMenuItem1.Name = "rulesToolStripMenuItem1";
-            this.rulesToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.rulesToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
             this.rulesToolStripMenuItem1.Text = "&Rules";
             this.rulesToolStripMenuItem1.Click += new System.EventHandler(this.rulesToolStripMenuItem1_Click);
             // 
             // sortCardsToolStripMenuItem
             // 
             this.sortCardsToolStripMenuItem.Name = "sortCardsToolStripMenuItem";
-            this.sortCardsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sortCardsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.sortCardsToolStripMenuItem.Text = "Sort &Cards";
             // 
             // exitToolStripMenuItem
@@ -191,6 +198,7 @@
             this.lblName.Size = new System.Drawing.Size(81, 20);
             this.lblName.TabIndex = 5;
             this.lblName.Text = "Your Score";
+            this.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
             // 
@@ -228,13 +236,6 @@
             this.btnDraw.Text = "&Draw";
             this.btnDraw.UseVisualStyleBackColor = true;
             // 
-            // choosePlayerToolStripMenuItem
-            // 
-            this.choosePlayerToolStripMenuItem.Name = "choosePlayerToolStripMenuItem";
-            this.choosePlayerToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.choosePlayerToolStripMenuItem.Text = "Choose &Player";
-            this.choosePlayerToolStripMenuItem.Click += new System.EventHandler(this.choosePlayerToolStripMenuItem_Click);
-            // 
             // pbDeck
             // 
             this.pbDeck.Location = new System.Drawing.Point(42, 240);
@@ -259,6 +260,7 @@
             this.Controls.Add(this.lblOppScore);
             this.Controls.Add(this.pbDeck);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmGame";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

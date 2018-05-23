@@ -92,7 +92,7 @@ namespace Main_Game
                     allCards.Add(current);
                 }
 
-
+                this.MaximizeBox = false;
                 
             }
 
@@ -111,13 +111,17 @@ namespace Main_Game
         {
             frmPlayerChoice newForm = new frmPlayerChoice();
             newForm.ShowDialog();
-            //refer to csv and get name if created, or get from list box if selected
 
             curPlayer = Player.CurrentPlayer();
-            if (curPlayer.Name.Length >= 5)
+            if (curPlayer.Name.Length >= 5 && curPlayer.Name.Length < 10)
             {
                 lblName.Text = curPlayer.Name + "'s" + Environment.NewLine + "Score";
-                lblName.Location = new Point(699,479);
+                lblName.Location = new Point(710,455);
+            }
+            else if (curPlayer.Name.Length >= 10)
+            {
+                lblName.Text = curPlayer.Name + "'s" + Environment.NewLine + "Score";
+                lblName.Location = new Point(695, 455);
             }
             else
             {

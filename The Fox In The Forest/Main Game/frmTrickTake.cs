@@ -16,5 +16,10 @@ namespace Main_Game
         {
             InitializeComponent();
         }
+
+        private void frmTrickTake_Load(object sender, EventArgs e)
+        {
+            this.MaximizeBox = false;
+        }
     }
 }

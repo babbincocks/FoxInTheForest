@@ -23,5 +23,10 @@ namespace Main_Game
 
             newTake.ShowDialog();
         }
+
+        private void frmRules_Load(object sender, EventArgs e)
+        {
+            this.MaximizeBox = false;
+        }
     }
 }
