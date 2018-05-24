@@ -20,6 +20,8 @@ namespace Main_Game
         private void frmTrickTake_Load(object sender, EventArgs e)
         {
             this.MaximizeBox = false;
+
+            //https://boardgamegeek.com/boardgamemechanic/2009/trick-taking
         }
     }
 }

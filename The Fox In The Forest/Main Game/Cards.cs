@@ -7,34 +7,41 @@ using System.Threading.Tasks;
 namespace Main_Game
 {
     class Card
-    {
+    {       //The Card class, which will handle card values and help with maintaining the deck.
+
+        //Backing variables
         int number;
         string suit;
 
-        public Card Trump(string suit, int number)
-        {
-            Card trump = new Card(number, suit);
+            //This might not even be done in the class, not sure yet.
+        //public Card Trump(string suit, int number)
+        //{
+        //    Card trump = new Card(number, suit);
 
-            return trump;
-        }
+        //    return trump;
+        //}
         
-        public Card()
-        {
-            number = 1;
-            suit = "Bell";
-        }
 
+        //public Card()
+        //{
+        //    number = 1;
+        //    suit = "Bell";
+        //}
+
+        //Constructor that sets the values of a card.
         public Card(int cardNumber, string cardSuit)
         {
             number = cardNumber;
             suit = cardSuit;
         }
 
+        //Couple of accessors.
         public int CardNumber
         {
             get { return number; }
             set { number = value; }
         }
+
 
         public string CardSuit
         {
@@ -42,6 +49,7 @@ namespace Main_Game
             set { suit = value; }
         }
 
+        //As odd-numbered cards have special effects that can affect a play, it needs to be handled somewhere. Maybe here?
         public void Effect(int yourCard, int oppCard)
         {
 
@@ -78,8 +86,11 @@ namespace Main_Game
             }
         }
 
+        //Variable that will be the current state of the deck, and another for the used cards to go.
         private static List<Card> deck;
+        private static List<Card> discard;
 
+        //If the deck needs to be retrieved in its entirety.
         public static List<Card> Deck()
         {
             return deck;
