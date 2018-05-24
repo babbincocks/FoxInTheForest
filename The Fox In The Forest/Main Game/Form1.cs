@@ -14,18 +14,31 @@ namespace Main_Game
 
     public partial class frmGame : Form
     {
-        Player curPlayer = Player.CurrentPlayer();
-         Card trump = new Card(1, "Bell");
-        
+
         public frmGame()
         {
             InitializeComponent();
         }
 
+        private void frmGame_Load(object sender, EventArgs e)
+        {
+            this.MaximizeBox = false;
+
+            pbDeck.Image = ilCards.Images["Owl-Key_Card.png"];
+
+            
+
+        }
+
+        Player curPlayer = Player.CurrentPlayer();
+         Card trump = new Card(1, "Bell");
+        
+        
+
         int x = 0;
         int y = 0;
         bool drag = false;
-        List<Card> allCards = new List<Card>();
+        List<Card> deck = new List<Card>();
 
         private void picMouseDown(object sender, MouseEventArgs e)
         {
@@ -55,50 +68,7 @@ namespace Main_Game
 
         
 
-        private void frmGame_Load(object sender, EventArgs e)
-        {
-            pbDeck.Image = ilCards.Images["Owl-Key_Card.png"];
-
-
-            foreach (string card in ilCards.Images.Keys)
-            {
-                if (!card.Contains("Owl"))
-                {
-                    string[] cardEle = card.Split('_');
-                    string cardNumber = cardEle[0];
-                    string cardSuit = cardEle[1];
-                    if (cardNumber == "Ace")
-                    {
-                        cardNumber = "1";
-                    }
-                    
-                    cardSuit = cardSuit.Replace(".png", "");
-                    cardSuit = cardSuit.Replace(".bmp", ""); //Erase line later.
-
-                    if (cardSuit == "Clubs")
-                    {
-                        cardSuit = "Bell";
-                    }
-                    else if (cardSuit == "Diamonds")
-                    {
-                        cardSuit = "Moon";
-                    }
-                    else if (cardSuit == "Hearts")
-                    {
-                        cardSuit = "Key";
-                    }
-
-                    Card current = new Card(int.Parse(cardNumber), cardSuit);
-                    allCards.Add(current);
-                }
-
-                this.MaximizeBox = false;
-                
-            }
-
-
-
-        }
+        
 
         private void rulesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -134,6 +104,29 @@ namespace Main_Game
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void sortCardsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<string> preCards = new List<string>();
+
+            foreach (string card in ilCards.Images.Keys)
+            {
+                preCards.Add(card);
+            }
+
+            deck = Card.PopulateDeck(preCards);
+
+            deck = Card.Deck();
+
+            deck = Card.Shuffle(deck);
+
+
         }
     }
 }

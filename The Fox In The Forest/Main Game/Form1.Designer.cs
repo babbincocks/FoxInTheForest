@@ -79,26 +79,27 @@
             // newGameToolStripMenuItem
             // 
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newGameToolStripMenuItem.Text = "&New Game";
+            this.newGameToolStripMenuItem.Click += new System.EventHandler(this.newGameToolStripMenuItem_Click);
             // 
             // choosePlayerToolStripMenuItem
             // 
             this.choosePlayerToolStripMenuItem.Name = "choosePlayerToolStripMenuItem";
-            this.choosePlayerToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.choosePlayerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.choosePlayerToolStripMenuItem.Text = "Choose &Player";
             this.choosePlayerToolStripMenuItem.Click += new System.EventHandler(this.choosePlayerToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadToolStripMenuItem.Text = "&Load";
             // 
             // rulesToolStripMenuItem
@@ -113,15 +114,16 @@
             // rulesToolStripMenuItem1
             // 
             this.rulesToolStripMenuItem1.Name = "rulesToolStripMenuItem1";
-            this.rulesToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+            this.rulesToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.rulesToolStripMenuItem1.Text = "&Rules";
             this.rulesToolStripMenuItem1.Click += new System.EventHandler(this.rulesToolStripMenuItem1_Click);
             // 
             // sortCardsToolStripMenuItem
             // 
             this.sortCardsToolStripMenuItem.Name = "sortCardsToolStripMenuItem";
-            this.sortCardsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.sortCardsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.sortCardsToolStripMenuItem.Text = "Sort &Cards";
+            this.sortCardsToolStripMenuItem.Click += new System.EventHandler(this.sortCardsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 

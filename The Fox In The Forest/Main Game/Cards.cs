@@ -30,13 +30,13 @@ namespace Main_Game
             suit = cardSuit;
         }
 
-        public int cardNumber
+        public int CardNumber
         {
             get { return number; }
             set { number = value; }
         }
 
-        public string cardSuit
+        public string CardSuit
         {
             get { return suit; }
             set { suit = value; }
@@ -78,9 +78,76 @@ namespace Main_Game
             }
         }
 
-        public void Shuffle(List<Card> deck)
-        {
+        private static List<Card> deck;
 
+        public static List<Card> Deck()
+        {
+            return deck;
+        }
+
+        public static List<Card> PopulateDeck(List<string> cards)
+        {
+            deck = new List<Card>();
+
+            foreach (string card in cards)
+            {
+                if (!card.Contains("Owl"))
+                {
+                    string[] cardEle = card.Split('_');
+                    string cardNumber = cardEle[0];
+                    string cardSuit = cardEle[1];
+                    if (cardNumber == "Ace")
+                    {
+                        cardNumber = "1";
+                    }
+
+                    cardSuit = cardSuit.Replace(".png", "");
+                    cardSuit = cardSuit.Replace(".bmp", ""); //Erase line later.
+
+                    if (cardSuit == "Clubs")
+                    {
+                        cardSuit = "Bell";
+                    }
+                    else if (cardSuit == "Diamonds")
+                    {
+                        cardSuit = "Moon";
+                    }
+                    else if (cardSuit == "Hearts")
+                    {
+                        cardSuit = "Key";
+                    }
+
+                    if (cardNumber == "Jack")
+                    {
+                        cardNumber = "11";
+                    }
+                    Card current = new Card(int.Parse(cardNumber), cardSuit);
+                    deck.Add(current);
+                }
+            }
+            return deck;
+        }
+
+        private static Random rng = new Random();
+
+        public static List<Card> Shuffle(List<Card> shuffleDeck)
+        {
+            
+            int n = shuffleDeck.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                Card choice = shuffleDeck[k];
+                shuffleDeck[k] = shuffleDeck[n];
+                shuffleDeck[n] = choice;
+
+            }
+
+            
+
+            return shuffleDeck;
+            
         }
     }
 }

@@ -8,18 +8,22 @@ using System.IO;
 namespace Main_Game
 {
     class Player
-    {
+    {       //The Player class, which will handle all interaction with different player aspects.
+
+        //Variables to hold the different stats being kept track of.
         string playerName;
         int playerWins;
         int playerLosses;
         int tricksWon;
         int totalPoints;
 
+        //Default constructor, because why not.
         public Player()
         {
 
         }
 
+        //Constructor for when a player is being created, setting the name, and then setting all stats to 0.
         public Player(string name)
         {
             playerName = name;
@@ -29,6 +33,7 @@ namespace Main_Game
             totalPoints = 0;
         }
 
+        //Constructor for updating player stats or retrieving player stats.
         public Player(string name, int wins, int losses, int tWins, int tPoints)
         {
             playerName = name;
@@ -38,6 +43,7 @@ namespace Main_Game
             totalPoints = tPoints;
         }
 
+        //Bunch of accessors below.
         public string Name
         {
            get { return playerName; }
@@ -62,18 +68,19 @@ namespace Main_Game
             set { tricksWon = value; }
         }
 
+        //Retrieve one long string for player stats.
         public string PlayStats
         {
             get { return playerName + "," + playerWins + "," + playerLosses + "," + tricksWon + "," + totalPoints; }
         }
 
-
+        //Special variables for more complicated methods.
         private static StreamReader playerRead;
         private static Player newPlayer;
         private static List<Player> players;
         private static Player currPlayer = new Player("Guest");
 
-
+        //Method to populate the list of players.
         public static List<Player> PlayerList (string path)
         {
             //const string fileLocation = @"../../../Profiles/Profiles.csv";
@@ -108,12 +115,13 @@ namespace Main_Game
             }
         }
 
+        //Method to set the current player.
         public static Player SetCurrentPlayer(int playIndex)
         {
 
             //The default player is just a Guest account.
 
-            //If a player has been chosen, their information is loaded, and turned into the 
+            //If a player has been chosen, their information is loaded, and turned into the current player.
             if (players.Count() > 0)
             {
                 currPlayer = players[playIndex];
@@ -122,6 +130,7 @@ namespace Main_Game
             return currPlayer;
         }
 
+        //Method to retrieve the current player.
         public static Player CurrentPlayer()
         {
             return currPlayer;
