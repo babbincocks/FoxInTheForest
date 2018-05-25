@@ -24,6 +24,8 @@ namespace Main_Game
         {
             this.MaximizeBox = false;
 
+            this.hideScoringToolStripMenuItem.Visible = false;
+
             pbDeck.Image = ilCards.Images["Owl-Key_Card.png"];
 
             
@@ -70,12 +72,7 @@ namespace Main_Game
 
         
 
-        private void rulesToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            frmRules newForm = new frmRules();
 
-            newForm.ShowDialog();
-        }
 
         private void choosePlayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -127,6 +124,53 @@ namespace Main_Game
             deck = Card.Shuffle(deck);
 
 
+        }
+
+        PictureBox pbScoring = new PictureBox();
+        private void showScoringToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (pbScoring.IsHandleCreated)
+            {
+                this.pbScoring.Show();
+                pbScoring.Location = new Point(654, 247);
+            }
+            else
+            {
+                pbScoring.Location = new Point(654, 247);
+                pbScoring.Size = new Size(135, 192);
+                pbScoring.MouseDown += new MouseEventHandler(picMouseDown);
+                pbScoring.MouseMove += new MouseEventHandler(picMouseMove);
+                pbScoring.MouseUp += new MouseEventHandler(picMouseUp);
+                pbScoring.Image = ilCards.Images["FitFScoreRef.png"];
+                pbScoring.SizeMode = PictureBoxSizeMode.Zoom;
+                this.Controls.Add(pbScoring);
+                
+            }
+            this.showScoringToolStripMenuItem.Visible = false;
+            this.hideScoringToolStripMenuItem.Visible = true;
+
+
+        }
+
+        private void hideScoringToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.Controls.Contains(pbScoring))
+            {
+                this.pbScoring.Hide();
+            }
+            this.hideScoringToolStripMenuItem.Visible = false;
+            this.showScoringToolStripMenuItem.Visible = true;
+            
+
+            
+        }
+
+        private void rulesToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            frmRules newForm = new frmRules();
+
+            newForm.ShowDialog();
         }
     }
 }

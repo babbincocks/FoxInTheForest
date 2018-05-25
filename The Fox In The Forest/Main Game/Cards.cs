@@ -80,10 +80,6 @@ namespace Main_Game
             {
 
             }
-            else
-            {
-
-            }
         }
 
         //Variable that will be the current state of the deck, and another for the used cards to go.
@@ -102,7 +98,7 @@ namespace Main_Game
 
             foreach (string card in cards)
             {
-                if (!card.Contains("Owl"))
+                if (!card.Contains("Owl") && !card.Contains("FitF"))
                 {
                     string[] cardEle = card.Split('_');
                     string cardNumber = cardEle[0];

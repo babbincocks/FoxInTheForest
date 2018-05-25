@@ -117,4 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label1.Text" xml:space="preserve">
+    <value>A trick-taking game works like this: a number of players take turns
+putting a card from their hand face-up on the table; this pile of
+cards is called a "trick". One player will win the trick and take all
+of the cards in the trick, which, depending on the game, can be
+either a good or bad thing.
+
+Typically, the way to win a trick is to have the card with the highest
+value of the suit that was initially put down; sometimes instead, a
+"trump" system is used, wherein certain cards, usually of a chosen
+suit, will win the trick if played.
+
+Many trick-taking games have it so players have to "follow suit", 
+meaning the player has to play a card of the same suit as was 
+initially put down. If they don't have a match, they play any other
+card.</value>
+  </data>
 </root>
