@@ -42,6 +42,7 @@
             this.hideScoringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rulesToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ilCards = new System.Windows.Forms.ImageList(this.components);
             this.lblOppScore = new System.Windows.Forms.Label();
@@ -52,7 +53,6 @@
             this.gbOpponent = new System.Windows.Forms.GroupBox();
             this.btnDraw = new System.Windows.Forms.Button();
             this.pbDeck = new System.Windows.Forms.PictureBox();
-            this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).BeginInit();
             this.SuspendLayout();
@@ -120,21 +120,21 @@
             // sortCardsToolStripMenuItem
             // 
             this.sortCardsToolStripMenuItem.Name = "sortCardsToolStripMenuItem";
-            this.sortCardsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sortCardsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.sortCardsToolStripMenuItem.Text = "Sort &Hand";
             this.sortCardsToolStripMenuItem.Click += new System.EventHandler(this.sortCardsToolStripMenuItem_Click);
             // 
             // showScoringToolStripMenuItem
             // 
             this.showScoringToolStripMenuItem.Name = "showScoringToolStripMenuItem";
-            this.showScoringToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.showScoringToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.showScoringToolStripMenuItem.Text = "Show Scoring";
             this.showScoringToolStripMenuItem.Click += new System.EventHandler(this.showScoringToolStripMenuItem_Click);
             // 
             // hideScoringToolStripMenuItem
             // 
             this.hideScoringToolStripMenuItem.Name = "hideScoringToolStripMenuItem";
-            this.hideScoringToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.hideScoringToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.hideScoringToolStripMenuItem.Text = "Hide Scoring";
             this.hideScoringToolStripMenuItem.Click += new System.EventHandler(this.hideScoringToolStripMenuItem_Click);
             // 
@@ -150,9 +150,15 @@
             // rulesToolStripMenuItem2
             // 
             this.rulesToolStripMenuItem2.Name = "rulesToolStripMenuItem2";
-            this.rulesToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.rulesToolStripMenuItem2.Size = new System.Drawing.Size(101, 22);
             this.rulesToolStripMenuItem2.Text = "&Rules";
             this.rulesToolStripMenuItem2.Click += new System.EventHandler(this.rulesToolStripMenuItem2_Click);
+            // 
+            // guideToolStripMenuItem
+            // 
+            this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
+            this.guideToolStripMenuItem.Text = "G&uide";
             // 
             // exitToolStripMenuItem
             // 
@@ -267,6 +273,7 @@
             this.btnDraw.TabIndex = 9;
             this.btnDraw.Text = "&Draw";
             this.btnDraw.UseVisualStyleBackColor = true;
+            this.btnDraw.Click += new System.EventHandler(this.btnDraw_Click);
             // 
             // pbDeck
             // 
@@ -276,12 +283,6 @@
             this.pbDeck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbDeck.TabIndex = 2;
             this.pbDeck.TabStop = false;
-            // 
-            // guideToolStripMenuItem
-            // 
-            this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.guideToolStripMenuItem.Text = "G&uide";
             // 
             // frmGame
             // 
@@ -321,7 +322,6 @@
         private System.Windows.Forms.ToolStripMenuItem rulesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sortCardsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ImageList ilCards;
         private System.Windows.Forms.ToolStripMenuItem newGameToolStripMenuItem;
         private System.Windows.Forms.PictureBox pbDeck;
         private System.Windows.Forms.Label lblOppScore;
@@ -337,6 +337,7 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rulesToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem guideToolStripMenuItem;
+        public System.Windows.Forms.ImageList ilCards;
     }
 }
 

@@ -13,14 +13,22 @@ namespace Main_Game
         int number;
         string suit;
 
-            //This might not even be done in the class, not sure yet.
-        //public Card Trump(string suit, int number)
-        //{
-        //    Card trump = new Card(number, suit);
 
-        //    return trump;
-        //}
-        
+        public static Card trump;
+
+        //This might not even be done in the class, not sure yet.
+        public static Card Trump(Card newCard)
+        {
+            trump = newCard;
+
+            return trump;
+        }
+
+        public static Card Trump()
+        { 
+            return trump;
+        }
+
 
         //public Card()
         //{
@@ -50,37 +58,42 @@ namespace Main_Game
         }
 
         //As odd-numbered cards have special effects that can affect a play, it needs to be handled somewhere. Maybe here?
-        public void Effect(int yourCard, int oppCard)
+        public void Effect(Card yourCard, Card oppCard)
         {
 
-            if (yourCard == 1)
+            if (yourCard.CardNumber == 1)
             {
 
             }
-            else if (yourCard == 3)
+            else if (yourCard.CardNumber == 3)
             {
 
             }
-            else if (yourCard == 5)
+            else if (yourCard.CardNumber == 5)
             {
 
             }
-            else if (yourCard == 7)
+            else if (yourCard.CardNumber == 7)
             {
 
             }
-            else if (yourCard == 9)
+            else if (yourCard.CardNumber == 9)
             {
-                if (oppCard != 9)
+                if (oppCard.CardNumber != 9)
                 {
+                    if (oppCard.CardSuit != trump.CardSuit)
+                    {
 
+                    }
                 }
             }
-            else if (yourCard == 11)
+            else if (yourCard.CardNumber == 11)
             {
 
             }
         }
+
+
 
         //Variable that will be the current state of the deck, and another for the used cards to go.
         private static List<Card> deck;
@@ -90,6 +103,36 @@ namespace Main_Game
         public static List<Card> Deck()
         {
             return deck;
+        }
+
+        //If the discard pile needs to be retrieved in its entirety.
+        public static List<Card> DiscardPile()
+        {
+            return discard;
+        }
+
+        public static void Discard(List<Card> cards)
+        {
+            try
+            {
+                foreach (Card card in cards)
+                {
+                    discard.Add(card);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static void DrawCard()
+        {
+            Card newCard = deck.Last();
+            deck.RemoveAt(deck.Count - 1);
+            yourHand.Add(newCard);
+
+
         }
 
         public static List<Card> PopulateDeck(List<string> cards)
@@ -135,6 +178,8 @@ namespace Main_Game
             return deck;
         }
 
+
+
         private static Random rng = new Random();
 
         public static List<Card> Shuffle(List<Card> shuffleDeck)
@@ -151,10 +196,29 @@ namespace Main_Game
 
             }
 
-            
-
             return shuffleDeck;
             
         }
+
+        private static List<Card> yourHand;
+        private static List<Card> oppHand;
+
+        public static List<Card> YourCurrentHand()
+        {
+            return yourHand;
+        }
+
+        public static Card PlayCard(Card chosenCard)
+        {
+            yourHand.Remove(chosenCard);
+            return chosenCard;
+        }
+
+        public static Card OpponentPlayCard(Card chosenCard)
+        {
+            oppHand.Remove(chosenCard);
+            return chosenCard;
+        }
+
     }
 }

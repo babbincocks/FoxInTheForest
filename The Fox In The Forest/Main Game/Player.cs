@@ -8,20 +8,17 @@ using System.IO;
 namespace Main_Game
 {
     class Player
-    {       //The Player class, which will handle all interaction with different player aspects.
+    {       //The Player class, which will handle all interaction with different player aspects (i.e. stats, and who's currently playing.)
 
         //Variables to hold the different stats being kept track of.
-        string playerName;
-        int playerWins;
-        int playerLosses;
-        int tricksWon;
-        int totalPoints;
+        
+            string playerName;
+            int playerWins;
+            int playerLosses;
+            int tricksWon;
+            int totalPoints;
+        
 
-        //Default constructor, because why not.
-        public Player()
-        {
-
-        }
 
         //Constructor for when a player is being created, setting the name, and then setting all stats to 0.
         public Player(string name)
