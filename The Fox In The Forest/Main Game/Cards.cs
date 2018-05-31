@@ -14,7 +14,7 @@ namespace Main_Game
         string suit;
 
 
-        public static Card trump;
+        private static Card trump;
 
         //This might not even be done in the class, not sure yet.
         public static Card Trump(Card newCard)
@@ -58,39 +58,64 @@ namespace Main_Game
         }
 
         //As odd-numbered cards have special effects that can affect a play, it needs to be handled somewhere. Maybe here?
-        public void Effect(Card yourCard, Card oppCard)
+        public static int Effect(Card yourCard, Card oppCard)
         {
+            int result = 0;
+
 
             if (yourCard.CardNumber == 1)
             {
-
+                result = 5;
             }
             else if (yourCard.CardNumber == 3)
             {
-
+                FoxSwitch();
             }
             else if (yourCard.CardNumber == 5)
             {
-
+                DrawCard();
             }
             else if (yourCard.CardNumber == 7)
             {
 
             }
             else if (yourCard.CardNumber == 9)
-            {
-                if (oppCard.CardNumber != 9)
+            { 
+                if (oppCard.CardSuit == trump.CardSuit)
                 {
-                    if (oppCard.CardSuit != trump.CardSuit)
+                     if(oppCard.CardNumber != 9)
+                     {
+                        if(oppCard.CardNumber > yourCard.CardNumber)
+                        {
+                            result = 2;
+                        }
+                        else if (oppCard.CardNumber < yourCard.CardNumber)
+                        {
+                            result = 1;
+                        }
+                     }
+                     else if (oppCard.CardNumber == 9)
                     {
-
+                        result = 0;
                     }
                 }
+                else if (oppCard.CardSuit != trump.CardSuit)
+                {
+                    result = 1;
+                }
+                
             }
             else if (yourCard.CardNumber == 11)
             {
 
             }
+
+            return result;
+        }
+
+        public static void FoxSwitch()
+        {
+
         }
 
 

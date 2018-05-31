@@ -205,5 +205,10 @@ namespace Main_Game
         {
 
         }
+
+        private void playCard(object sender, MouseEventArgs e)
+        {
+            
+        }
     }
 }

@@ -66,7 +66,7 @@
             this.exitToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(814, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(858, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -211,7 +211,7 @@
             // 
             this.lblOppScore.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblOppScore.Font = new System.Drawing.Font("Palatino Linotype", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOppScore.Location = new System.Drawing.Point(695, 155);
+            this.lblOppScore.Location = new System.Drawing.Point(727, 231);
             this.lblOppScore.Name = "lblOppScore";
             this.lblOppScore.Size = new System.Drawing.Size(98, 33);
             this.lblOppScore.TabIndex = 3;
@@ -221,7 +221,7 @@
             // 
             this.lblScore.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblScore.Font = new System.Drawing.Font("Palatino Linotype", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblScore.Location = new System.Drawing.Point(691, 499);
+            this.lblScore.Location = new System.Drawing.Point(727, 523);
             this.lblScore.Name = "lblScore";
             this.lblScore.Size = new System.Drawing.Size(98, 33);
             this.lblScore.TabIndex = 4;
@@ -231,7 +231,7 @@
             // 
             this.lblName.AutoSize = true;
             this.lblName.Font = new System.Drawing.Font("Palatino Linotype", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblName.Location = new System.Drawing.Point(699, 479);
+            this.lblName.Location = new System.Drawing.Point(735, 503);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(81, 20);
             this.lblName.TabIndex = 5;
@@ -242,7 +242,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Palatino Linotype", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(703, 188);
+            this.label2.Location = new System.Drawing.Point(735, 264);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(86, 40);
             this.label2.TabIndex = 6;
@@ -251,9 +251,9 @@
             // 
             // gbCards
             // 
-            this.gbCards.Location = new System.Drawing.Point(42, 494);
+            this.gbCards.Location = new System.Drawing.Point(42, 518);
             this.gbCards.Name = "gbCards";
-            this.gbCards.Size = new System.Drawing.Size(639, 149);
+            this.gbCards.Size = new System.Drawing.Size(668, 225);
             this.gbCards.TabIndex = 7;
             this.gbCards.TabStop = false;
             // 
@@ -261,7 +261,7 @@
             // 
             this.gbOpponent.Location = new System.Drawing.Point(42, 39);
             this.gbOpponent.Name = "gbOpponent";
-            this.gbOpponent.Size = new System.Drawing.Size(639, 149);
+            this.gbOpponent.Size = new System.Drawing.Size(668, 225);
             this.gbOpponent.TabIndex = 8;
             this.gbOpponent.TabStop = false;
             // 
@@ -277,9 +277,9 @@
             // 
             // pbDeck
             // 
-            this.pbDeck.Location = new System.Drawing.Point(42, 240);
+            this.pbDeck.Location = new System.Drawing.Point(42, 277);
             this.pbDeck.Name = "pbDeck";
-            this.pbDeck.Size = new System.Drawing.Size(135, 192);
+            this.pbDeck.Size = new System.Drawing.Size(109, 155);
             this.pbDeck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbDeck.TabIndex = 2;
             this.pbDeck.TabStop = false;
@@ -289,7 +289,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(814, 671);
+            this.ClientSize = new System.Drawing.Size(858, 755);
             this.Controls.Add(this.btnDraw);
             this.Controls.Add(this.gbOpponent);
             this.Controls.Add(this.gbCards);

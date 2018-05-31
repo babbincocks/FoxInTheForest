@@ -64,12 +64,82 @@ namespace Main_Game
 
 
 
-        public static void Hand(Card yourCard, Card oppCard)
+        public static void Hand(Card yourCard, Card oppCard, bool youLead)
         {
-            
+            /*
+             Returned Effect integer meanings:
+             0: No effect, just go off of card values. 
+             1: Player definitely wins.
+             2: Player definitely loses.
+             */
+             if (yourCard.CardNumber % 2 == 0  && oppCard.CardNumber % 2 == 0)
+            {
+                if (youLead == true)
+                {
+                    if (yourCard.CardSuit == Card.Trump().CardSuit && oppCard.CardSuit != Card.Trump().CardSuit)
+                    {
+                        //player wins
+                    }
+                    else if (yourCard.CardSuit != Card.Trump().CardSuit && oppCard.CardSuit == Card.Trump().CardSuit)
+                    {
+                        //player loses
+                    }
+                    else if (yourCard.CardSuit == Card.Trump().CardSuit && oppCard.CardSuit == Card.Trump().CardSuit)
+                    {
+                        if(yourCard.CardNumber > oppCard.CardNumber)
+                        {
+                            //player wins
+                        }
+                        else
+                        {
+                            //player loses
+                        }
+                    }
+                    else
+                    {
+                        if (yourCard.CardSuit != oppCard.CardSuit)
+                        {
+                            //player wins
+                        }
+                        else
+                        {
+                            if (yourCard.CardNumber > oppCard.CardNumber)
+                            {
+                                //player wins
+                            }
+                            else
+                            {
+                                //player loses
+                            }
+                        }
+                        
+                    }
+                }
+                else
+                {
 
+                }
+            }
+            else
+            {
+                if (Card.Effect(yourCard, oppCard) == 1)
+                {
+
+                }
+                else if (Card.Effect(yourCard, oppCard) == 2)
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+            
             
         }
+
+        
         
         
 
