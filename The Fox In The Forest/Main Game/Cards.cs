@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Main_Game
 {
@@ -74,6 +75,7 @@ namespace Main_Game
             else if (yourCard.CardNumber == 5)
             {
                 DrawCard();
+                
             }
             else if (yourCard.CardNumber == 7)
             {
@@ -151,6 +153,23 @@ namespace Main_Game
             }
         }
 
+        public static void Discard(Card card)
+        {
+            try
+            {
+                    PlayCard(card);
+                    deck.Add(card);
+                Card placeholder = deck[0];
+                deck[0] = deck[deck.Count - 1];
+                deck[deck.Count - 1] = placeholder;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public static void DrawCard()
         {
             Card newCard = deck.Last();
@@ -171,31 +190,10 @@ namespace Main_Game
                     string[] cardEle = card.Split('_');
                     string cardNumber = cardEle[0];
                     string cardSuit = cardEle[1];
-                    if (cardNumber == "Ace")
-                    {
-                        cardNumber = "1";
-                    }
 
                     cardSuit = cardSuit.Replace(".png", "");
                     cardSuit = cardSuit.Replace(".bmp", ""); //Erase line later.
 
-                    if (cardSuit == "Clubs")
-                    {
-                        cardSuit = "Bell";
-                    }
-                    else if (cardSuit == "Diamonds")
-                    {
-                        cardSuit = "Moon";
-                    }
-                    else if (cardSuit == "Hearts")
-                    {
-                        cardSuit = "Key";
-                    }
-
-                    if (cardNumber == "Jack")
-                    {
-                        cardNumber = "11";
-                    }
                     Card current = new Card(int.Parse(cardNumber), cardSuit);
                     deck.Add(current);
                 }
@@ -206,7 +204,7 @@ namespace Main_Game
 
 
         private static Random rng = new Random();
-
+        
         public static List<Card> Shuffle(List<Card> shuffleDeck)
         {
             
@@ -225,8 +223,8 @@ namespace Main_Game
             
         }
 
-        private static List<Card> yourHand;
-        private static List<Card> oppHand;
+        private static List<Card> yourHand = new List<Card>();
+        private static List<Card> oppHand = new List<Card>();
 
         public static List<Card> YourCurrentHand()
         {
@@ -237,12 +235,27 @@ namespace Main_Game
         {
             yourHand.Remove(chosenCard);
             return chosenCard;
+            
         }
 
         public static Card OpponentPlayCard(Card chosenCard)
         {
             oppHand.Remove(chosenCard);
             return chosenCard;
+        }
+
+        public static void PopulateHands()
+        {
+            while(yourHand.Count < 13)
+            {
+                yourHand.Add(deck[deck.Count - 1]);
+                    deck.Remove(deck[deck.Count - 1]);
+            }
+            while(oppHand.Count < 13)
+            {
+                oppHand.Add(deck[deck.Count - 1]);
+                deck.Remove(deck[deck.Count - 1]);
+            }
         }
 
     }

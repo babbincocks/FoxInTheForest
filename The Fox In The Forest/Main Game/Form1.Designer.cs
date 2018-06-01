@@ -52,6 +52,7 @@
             this.gbCards = new System.Windows.Forms.GroupBox();
             this.gbOpponent = new System.Windows.Forms.GroupBox();
             this.btnDraw = new System.Windows.Forms.Button();
+            this.creditsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pbDeck = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).BeginInit();
@@ -112,7 +113,8 @@
             this.rulesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sortCardsToolStripMenuItem,
             this.showScoringToolStripMenuItem,
-            this.hideScoringToolStripMenuItem});
+            this.hideScoringToolStripMenuItem,
+            this.creditsToolStripMenuItem});
             this.rulesToolStripMenuItem.Name = "rulesToolStripMenuItem";
             this.rulesToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.rulesToolStripMenuItem.Text = "&Game";
@@ -145,7 +147,7 @@
             this.guideToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
-            this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Text = "&Help";
             // 
             // rulesToolStripMenuItem2
             // 
@@ -172,39 +174,39 @@
             this.ilCards.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilCards.ImageStream")));
             this.ilCards.TransparentColor = System.Drawing.Color.Transparent;
             this.ilCards.Images.SetKeyName(0, "Owl-Key_Card.png");
-            this.ilCards.Images.SetKeyName(1, "Ace_Clubs.bmp");
-            this.ilCards.Images.SetKeyName(2, "Ace_Diamonds.bmp");
-            this.ilCards.Images.SetKeyName(3, "Ace_Hearts.bmp");
-            this.ilCards.Images.SetKeyName(4, "2_Clubs.bmp");
-            this.ilCards.Images.SetKeyName(5, "2_Diamonds.bmp");
-            this.ilCards.Images.SetKeyName(6, "2_Hearts.bmp");
-            this.ilCards.Images.SetKeyName(7, "3_Clubs.bmp");
-            this.ilCards.Images.SetKeyName(8, "3_Diamonds.bmp");
-            this.ilCards.Images.SetKeyName(9, "3_Hearts.bmp");
-            this.ilCards.Images.SetKeyName(10, "4_Clubs.bmp");
-            this.ilCards.Images.SetKeyName(11, "4_Diamonds.bmp");
-            this.ilCards.Images.SetKeyName(12, "4_Hearts.bmp");
-            this.ilCards.Images.SetKeyName(13, "5_Clubs.bmp");
-            this.ilCards.Images.SetKeyName(14, "5_Diamonds.bmp");
-            this.ilCards.Images.SetKeyName(15, "5_Hearts.bmp");
-            this.ilCards.Images.SetKeyName(16, "6_Clubs.bmp");
-            this.ilCards.Images.SetKeyName(17, "6_Diamonds.bmp");
-            this.ilCards.Images.SetKeyName(18, "6_Hearts.bmp");
-            this.ilCards.Images.SetKeyName(19, "7_Clubs.bmp");
-            this.ilCards.Images.SetKeyName(20, "7_Diamonds.bmp");
-            this.ilCards.Images.SetKeyName(21, "7_Hearts.bmp");
-            this.ilCards.Images.SetKeyName(22, "8_Clubs.bmp");
-            this.ilCards.Images.SetKeyName(23, "8_Diamonds.bmp");
-            this.ilCards.Images.SetKeyName(24, "8_Hearts.bmp");
-            this.ilCards.Images.SetKeyName(25, "9_Clubs.bmp");
-            this.ilCards.Images.SetKeyName(26, "9_Diamonds.bmp");
-            this.ilCards.Images.SetKeyName(27, "9_Hearts.bmp");
-            this.ilCards.Images.SetKeyName(28, "10_Clubs.bmp");
-            this.ilCards.Images.SetKeyName(29, "10_Diamonds.bmp");
-            this.ilCards.Images.SetKeyName(30, "10_Hearts.bmp");
-            this.ilCards.Images.SetKeyName(31, "Jack_Clubs.bmp");
-            this.ilCards.Images.SetKeyName(32, "Jack_Diamonds.bmp");
-            this.ilCards.Images.SetKeyName(33, "Jack_Hearts.bmp");
+            this.ilCards.Images.SetKeyName(1, "1_Bell.bmp");
+            this.ilCards.Images.SetKeyName(2, "1_Moon.bmp");
+            this.ilCards.Images.SetKeyName(3, "1_Key.bmp");
+            this.ilCards.Images.SetKeyName(4, "2_Bell.bmp");
+            this.ilCards.Images.SetKeyName(5, "2_Moon.bmp");
+            this.ilCards.Images.SetKeyName(6, "2_Key.bmp");
+            this.ilCards.Images.SetKeyName(7, "3_Bell.bmp");
+            this.ilCards.Images.SetKeyName(8, "3_Moon.bmp");
+            this.ilCards.Images.SetKeyName(9, "3_Key.bmp");
+            this.ilCards.Images.SetKeyName(10, "4_Bell.bmp");
+            this.ilCards.Images.SetKeyName(11, "4_Moon.bmp");
+            this.ilCards.Images.SetKeyName(12, "4_Key.bmp");
+            this.ilCards.Images.SetKeyName(13, "5_Bell.bmp");
+            this.ilCards.Images.SetKeyName(14, "5_Moon.bmp");
+            this.ilCards.Images.SetKeyName(15, "5_Key.bmp");
+            this.ilCards.Images.SetKeyName(16, "6_Bell.bmp");
+            this.ilCards.Images.SetKeyName(17, "6_Moon.bmp");
+            this.ilCards.Images.SetKeyName(18, "6_Key.bmp");
+            this.ilCards.Images.SetKeyName(19, "7_Bell.bmp");
+            this.ilCards.Images.SetKeyName(20, "7_Moon.bmp");
+            this.ilCards.Images.SetKeyName(21, "7_Key.bmp");
+            this.ilCards.Images.SetKeyName(22, "8_Bell.bmp");
+            this.ilCards.Images.SetKeyName(23, "8_Moon.bmp");
+            this.ilCards.Images.SetKeyName(24, "8_Key.bmp");
+            this.ilCards.Images.SetKeyName(25, "9_Bell.bmp");
+            this.ilCards.Images.SetKeyName(26, "9_Moon.bmp");
+            this.ilCards.Images.SetKeyName(27, "9_Key.bmp");
+            this.ilCards.Images.SetKeyName(28, "10_Bell.bmp");
+            this.ilCards.Images.SetKeyName(29, "10_Moon.bmp");
+            this.ilCards.Images.SetKeyName(30, "10_Key.bmp");
+            this.ilCards.Images.SetKeyName(31, "11_Bell.bmp");
+            this.ilCards.Images.SetKeyName(32, "11_Moon.bmp");
+            this.ilCards.Images.SetKeyName(33, "11_Key.bmp");
             this.ilCards.Images.SetKeyName(34, "FitFScoreRef.png");
             // 
             // lblOppScore
@@ -275,6 +277,12 @@
             this.btnDraw.UseVisualStyleBackColor = true;
             this.btnDraw.Click += new System.EventHandler(this.btnDraw_Click);
             // 
+            // creditsToolStripMenuItem
+            // 
+            this.creditsToolStripMenuItem.Name = "creditsToolStripMenuItem";
+            this.creditsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.creditsToolStripMenuItem.Text = "Credits";
+            // 
             // pbDeck
             // 
             this.pbDeck.Location = new System.Drawing.Point(42, 277);
@@ -338,6 +346,7 @@
         private System.Windows.Forms.ToolStripMenuItem rulesToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem guideToolStripMenuItem;
         public System.Windows.Forms.ImageList ilCards;
+        private System.Windows.Forms.ToolStripMenuItem creditsToolStripMenuItem;
     }
 }
 

@@ -19,7 +19,7 @@ namespace Main_Game
         {
             InitializeComponent();
         }
-
+        int loadBefore = 0;
         private void frmGame_Load(object sender, EventArgs e)
         {
             this.MaximizeBox = false;
@@ -28,11 +28,15 @@ namespace Main_Game
 
             pbDeck.Image = ilCards.Images["Owl-Key_Card.png"];
 
-            
+            if(loadBefore != 0)
+            {
+                setNamePosition();
+            }
 
+            loadBefore++;
         }
 
-        Player curPlayer = Player.CurrentPlayer();
+         Player curPlayer = Player.CurrentPlayer();
          Card trump = new Card(1, "Bell");
         
         
@@ -78,24 +82,45 @@ namespace Main_Game
         {
             frmPlayerChoice newForm = new frmPlayerChoice();
             newForm.ShowDialog();
+            setNamePosition();
+            //curPlayer = Player.CurrentPlayer();
+            //if (curPlayer.Name.Length >= 5 && curPlayer.Name.Length < 10)
+            //{
+            //    lblName.Text = curPlayer.Name + "'s" + Environment.NewLine + "Score";
+            //    lblName.Location = new Point(746,479);
+            //}
+            //else if (curPlayer.Name.Length >= 10)
+            //{
+            //    lblName.Text = curPlayer.Name + "'s" + Environment.NewLine + "Score";
+            //    lblName.Location = new Point(731, 479);
+            //}
+            //else
+            //{
+            //    lblName.Text = curPlayer.Name + "'s Score";
+            //    lblName.Location = new Point(735, 503);
+            //}
+            
+        }
+
+        private void setNamePosition()
+        {
 
             curPlayer = Player.CurrentPlayer();
             if (curPlayer.Name.Length >= 5 && curPlayer.Name.Length < 10)
             {
                 lblName.Text = curPlayer.Name + "'s" + Environment.NewLine + "Score";
-                lblName.Location = new Point(710,455);
+                lblName.Location = new Point(746, 479);
             }
             else if (curPlayer.Name.Length >= 10)
             {
                 lblName.Text = curPlayer.Name + "'s" + Environment.NewLine + "Score";
-                lblName.Location = new Point(695, 455);
+                lblName.Location = new Point(731, 479);
             }
             else
             {
                 lblName.Text = curPlayer.Name + "'s Score";
-                lblName.Location = new Point(699, 479);
+                lblName.Location = new Point(735, 503);
             }
-            
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -113,6 +138,17 @@ namespace Main_Game
             List<string> preCards = new List<string>();
             try
             {
+                if(Player.CurrentPlayer().Name == "Guest")
+                {
+                    frmNamePrompt newPrompt = new frmNamePrompt();
+                    newPrompt.ShowDialog();
+                    if(newPrompt.DialogResult == DialogResult.OK)
+                    {
+                        frmPlayerChoice newForm = new frmPlayerChoice();
+                        newForm.ShowDialog();
+                        setNamePosition();
+                    }
+                }
                 foreach (string card in ilCards.Images.Keys)
                 {
                     preCards.Add(card);
@@ -121,6 +157,14 @@ namespace Main_Game
                 Game newGame = new Game();
 
                 deck = Game.SetCards(preCards);
+
+                Card.PopulateHands();
+                Point cardPosition = new Point();
+                foreach(Card card in Card.YourCurrentHand())
+                {
+                    
+                }
+
 
                 if(Game.CheckEnd(newGame.YourScore, newGame.OpponentScore))
                 {
@@ -133,10 +177,7 @@ namespace Main_Game
                         MessageBox.Show("You lost...");
                     }
                 }
-                else
-                {
-
-                }
+                
 
                 
             }
@@ -156,12 +197,12 @@ namespace Main_Game
             if (pbScoring.IsHandleCreated)
             {
                 this.pbScoring.Show();
-                pbScoring.Location = new Point(654, 247);
+                pbScoring.Location = new Point(586, 295);
             }
             else
             {
                 //Otherwise, it adds all of the different aspects that the picture box needs and makes it a part of the form.
-                pbScoring.Location = new Point(654, 247);
+                pbScoring.Location = new Point(586, 295);
                 pbScoring.Size = new Size(135, 192);
                 pbScoring.MouseDown += new MouseEventHandler(picMouseDown);
                 pbScoring.MouseMove += new MouseEventHandler(picMouseMove);

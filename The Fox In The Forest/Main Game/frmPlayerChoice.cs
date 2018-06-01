@@ -68,10 +68,12 @@ namespace Main_Game
         {
             try
             {
-                if (txtNewName.Text.Length > 15)
-                {
-                    throw new Exception("Name is too long. Please shorten profile name.");
-                }
+                //if (txtNewName.Text.Length > 15)
+                //{
+                //    MessageBox.Show("Name is too long. Please shorten profile name.");
+                //}
+                //else
+                //{ 
 
                 bool c = true;
                 foreach (Player player in players)
@@ -82,25 +84,24 @@ namespace Main_Game
                     }
                 }
 
-                if (c == true)
-                {
-                    newPlayer = new Player(txtNewName.Text);
-                    players.Add(newPlayer);
-                    lbExistingPlayers.Items.Add(newPlayer.Name);
-
-                    using (playerWrite = File.AppendText(fileLocation))
+                    if (c == true)
                     {
-                        playerWrite.WriteLine(newPlayer.PlayStats);
-                    }
-                    playerWrite.Close();
-                    int a = players.Count - 1;
-                    lbExistingPlayers.SelectedIndex = a;//(txtNewName.Text);
-                    
+                        newPlayer = new Player(txtNewName.Text);
+                        players.Add(newPlayer);
+                        lbExistingPlayers.Items.Add(newPlayer.Name);
 
-                    Player.SetCurrentPlayer(lbExistingPlayers.SelectedIndex);
-                    
-                    
-                }
+                        using (playerWrite = File.AppendText(fileLocation))
+                        {
+                            playerWrite.WriteLine(newPlayer.PlayStats);
+                        }
+                        int a = players.Count - 1;
+                        lbExistingPlayers.SelectedIndex = a;//(txtNewName.Text);
+
+
+                        Player.SetCurrentPlayer(lbExistingPlayers.SelectedIndex);
+
+                    } 
+                //}
             }
             catch (Exception ex)
             {
@@ -115,6 +116,50 @@ namespace Main_Game
             {
                 Player.SetCurrentPlayer(lbExistingPlayers.SelectedIndex);
                 Close();
+            }
+        }
+
+        private void lbExistingPlayers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Player.SetCurrentPlayer(lbExistingPlayers.SelectedIndex);
+            Player statCheck = Player.CurrentPlayer();
+
+            lblTricks.Text = statCheck.TotalTricks.ToString();
+            lblPoints.Text = statCheck.TotalPoints.ToString();
+
+            double wins = statCheck.TotalWins;
+            double loss = statCheck.TotalLosses;
+            double WL = 0;
+
+            if (wins == 0 && loss == 0)
+            {
+                WL = 0;
+            }
+            else if (wins != 0 && loss == 0)
+            {
+                WL += wins;
+            }
+            else if (wins == 0 && loss != 0)
+            {
+                WL -= loss;
+            }
+            else
+            {
+                WL = wins / loss;
+            }
+                 
+            lblWL.Text = wins.ToString() + "/" + loss.ToString() + " ( " + WL.ToString("n2") + " )";
+            
+        }
+
+        private void txtNewName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (txtNewName.Text.Length == 15)
+            {
+                if (e.KeyChar != (char)Keys.Back)
+                {
+                    e.Handled = true;
+                }
             }
         }
     }

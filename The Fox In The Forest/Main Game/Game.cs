@@ -64,35 +64,31 @@ namespace Main_Game
 
 
 
-        public static void Hand(Card yourCard, Card oppCard, bool youLead)
+        public static bool Hand(Card yourCard, Card oppCard, bool youLead)
         {
-            /*
-             Returned Effect integer meanings:
-             0: No effect, just go off of card values. 
-             1: Player definitely wins.
-             2: Player definitely loses.
-             */
+            bool playerWin = false;
+
              if (yourCard.CardNumber % 2 == 0  && oppCard.CardNumber % 2 == 0)
             {
                 if (youLead == true)
                 {
                     if (yourCard.CardSuit == Card.Trump().CardSuit && oppCard.CardSuit != Card.Trump().CardSuit)
                     {
-                        //player wins
+                        playerWin = true;
                     }
                     else if (yourCard.CardSuit != Card.Trump().CardSuit && oppCard.CardSuit == Card.Trump().CardSuit)
                     {
-                        //player loses
+                        playerWin = false;
                     }
                     else if (yourCard.CardSuit == Card.Trump().CardSuit && oppCard.CardSuit == Card.Trump().CardSuit)
                     {
                         if(yourCard.CardNumber > oppCard.CardNumber)
                         {
-                            //player wins
+                            playerWin = true;
                         }
                         else
                         {
-                            //player loses
+                            playerWin = false;
                         }
                     }
                     else
@@ -119,24 +115,30 @@ namespace Main_Game
                 {
 
                 }
-            }
+             }
             else
+            /*
+             Returned Effect integer meanings:
+             0: No effect, just go off of card values. 
+             1: Player definitely wins.
+             2: Player definitely loses.
+             */
             {
                 if (Card.Effect(yourCard, oppCard) == 1)
                 {
-
+                    playerWin = true;
                 }
                 else if (Card.Effect(yourCard, oppCard) == 2)
                 {
-
+                    playerWin = false;
                 }
                 else
                 {
 
                 }
             }
-            
-            
+
+            return playerWin;
         }
 
         

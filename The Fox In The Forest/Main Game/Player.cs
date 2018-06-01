@@ -65,6 +65,12 @@ namespace Main_Game
             set { tricksWon = value; }
         }
 
+        public int TotalPoints
+        {
+            get { return totalPoints; }
+            set { totalPoints = value; }
+        }
+
         //Retrieve one long string for player stats.
         public string PlayStats
         {
@@ -76,6 +82,8 @@ namespace Main_Game
         private static Player newPlayer;
         private static List<Player> players;
         private static Player currPlayer = new Player("Guest");
+
+
 
         //Method to populate the list of players.
         public static List<Player> PlayerList (string path)
