@@ -20,6 +20,7 @@ namespace Main_Game
             InitializeComponent();
         }
         int loadBefore = 0;
+        bool ongoingGame = false;
         private void frmGame_Load(object sender, EventArgs e)
         {
             this.MaximizeBox = false;
@@ -32,7 +33,7 @@ namespace Main_Game
             {
                 setNamePosition();
             }
-
+            string z = ilCards.Images.Keys[25];
             loadBefore++;
         }
 
@@ -135,57 +136,138 @@ namespace Main_Game
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<string> preCards = new List<string>();
-            try
+            if (ongoingGame != true)
             {
-                if(Player.CurrentPlayer().Name == "Guest")
+                List<string> preCards = new List<string>();
+                try
                 {
-                    frmNamePrompt newPrompt = new frmNamePrompt();
-                    newPrompt.ShowDialog();
-                    if(newPrompt.DialogResult == DialogResult.OK)
+                    if (Player.CurrentPlayer().Name == "Guest")
                     {
-                        frmPlayerChoice newForm = new frmPlayerChoice();
-                        newForm.ShowDialog();
-                        setNamePosition();
+                        frmNamePrompt newPrompt = new frmNamePrompt();
+                        newPrompt.ShowDialog();
+                        if (newPrompt.DialogResult == DialogResult.OK)
+                        {
+                            frmPlayerChoice newForm = new frmPlayerChoice();
+                            newForm.ShowDialog();
+                            setNamePosition();
+                        }
                     }
-                }
-                foreach (string card in ilCards.Images.Keys)
-                {
-                    preCards.Add(card);
-                }
-
-                Game newGame = new Game();
-
-                deck = Game.SetCards(preCards);
-
-                Card.PopulateHands();
-                Point cardPosition = new Point();
-                foreach(Card card in Card.YourCurrentHand())
-                {
-                    
-                }
-
-
-                if(Game.CheckEnd(newGame.YourScore, newGame.OpponentScore))
-                {
-                    if(Game.Winner(newGame.YourScore, newGame.OpponentScore))
+                    foreach (string card in ilCards.Images.Keys)
                     {
-                        MessageBox.Show("You win!");
+                        preCards.Add(card);
                     }
-                    else
-                    {
-                        MessageBox.Show("You lost...");
-                    }
-                }
-                
 
-                
+                    Game newGame = new Game();
+                    ongoingGame = true;
+
+                    deck = Game.SetCards(preCards);
+
+                    Card.PopulateHands();
+
+                    int left = 10;
+                    int top = 10;
+                    int row = 0;
+                    foreach (Card card in Card.YourCurrentHand())
+                    {
+
+                        string cardFile = card.CardNumber + "_" + card.CardSuit + ".bmp";
+                        foreach (string cardImage in ilCards.Images.Keys)
+                        {
+
+                            if (cardFile == cardImage)
+                            {
+                                PictureBox newCard = new PictureBox();
+                                int index = ilCards.Images.IndexOfKey(cardImage);
+                                newCard.Image = ilCards.Images[index];
+                                newCard.SizeMode = PictureBoxSizeMode.Zoom;
+                                newCard.Size = new Size(70, 100);
+                                newCard.Location = new Point(left, top);
+                                
+                                if (row == 0)
+                                {
+                                    top += 110;
+                                    left += 45;
+                                    row++;
+                                }
+                                else
+                                {
+                                    top -= 110;
+                                    left += 45;
+                                    row--;
+                                }
+
+                                gbCards.Controls.Add(newCard);
+                                newCard.MouseDown += new MouseEventHandler(picMouseDown);
+                                newCard.MouseMove += new MouseEventHandler(picMouseMove);
+                                newCard.MouseUp += new MouseEventHandler(picMouseUp);
+                                newCard.LocationChanged += new EventHandler(InitiatePlay);
+
+                            }
+                        }
+                    }
+
+                    ongoingGame = true;
+
+                    frmCoinCall coin = new frmCoinCall();
+                    coin.ShowDialog();
+                    int result = -1;
+                    if(coin.DialogResult == DialogResult.Yes)
+                    {
+                        result = 1;
+                    }
+                    else if ((coin.DialogResult == DialogResult.No))
+                    {
+                        result = 0;
+                    }
+                    if (result != -1)
+                    {
+                        if (Game.Flip(result) == true)
+                        {
+                            //Player leads
+                        }
+                        else
+                        {
+                            //Opponent leads
+                        }
+                    }
+
+
+                    if (Game.CheckEnd(newGame.YourScore, newGame.OpponentScore))
+                    {
+                        if (Game.Winner(newGame.YourScore, newGame.OpponentScore))
+                        {
+                            MessageBox.Show("You win!");
+                        }
+                        else
+                        {
+                            MessageBox.Show("You lost...");
+                        }
+                    }
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
             }
-            catch(Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message);
-            }
+                //Alert if the player tries to start a new game while one is ongoing.
+                frmNewGameAlert newForm = new frmNewGameAlert();
+                newForm.ShowDialog();
+                if(newForm.DialogResult == DialogResult.Yes)
+                {
 
+                }
+            }
+            
+        }
+
+        private void InitiatePlay(object sender, EventArgs e)
+        {
 
         }
 

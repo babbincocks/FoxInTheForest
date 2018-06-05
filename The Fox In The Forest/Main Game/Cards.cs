@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
 
 namespace Main_Game
 {
@@ -74,8 +73,24 @@ namespace Main_Game
             }
             else if (yourCard.CardNumber == 5)
             {
+                //This might not work, actions might need to be switched over to the new discard form.
                 DrawCard();
-                
+                frmDiscardSelect newDiscard = new frmDiscardSelect();
+                if (newDiscard.DialogResult == System.Windows.Forms.DialogResult.OK)
+                {
+                    string a = newDiscard.GetChosen();
+                    newDiscard.Close();
+                    foreach(Card card in YourCurrentHand())
+                    {
+                        string[] c = a.Split('_');
+                        Card b = new Card(int.Parse(c[0]), c[1]);
+                        if (b == card)
+                        {
+                            Discard(card);
+                        }
+                    }
+                    
+                }
             }
             else if (yourCard.CardNumber == 7)
             {

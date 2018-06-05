@@ -52,6 +52,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCoinCall.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCoinCall.Designer.cs">
+      <DependentUpon>frmCoinCall.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmDiscardSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +69,12 @@
     </Compile>
     <Compile Include="frmNamePrompt.Designer.cs">
       <DependentUpon>frmNamePrompt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewGameAlert.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewGameAlert.Designer.cs">
+      <DependentUpon>frmNewGameAlert.cs</DependentUpon>
     </Compile>
     <Compile Include="frmPlayerChoice.cs">
       <SubType>Form</SubType>
@@ -89,11 +101,17 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmCoinCall.resx">
+      <DependentUpon>frmCoinCall.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmDiscardSelect.resx">
       <DependentUpon>frmDiscardSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmNamePrompt.resx">
       <DependentUpon>frmNamePrompt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewGameAlert.resx">
+      <DependentUpon>frmNewGameAlert.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPlayerChoice.resx">
       <DependentUpon>frmPlayerChoice.cs</DependentUpon>
