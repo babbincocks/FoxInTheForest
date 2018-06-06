@@ -16,5 +16,11 @@ namespace Main_Game
         {
             InitializeComponent();
         }
+
+        private void frmCoinCall_Load(object sender, EventArgs e)
+        {
+            this.ControlBox = false;
+            
+        }
     }
 }

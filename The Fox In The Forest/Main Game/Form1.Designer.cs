@@ -40,6 +40,7 @@
             this.sortCardsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showScoringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hideScoringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.creditsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rulesToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,13 +50,13 @@
             this.lblScore = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.gbCards = new System.Windows.Forms.GroupBox();
-            this.gbOpponent = new System.Windows.Forms.GroupBox();
             this.btnDraw = new System.Windows.Forms.Button();
-            this.creditsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pbDeck = new System.Windows.Forms.PictureBox();
+            this.pbTrump = new System.Windows.Forms.PictureBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbTrump)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -139,6 +140,12 @@
             this.hideScoringToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.hideScoringToolStripMenuItem.Text = "Hide Scoring";
             this.hideScoringToolStripMenuItem.Click += new System.EventHandler(this.hideScoringToolStripMenuItem_Click);
+            // 
+            // creditsToolStripMenuItem
+            // 
+            this.creditsToolStripMenuItem.Name = "creditsToolStripMenuItem";
+            this.creditsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.creditsToolStripMenuItem.Text = "Credits";
             // 
             // helpToolStripMenuItem
             // 
@@ -251,22 +258,6 @@
             this.label2.Text = "Opponent\'s\r\nScore";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // gbCards
-            // 
-            this.gbCards.Location = new System.Drawing.Point(42, 518);
-            this.gbCards.Name = "gbCards";
-            this.gbCards.Size = new System.Drawing.Size(668, 225);
-            this.gbCards.TabIndex = 7;
-            this.gbCards.TabStop = false;
-            // 
-            // gbOpponent
-            // 
-            this.gbOpponent.Location = new System.Drawing.Point(42, 39);
-            this.gbOpponent.Name = "gbOpponent";
-            this.gbOpponent.Size = new System.Drawing.Size(668, 225);
-            this.gbOpponent.TabIndex = 8;
-            this.gbOpponent.TabStop = false;
-            // 
             // btnDraw
             // 
             this.btnDraw.Location = new System.Drawing.Point(68, 447);
@@ -277,12 +268,6 @@
             this.btnDraw.UseVisualStyleBackColor = true;
             this.btnDraw.Click += new System.EventHandler(this.btnDraw_Click);
             // 
-            // creditsToolStripMenuItem
-            // 
-            this.creditsToolStripMenuItem.Name = "creditsToolStripMenuItem";
-            this.creditsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.creditsToolStripMenuItem.Text = "Credits";
-            // 
             // pbDeck
             // 
             this.pbDeck.Location = new System.Drawing.Point(42, 277);
@@ -292,15 +277,33 @@
             this.pbDeck.TabIndex = 2;
             this.pbDeck.TabStop = false;
             // 
+            // pbTrump
+            // 
+            this.pbTrump.Location = new System.Drawing.Point(393, 326);
+            this.pbTrump.Name = "pbTrump";
+            this.pbTrump.Size = new System.Drawing.Size(80, 110);
+            this.pbTrump.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbTrump.TabIndex = 10;
+            this.pbTrump.TabStop = false;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Location = new System.Drawing.Point(42, 518);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(668, 225);
+            this.groupBox1.TabIndex = 9;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Visible = false;
+            // 
             // frmGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(858, 755);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.pbTrump);
             this.Controls.Add(this.btnDraw);
-            this.Controls.Add(this.gbOpponent);
-            this.Controls.Add(this.gbCards);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.lblScore);
@@ -316,6 +319,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbTrump)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -336,8 +340,6 @@
         private System.Windows.Forms.Label lblScore;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.GroupBox gbCards;
-        private System.Windows.Forms.GroupBox gbOpponent;
         private System.Windows.Forms.Button btnDraw;
         private System.Windows.Forms.ToolStripMenuItem choosePlayerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showScoringToolStripMenuItem;
@@ -347,6 +349,8 @@
         private System.Windows.Forms.ToolStripMenuItem guideToolStripMenuItem;
         public System.Windows.Forms.ImageList ilCards;
         private System.Windows.Forms.ToolStripMenuItem creditsToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pbTrump;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
 

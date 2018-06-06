@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -21,6 +22,8 @@ namespace Main_Game
         }
         int loadBefore = 0;
         bool ongoingGame = false;
+        Game newGame;
+
         private void frmGame_Load(object sender, EventArgs e)
         {
             this.MaximizeBox = false;
@@ -33,12 +36,11 @@ namespace Main_Game
             {
                 setNamePosition();
             }
-            string z = ilCards.Images.Keys[25];
+
             loadBefore++;
         }
 
          Player curPlayer = Player.CurrentPlayer();
-         Card trump = new Card(1, "Bell");
         
         
 
@@ -49,9 +51,12 @@ namespace Main_Game
 
         private void picMouseDown(object sender, MouseEventArgs e)
         {
-            x = e.X;
-            y = e.Y;
-            drag = true;
+            if (Game.PlayerTurn())
+            {
+                x = e.X;
+                y = e.Y;
+                drag = true;
+            }
         }
 
         private void picMouseMove(object sender, MouseEventArgs e)
@@ -70,12 +75,9 @@ namespace Main_Game
         private void picMouseUp(object sender, MouseEventArgs e)
         {
             drag = false;
+            InitiatePlay(sender, e);
+            
         }
-
-
-        
-
-        
 
 
 
@@ -157,31 +159,35 @@ namespace Main_Game
                         preCards.Add(card);
                     }
 
-                    Game newGame = new Game();
+                    newGame = new Game();
                     ongoingGame = true;
 
                     deck = Game.SetCards(preCards);
 
                     Card.PopulateHands();
 
-                    int left = 10;
-                    int top = 10;
+
+
+                    int left = 53; //10
+                    int top = 529; //10
                     int row = 0;
                     foreach (Card card in Card.YourCurrentHand())
                     {
 
-                        string cardFile = card.CardNumber + "_" + card.CardSuit + ".bmp";
+                        string cardFile = card.CardKey;
                         foreach (string cardImage in ilCards.Images.Keys)
                         {
-
-                            if (cardFile == cardImage)
+                            
+                            if (card.CardKey == cardImage)
                             {
+                                
                                 PictureBox newCard = new PictureBox();
                                 int index = ilCards.Images.IndexOfKey(cardImage);
                                 newCard.Image = ilCards.Images[index];
                                 newCard.SizeMode = PictureBoxSizeMode.Zoom;
                                 newCard.Size = new Size(70, 100);
                                 newCard.Location = new Point(left, top);
+                                newCard.Tag = card.CardNumber + "_" + card.CardSuit;
                                 
                                 if (row == 0)
                                 {
@@ -195,19 +201,68 @@ namespace Main_Game
                                     left += 45;
                                     row--;
                                 }
-
-                                gbCards.Controls.Add(newCard);
+                                
+                                this.Controls.Add(newCard);
                                 newCard.MouseDown += new MouseEventHandler(picMouseDown);
                                 newCard.MouseMove += new MouseEventHandler(picMouseMove);
                                 newCard.MouseUp += new MouseEventHandler(picMouseUp);
-                                newCard.LocationChanged += new EventHandler(InitiatePlay);
+                                //newCard.LocationChanged += new EventHandler(InitiatePlay);
 
                             }
                         }
                     }
 
+                    left = 42;
+                    top = 50;
+                    row = 0;
+                    foreach (Card card in Card.OpponentCurrentHand())
+                    {
+                        PictureBox newCard = new PictureBox();
+                        
+                        newCard.Image = ilCards.Images[0];
+                        newCard.SizeMode = PictureBoxSizeMode.Zoom;
+                        newCard.Size = new Size(70, 100);
+
+                        
+                        
+                        newCard.Location = new Point(left, top);
+
+                        
+                       
+                        if (row == 0)
+                        {
+                            top += 110;
+                            left += 45;
+                            row++;
+                        }
+                        else
+                        {
+                            top -= 110;
+                            left += 45;
+                            row--;
+                        }
+
+                        this.Controls.Add(newCard);
+
+                    }
+
+                    Card.SetTrump();
+
+                    int a = ilCards.Images.IndexOfKey(Card.Trump().CardKey);
+                    pbTrump.Image = ilCards.Images[a];
+
+                    Label decreeLabel = new Label();
+                    decreeLabel.Location = new Point(391, 304);
+                    decreeLabel.Font = new Font("Palatino Linotype", 10, FontStyle.Regular);
+                    decreeLabel.Text = "Decree Card";
+                    decreeLabel.Size = new Size(85, 18);
+                    this.Controls.Add(decreeLabel);
+                    decreeLabel.Show();
+
+
                     ongoingGame = true;
 
+                    //Asks user to call heads or tails to see who leads; the form returns Yes if they choose Heads, No if Tails.
                     frmCoinCall coin = new frmCoinCall();
                     coin.ShowDialog();
                     int result = -1;
@@ -221,28 +276,50 @@ namespace Main_Game
                     }
                     if (result != -1)
                     {
-                        if (Game.Flip(result) == true)
+                        //A true result means the user's call matches the flip result, so the player goes first. False result means the
+                        //user's call did not match the flip result, so the opponent goes first.
+                        bool coinWin = Game.Flip(result);
+
+                        if (coinWin == true)
                         {
-                            //Player leads
+                            Label newLabel = new Label();
+                            newLabel.Location = new Point(458, 497);
+                            newLabel.Font = new Font("Palatino Linotype", 12, FontStyle.Regular);
+                            newLabel.Text = "You won the coin flip; it's your turn.";
+                            newLabel.Size = new Size(252, 22);
+                            this.Controls.Add(newLabel);
+                            newLabel.Show();
+                            
+
                         }
                         else
                         {
-                            //Opponent leads
+                            Label newLabel = new Label();
+                            newLabel.Location = new Point(387, 497);
+                            newLabel.Font = new Font("Palatino Linotype", 12, FontStyle.Regular);
+                            newLabel.Size = new Size(323, 22);
+                            newLabel.Text = "You lost the coin flip; it's your opponent's turn.";
+                            this.Controls.Add(newLabel);
+                            newLabel.Show();
+                            OppTurnTimer();
                         }
+
+                        Game.SetLead(coinWin);
+                        Game.SetTurn(coinWin);
                     }
 
 
-                    if (Game.CheckEnd(newGame.YourScore, newGame.OpponentScore))
-                    {
-                        if (Game.Winner(newGame.YourScore, newGame.OpponentScore))
-                        {
-                            MessageBox.Show("You win!");
-                        }
-                        else
-                        {
-                            MessageBox.Show("You lost...");
-                        }
-                    }
+                    //if (Game.CheckEnd(newGame.YourScore, newGame.OpponentScore))
+                    //{
+                    //    if (Game.Winner(newGame.YourScore, newGame.OpponentScore))
+                    //    {
+                    //        MessageBox.Show("You win!");
+                    //    }
+                    //    else
+                    //    {
+                    //        MessageBox.Show("You lost...");
+                    //    }
+                    //}
 
 
 
@@ -260,7 +337,7 @@ namespace Main_Game
                 newForm.ShowDialog();
                 if(newForm.DialogResult == DialogResult.Yes)
                 {
-
+                    //TODO: Reset everything, add a loss to the player's records, and start a new game.
                 }
             }
             
@@ -268,8 +345,62 @@ namespace Main_Game
 
         private void InitiatePlay(object sender, EventArgs e)
         {
+            PictureBox loc = (sender as PictureBox);
+            Point p = loc.Location;
+            int x = p.X;
+            int y = p.Y;
+            if (x > 200 && x < 700)
+            {
+                if (y > 280 && y < 460)
+                {
+                    string[] bareChosen = loc.Tag.ToString().Split('_');
+                    Card cardChoice = new Card(int.Parse(bareChosen[0]), bareChosen[1]);
+                    Card.PlayCard(cardChoice);
+
+                    PictureBox playedCard = new PictureBox();
+                    int index = ilCards.Images.IndexOfKey(loc.Tag + ".bmp");
+                    playedCard.Image = ilCards.Images[index];
+                    playedCard.SizeMode = PictureBoxSizeMode.Zoom;
+                    playedCard.Size = new Size(70, 100);
+                    playedCard.Location = new Point(322, 332);
+                    this.Controls.Add(playedCard);
+
+                    Label newLabel = new Label();
+                    newLabel.Location = new Point(320, 429);
+                    newLabel.Font = new Font("Palatino Linotype", 11, FontStyle.Regular);
+                    newLabel.Text = "Your Card";
+                    newLabel.Size = new Size(77, 20);
+                    this.Controls.Add(newLabel);
+
+                    this.Controls.Remove(loc);
+                    Game.SetTurn(false);
+                    OppTurnTimer();
+                }
+            }
 
         }
+
+
+        public static void OppTurnTimer()
+        {
+            // Create a Timer object that knows to call our TimerCallback
+            // method once every 2000 milliseconds.
+            Random rand = new Random();
+            int waitTime = rand.Next(1500, 5500);
+            System.Timers.Timer turnTimer = new System.Timers.Timer(waitTime);
+            // Wait for the user to hit <Enter>
+            //TODO:Get it so when the timer goes off, "AI.TakeTurn()" starts.
+            turnTimer.Elapsed += TimerCallback();
+
+        }
+
+        private static void TimerCallback()
+        {
+            // Display the date/time when this method got called.
+            AI.TakeTurn();
+            // Force a garbage collection to occur for this demo.
+        }
+
 
         //A picture box item for if the player wants to see a reference on how scoring works.
         PictureBox pbScoring = new PictureBox();
@@ -327,11 +458,6 @@ namespace Main_Game
         private void btnDraw_Click(object sender, EventArgs e)
         {
 
-        }
-
-        private void playCard(object sender, MouseEventArgs e)
-        {
-            
         }
     }
 }

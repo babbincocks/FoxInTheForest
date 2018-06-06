@@ -8,10 +8,42 @@ namespace Main_Game
 {
     class Game
     {
-        private int yourScore = 0;
-        private int oppScore = 0;
-        private int yourTricks = 0;
-        private int oppTricks = 0;
+        private int yourScore;
+        private int oppScore;
+        private int yourTricks;
+        private int oppTricks;
+
+        private static bool yourTurn;
+        private static bool playLead;
+
+        public static void SetLead(bool lead)
+        {
+            playLead = lead;
+
+        }
+
+        public static void SetTurn(bool turn)
+        {
+            yourTurn = turn;
+        }
+
+        public static bool PlayerLead()
+        {
+            return playLead;
+        }
+
+        public static bool PlayerTurn()
+        {
+            return yourTurn;
+        }
+
+        public Game()
+        {
+            yourScore = 0;
+            oppScore = 0;
+            yourTricks = 0;
+            oppTricks = 0;
+        }
 
         public int YourScore
             {
@@ -64,6 +96,7 @@ namespace Main_Game
 
 
 
+
         public static bool Hand(Card yourCard, Card oppCard, bool youLead)
         {
             bool playerWin = false;
@@ -95,17 +128,17 @@ namespace Main_Game
                     {
                         if (yourCard.CardSuit != oppCard.CardSuit)
                         {
-                            //player wins
+                            playerWin = true;
                         }
                         else
                         {
                             if (yourCard.CardNumber > oppCard.CardNumber)
                             {
-                                //player wins
+                                playerWin = true;
                             }
                             else
                             {
-                                //player loses
+                                playerWin = false;
                             }
                         }
                         
@@ -142,7 +175,7 @@ namespace Main_Game
         }
 
         
-        
+
         
 
 

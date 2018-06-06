@@ -12,35 +12,32 @@ namespace Main_Game
         //Backing variables
         int number;
         string suit;
+        string cardKey;
 
 
         private static Card trump;
 
-        //This might not even be done in the class, not sure yet.
-        public static Card Trump(Card newCard)
-        {
-            trump = newCard;
 
-            return trump;
-        }
 
         public static Card Trump()
         { 
             return trump;
         }
 
+        public static void SetTrump()
+        {
+            trump = deck.Last();
+            deck.RemoveAt(deck.Count - 1);
+        }
 
-        //public Card()
-        //{
-        //    number = 1;
-        //    suit = "Bell";
-        //}
+
 
         //Constructor that sets the values of a card.
         public Card(int cardNumber, string cardSuit)
         {
             number = cardNumber;
             suit = cardSuit;
+            cardKey = cardNumber + "_" + cardSuit + ".bmp";
         }
 
         //Couple of accessors.
@@ -55,6 +52,11 @@ namespace Main_Game
         {
             get { return suit; }
             set { suit = value; }
+        }
+
+        public string CardKey
+        {
+            get { return cardKey; }
         }
 
         //As odd-numbered cards have special effects that can affect a play, it needs to be handled somewhere. Maybe here?
@@ -139,7 +141,7 @@ namespace Main_Game
 
         //Variable that will be the current state of the deck, and another for the used cards to go.
         private static List<Card> deck;
-        private static List<Card> discard;
+        private static List<Card> discard = new List<Card>();
 
         //If the deck needs to be retrieved in its entirety.
         public static List<Card> Deck()
@@ -168,12 +170,13 @@ namespace Main_Game
             }
         }
 
+        //Discard for the effect of a 5 card.
         public static void Discard(Card card)
         {
             try
             {
-                    PlayCard(card);
-                    deck.Add(card);
+                PlayCard(card);
+                deck.Add(card);
                 Card placeholder = deck[0];
                 deck[0] = deck[deck.Count - 1];
                 deck[deck.Count - 1] = placeholder;
@@ -193,6 +196,8 @@ namespace Main_Game
 
 
         }
+
+
 
         public static List<Card> PopulateDeck(List<string> cards)
         {
@@ -222,16 +227,20 @@ namespace Main_Game
         
         public static List<Card> Shuffle(List<Card> shuffleDeck)
         {
-            
-            int n = shuffleDeck.Count;
-            while (n > 1)
+            int count = 1;
+            while (count < 5)
             {
-                n--;
-                int k = rng.Next(n + 1);
-                Card choice = shuffleDeck[k];
-                shuffleDeck[k] = shuffleDeck[n];
-                shuffleDeck[n] = choice;
+                int n = shuffleDeck.Count;
+                while (n > 1)
+                {
+                    n--;
+                    int k = rng.Next(n + 1);
+                    Card choice = shuffleDeck[k];
+                    shuffleDeck[k] = shuffleDeck[n];
+                    shuffleDeck[n] = choice;
 
+                }
+                count++;
             }
 
             return shuffleDeck;
@@ -244,6 +253,11 @@ namespace Main_Game
         public static List<Card> YourCurrentHand()
         {
             return yourHand;
+        }
+
+        public static List<Card> OpponentCurrentHand()
+        {
+            return oppHand;
         }
 
         public static Card PlayCard(Card chosenCard)

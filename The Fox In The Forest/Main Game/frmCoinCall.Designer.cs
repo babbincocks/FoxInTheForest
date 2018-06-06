@@ -73,7 +73,9 @@
             this.Controls.Add(this.btnHeads);
             this.Controls.Add(this.label1);
             this.Name = "frmCoinCall";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Coin Flip";
+            this.Load += new System.EventHandler(this.frmCoinCall_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
