@@ -8,13 +8,16 @@ namespace Main_Game
 {
     class Game
     {
-        private int yourScore;
-        private int oppScore;
-        private int yourTricks;
-        private int oppTricks;
+        private static int yourScore;
+        private static int oppScore;
+        private static int yourTricks;
+        private static int oppTricks;
 
         private static bool yourTurn;
         private static bool playLead;
+
+        private static Card playerChosenCard;
+        private static Card opponentChosenCard;
 
         public static void SetLead(bool lead)
         {
@@ -45,25 +48,25 @@ namespace Main_Game
             oppTricks = 0;
         }
 
-        public int YourScore
+        public static int YourScore
             {
             get { return yourScore; }
             set { yourScore = value; }
             }
 
-        public int OpponentScore
+        public static int OpponentScore
         {
             get { return oppScore; }
             set { oppScore = value; }
         }
 
-        public int YourTricks
+        public static int YourTricks
         {
             get { return yourTricks; }
             set { yourTricks = value; }
         }
 
-        public int OpponentTricks
+        public static int OpponentTricks
         {
             get { return oppTricks; }
             set { oppTricks = value; }
@@ -94,8 +97,27 @@ namespace Main_Game
                 return win;
         }
 
+        public static Card PlayerChosenCard()
+        {
+            return playerChosenCard;
 
+        }
 
+        public static void SetPlayerCard(Card choice)
+        {
+            playerChosenCard = choice;
+        }
+
+        public static void SetOpponentCard(Card choice)
+        {
+            opponentChosenCard = choice;
+        }
+
+        public static Card OpponentChosenCard()
+        {
+            return opponentChosenCard;
+
+        }
 
         public static bool Hand(Card yourCard, Card oppCard, bool youLead)
         {

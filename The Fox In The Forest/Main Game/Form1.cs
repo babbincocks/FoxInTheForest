@@ -5,8 +5,8 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace Main_Game
@@ -22,7 +22,7 @@ namespace Main_Game
         }
         int loadBefore = 0;
         bool ongoingGame = false;
-        Game newGame;
+        Game currentGame;
 
         private void frmGame_Load(object sender, EventArgs e)
         {
@@ -86,22 +86,6 @@ namespace Main_Game
             frmPlayerChoice newForm = new frmPlayerChoice();
             newForm.ShowDialog();
             setNamePosition();
-            //curPlayer = Player.CurrentPlayer();
-            //if (curPlayer.Name.Length >= 5 && curPlayer.Name.Length < 10)
-            //{
-            //    lblName.Text = curPlayer.Name + "'s" + Environment.NewLine + "Score";
-            //    lblName.Location = new Point(746,479);
-            //}
-            //else if (curPlayer.Name.Length >= 10)
-            //{
-            //    lblName.Text = curPlayer.Name + "'s" + Environment.NewLine + "Score";
-            //    lblName.Location = new Point(731, 479);
-            //}
-            //else
-            //{
-            //    lblName.Text = curPlayer.Name + "'s Score";
-            //    lblName.Location = new Point(735, 503);
-            //}
             
         }
 
@@ -159,7 +143,7 @@ namespace Main_Game
                         preCards.Add(card);
                     }
 
-                    newGame = new Game();
+                    currentGame = new Game();
                     ongoingGame = true;
 
                     deck = Game.SetCards(preCards);
@@ -353,52 +337,137 @@ namespace Main_Game
             {
                 if (y > 280 && y < 460)
                 {
-                    string[] bareChosen = loc.Tag.ToString().Split('_');
-                    Card cardChoice = new Card(int.Parse(bareChosen[0]), bareChosen[1]);
-                    Card.PlayCard(cardChoice);
+                    if (loc.Tag != null)
+                    {
 
-                    PictureBox playedCard = new PictureBox();
-                    int index = ilCards.Images.IndexOfKey(loc.Tag + ".bmp");
-                    playedCard.Image = ilCards.Images[index];
-                    playedCard.SizeMode = PictureBoxSizeMode.Zoom;
-                    playedCard.Size = new Size(70, 100);
-                    playedCard.Location = new Point(322, 332);
-                    this.Controls.Add(playedCard);
+                        string[] bareChosen = loc.Tag.ToString().Split('_');
+                        Card cardChoice = new Card(int.Parse(bareChosen[0]), bareChosen[1]);
+                        Game.SetPlayerCard(cardChoice);
+                        Card.PlayCard(cardChoice);
 
-                    Label newLabel = new Label();
-                    newLabel.Location = new Point(320, 429);
-                    newLabel.Font = new Font("Palatino Linotype", 11, FontStyle.Regular);
-                    newLabel.Text = "Your Card";
-                    newLabel.Size = new Size(77, 20);
-                    this.Controls.Add(newLabel);
+                        PictureBox playedCard = new PictureBox();
+                        int index = ilCards.Images.IndexOfKey(loc.Tag + ".bmp");
+                        playedCard.Image = ilCards.Images[index];
+                        playedCard.SizeMode = PictureBoxSizeMode.Zoom;
+                        playedCard.Size = new Size(70, 100);
+                        playedCard.Location = new Point(322, 332);
+                        this.Controls.Add(playedCard);
 
-                    this.Controls.Remove(loc);
-                    Game.SetTurn(false);
-                    OppTurnTimer();
+                        Label newLabel = new Label();
+                        newLabel.Location = new Point(320, 429);
+                        newLabel.Font = new Font("Palatino Linotype", 11, FontStyle.Regular);
+                        newLabel.Text = "Your Card";
+                        newLabel.Size = new Size(77, 20);
+                        this.Controls.Add(newLabel);
+
+                        this.Controls.Remove(loc);
+
+                        if (Game.PlayerLead())
+                        {
+                            Game.SetTurn(false);
+                            OppTurnTimer();
+                        }
+                        //If the player did go first, that means both have put a card down by now, so the result is checked.
+                        else if (!Game.PlayerLead())
+                        {
+                            if (Game.Hand(Game.PlayerChosenCard(), Game.OpponentChosenCard(), Game.PlayerLead()))
+                            {
+                                //Player win trick.
+                                Game.YourTricks++;
+                            }
+                            else
+                            {
+                                //Player lose trick. If the player had played a 1, then they lead the next turn.
+                                Game.OpponentTricks++;
+                                if (Game.PlayerChosenCard().CardNumber == 1)
+                                {
+                                    Game.SetLead(true);
+                                }
+                            }
+                        }
+                        Game.SetTurn(false);
+                        
+                    }
                 }
             }
 
         }
 
-
         public static void OppTurnTimer()
         {
-            // Create a Timer object that knows to call our TimerCallback
-            // method once every 2000 milliseconds.
+
             Random rand = new Random();
-            int waitTime = rand.Next(1500, 5500);
+            int waitTime = rand.Next(1000, 4000);
+            int elTime = waitTime / 4;
             System.Timers.Timer turnTimer = new System.Timers.Timer(waitTime);
-            // Wait for the user to hit <Enter>
-            //TODO:Get it so when the timer goes off, "AI.TakeTurn()" starts.
-            turnTimer.Elapsed += TimerCallback();
+            System.Timers.Timer elTimer = new System.Timers.Timer(elTime);
+
+            turnTimer.AutoReset = false;
+            elTimer.Elapsed += EllipsisTimerCallback;
+            turnTimer.Elapsed += TurnTimerCallBack;
+            turnTimer.Enabled = true;
+            elTimer.Enabled = true;
+
+            
 
         }
 
-        private static void TimerCallback()
+        private static void TurnTimerCallBack(Object source, System.Timers.ElapsedEventArgs e)
         {
-            // Display the date/time when this method got called.
-            AI.TakeTurn();
-            // Force a garbage collection to occur for this demo.
+            try
+            {
+                //Timer is set off, so the AI takes its turn.
+               AI.TakeTurn();
+                //TODO: Make it display the opponent's card when it is played.
+                //If the player didn't go first, it's assumed that the player now needs to go, so now they can.
+                if (!Game.PlayerLead())
+                {
+                    Game.SetTurn(true);
+                }
+                //If the player did go first, that means both have put a card down by now, so the result is checked.
+                else if (Game.PlayerLead())
+                {
+                    if (Game.Hand(Game.PlayerChosenCard(), Game.OpponentChosenCard(), Game.PlayerLead()))
+                    {
+                        //Player win trick.
+                        Game.YourTricks++;
+                    }
+                    else
+                    {
+                        //Player lose trick. If the player had played a 1, then they lead the next turn.
+                        Game.OpponentTricks++;
+                        if (Game.PlayerChosenCard().CardNumber == 1)
+                        {
+                            Game.SetLead(true);
+                        }
+                    }
+                }
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        public static int dotx = 727;
+        public static int dotNum = 0;
+        private static void EllipsisTimerCallback(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            //TODO: The turn timer works, but the ellipsis timer to show the AI "thinking" isn't quite working.
+            Label dot = new Label();
+            dot.Text = ".";
+            dot.Font = new Font("Palatino Linotype", 16, FontStyle.Regular);
+            dot.Location = new Point(dotx, 128);
+            dotNum++;
+            dotx += 15;
+            
+            if (dotNum == 3)
+            {
+                dotx = 727;
+                dotNum = 0;
+            }
         }
 
 

@@ -30,7 +30,10 @@ namespace Main_Game
             deck.RemoveAt(deck.Count - 1);
         }
 
+        public Card()
+        {
 
+        }
 
         //Constructor that sets the values of a card.
         public Card(int cardNumber, string cardSuit)
