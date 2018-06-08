@@ -26,6 +26,8 @@ namespace Main_Game
         {
             Card chosenCard = new Card();
             bool overrideChoice = false;
+            bool no11 = false;
+
             if (!Game.PlayerTurn())
             {
                 List<Card> cardPicks = new List<Card>();
@@ -40,43 +42,82 @@ namespace Main_Game
                         }
                         else
                         {
-
+                            cardPicks.Add(Card.OpponentCurrentHand()[0]);
                         }
                     }
                     else
                     {
-                        foreach (Card card in Card.OpponentCurrentHand())
+                        if (Game.PlayerChosenCard().CardNumber == 11)
                         {
-                            if (card.CardSuit == Game.PlayerChosenCard().CardSuit)
+                            int highest = 0;
+                            foreach (Card card in Card.OpponentCurrentHand())
                             {
-                                cardPicks.Add(card);
+                                if (card.CardSuit == Game.PlayerChosenCard().CardSuit)
+                                {
+                                    if (card.CardNumber == 1)
+                                    {
+                                        cardPicks.Add(card);
+                                    }
+                                    else if (card.CardNumber > highest)
+                                    {
+                                        highest = card.CardNumber;
+                                    }
+                                }
+                                
+                            }
+                            foreach (Card card in Card.OpponentCurrentHand())
+                            {
+                                if (card.CardNumber == highest && card.CardSuit == Game.PlayerChosenCard().CardSuit)
+                                {
+                                    cardPicks.Add(card);
+                                }
+                            }
+                            if (!cardPicks.Any())
+                            {
+                                no11 = true;
                             }
                         }
-                        //TODO: Check if this method of checking if the card list is empty is functional.
-                        if (!cardPicks.Any())
+                        else
+                        {
+                            no11 = true;
+                        }
+
+
+                        if (no11 == true)
                         {
                             foreach (Card card in Card.OpponentCurrentHand())
                             {
-
-                                if (AI.CheckScore(Game.OpponentTricks))
+                                if (card.CardSuit == Game.PlayerChosenCard().CardSuit)
                                 {
-                                    if (card.CardSuit == Card.Trump().CardSuit)
-                                    {
-                                        if (card.CardNumber == 9)
-                                        {
-                                            if (Game.PlayerChosenCard().CardNumber == 9 && Game.PlayerChosenCard().CardSuit != Card.Trump().CardSuit)
+                                    cardPicks.Add(card);
+                                }
+                            }
+                            //TODO: Check if this method of checking if the card list is empty is functional.
+                            if (!cardPicks.Any())
+                            {
+                                foreach (Card card in Card.OpponentCurrentHand())
+                                {
 
+                                    if (AI.CheckScore(Game.OpponentTricks))
+                                    {
+                                        if (card.CardSuit == Card.Trump().CardSuit)
+                                        {
+                                            if (card.CardNumber == 9)
                                             {
-                                                chosenCard = card;
-                                                overrideChoice = true;
-                                                break;
+                                                if (Game.PlayerChosenCard().CardNumber == 9 && Game.PlayerChosenCard().CardSuit != Card.Trump().CardSuit)
+
+                                                {
+                                                    chosenCard = card;
+                                                    overrideChoice = true;
+                                                    break;
+                                                }
                                             }
+
+                                            cardPicks.Add(card);
+
                                         }
 
-                                        cardPicks.Add(card);
-
                                     }
-
                                 }
                             }
                         }
@@ -85,7 +126,7 @@ namespace Main_Game
                     if (!overrideChoice)
                     {
                         Random rng = new Random();
-                        int choice = rng.Next(Card.OpponentCurrentHand().Count);
+                        int choice = rng.Next(cardPicks.Count);
                         chosenCard = cardPicks[choice];
 
                     }

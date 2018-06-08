@@ -70,7 +70,14 @@ namespace Main_Game
 
             if (yourCard.CardNumber == 1)
             {
-                result = 5;
+                if (oppCard.CardNumber > 1 && oppCard.CardSuit == yourCard.CardSuit)
+                {
+                    result = 3;
+                }
+                //else if ()
+                //{
+
+                //}
             }
             else if (yourCard.CardNumber == 3)
             {

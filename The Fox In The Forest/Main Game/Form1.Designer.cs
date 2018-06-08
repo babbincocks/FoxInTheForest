@@ -53,10 +53,22 @@
             this.btnDraw = new System.Windows.Forms.Button();
             this.pbDeck = new System.Windows.Forms.PictureBox();
             this.pbTrump = new System.Windows.Forms.PictureBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pbOppCard = new System.Windows.Forms.PictureBox();
+            this.pbPlayerCard = new System.Windows.Forms.PictureBox();
+            this.lblPlayerCard = new System.Windows.Forms.Label();
+            this.lblOppCard = new System.Windows.Forms.Label();
+            this.lblLoseFlip = new System.Windows.Forms.Label();
+            this.lblWinFlip = new System.Windows.Forms.Label();
+            this.lblPlayerTurn = new System.Windows.Forms.Label();
+            this.lblOppTurn = new System.Windows.Forms.Label();
+            this.lblDecree = new System.Windows.Forms.Label();
+            this.lblWinTrick = new System.Windows.Forms.Label();
+            this.lblLoseTrick = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbTrump)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbOppCard)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayerCard)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -286,14 +298,122 @@
             this.pbTrump.TabIndex = 10;
             this.pbTrump.TabStop = false;
             // 
-            // groupBox1
+            // pbOppCard
             // 
-            this.groupBox1.Location = new System.Drawing.Point(42, 518);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(668, 225);
-            this.groupBox1.TabIndex = 9;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Visible = false;
+            this.pbOppCard.Location = new System.Drawing.Point(474, 332);
+            this.pbOppCard.Name = "pbOppCard";
+            this.pbOppCard.Size = new System.Drawing.Size(70, 100);
+            this.pbOppCard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbOppCard.TabIndex = 11;
+            this.pbOppCard.TabStop = false;
+            // 
+            // pbPlayerCard
+            // 
+            this.pbPlayerCard.Location = new System.Drawing.Point(322, 332);
+            this.pbPlayerCard.Name = "pbPlayerCard";
+            this.pbPlayerCard.Size = new System.Drawing.Size(70, 100);
+            this.pbPlayerCard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbPlayerCard.TabIndex = 12;
+            this.pbPlayerCard.TabStop = false;
+            // 
+            // lblPlayerCard
+            // 
+            this.lblPlayerCard.AutoSize = true;
+            this.lblPlayerCard.Font = new System.Drawing.Font("Palatino Linotype", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlayerCard.Location = new System.Drawing.Point(320, 429);
+            this.lblPlayerCard.Name = "lblPlayerCard";
+            this.lblPlayerCard.Size = new System.Drawing.Size(77, 20);
+            this.lblPlayerCard.TabIndex = 13;
+            this.lblPlayerCard.Text = "Your Card";
+            this.lblPlayerCard.Visible = false;
+            // 
+            // lblOppCard
+            // 
+            this.lblOppCard.AutoSize = true;
+            this.lblOppCard.Font = new System.Drawing.Font("Palatino Linotype", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOppCard.Location = new System.Drawing.Point(470, 429);
+            this.lblOppCard.Name = "lblOppCard";
+            this.lblOppCard.Size = new System.Drawing.Size(81, 20);
+            this.lblOppCard.TabIndex = 14;
+            this.lblOppCard.Text = "Their Card";
+            this.lblOppCard.Visible = false;
+            // 
+            // lblLoseFlip
+            // 
+            this.lblLoseFlip.AutoSize = true;
+            this.lblLoseFlip.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoseFlip.Location = new System.Drawing.Point(387, 497);
+            this.lblLoseFlip.Name = "lblLoseFlip";
+            this.lblLoseFlip.Size = new System.Drawing.Size(323, 22);
+            this.lblLoseFlip.TabIndex = 15;
+            this.lblLoseFlip.Text = "You lost the coin flip; it\'s your opponent\'s turn.";
+            this.lblLoseFlip.Visible = false;
+            // 
+            // lblWinFlip
+            // 
+            this.lblWinFlip.AutoSize = true;
+            this.lblWinFlip.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWinFlip.Location = new System.Drawing.Point(458, 497);
+            this.lblWinFlip.Name = "lblWinFlip";
+            this.lblWinFlip.Size = new System.Drawing.Size(252, 22);
+            this.lblWinFlip.TabIndex = 16;
+            this.lblWinFlip.Text = "You won the coin flip; it\'s your turn.";
+            this.lblWinFlip.Visible = false;
+            // 
+            // lblPlayerTurn
+            // 
+            this.lblPlayerTurn.AutoSize = true;
+            this.lblPlayerTurn.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlayerTurn.Location = new System.Drawing.Point(608, 497);
+            this.lblPlayerTurn.Name = "lblPlayerTurn";
+            this.lblPlayerTurn.Size = new System.Drawing.Size(102, 22);
+            this.lblPlayerTurn.TabIndex = 17;
+            this.lblPlayerTurn.Text = "It\'s your turn.";
+            this.lblPlayerTurn.Visible = false;
+            // 
+            // lblOppTurn
+            // 
+            this.lblOppTurn.AutoSize = true;
+            this.lblOppTurn.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOppTurn.Location = new System.Drawing.Point(531, 497);
+            this.lblOppTurn.Name = "lblOppTurn";
+            this.lblOppTurn.Size = new System.Drawing.Size(179, 22);
+            this.lblOppTurn.TabIndex = 18;
+            this.lblOppTurn.Text = "It\'s your opponent\'s turn.";
+            this.lblOppTurn.Visible = false;
+            // 
+            // lblDecree
+            // 
+            this.lblDecree.AutoSize = true;
+            this.lblDecree.Font = new System.Drawing.Font("Palatino Linotype", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDecree.Location = new System.Drawing.Point(388, 304);
+            this.lblDecree.Name = "lblDecree";
+            this.lblDecree.Size = new System.Drawing.Size(92, 20);
+            this.lblDecree.TabIndex = 19;
+            this.lblDecree.Text = "Decree Card";
+            this.lblDecree.Visible = false;
+            // 
+            // lblWinTrick
+            // 
+            this.lblWinTrick.AutoSize = true;
+            this.lblWinTrick.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWinTrick.Location = new System.Drawing.Point(331, 458);
+            this.lblWinTrick.Name = "lblWinTrick";
+            this.lblWinTrick.Size = new System.Drawing.Size(206, 22);
+            this.lblWinTrick.TabIndex = 20;
+            this.lblWinTrick.Text = "You won the trick; next hand";
+            this.lblWinTrick.Visible = false;
+            // 
+            // lblLoseTrick
+            // 
+            this.lblLoseTrick.AutoSize = true;
+            this.lblLoseTrick.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoseTrick.Location = new System.Drawing.Point(333, 458);
+            this.lblLoseTrick.Name = "lblLoseTrick";
+            this.lblLoseTrick.Size = new System.Drawing.Size(200, 22);
+            this.lblLoseTrick.TabIndex = 21;
+            this.lblLoseTrick.Text = "You lost the trick; next hand";
+            this.lblLoseTrick.Visible = false;
             // 
             // frmGame
             // 
@@ -301,8 +421,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(858, 755);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.lblLoseTrick);
+            this.Controls.Add(this.lblWinTrick);
+            this.Controls.Add(this.lblDecree);
+            this.Controls.Add(this.lblOppTurn);
+            this.Controls.Add(this.lblPlayerTurn);
+            this.Controls.Add(this.lblWinFlip);
+            this.Controls.Add(this.lblLoseFlip);
             this.Controls.Add(this.pbTrump);
+            this.Controls.Add(this.pbOppCard);
+            this.Controls.Add(this.lblOppCard);
+            this.Controls.Add(this.pbPlayerCard);
+            this.Controls.Add(this.lblPlayerCard);
             this.Controls.Add(this.btnDraw);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblName);
@@ -320,6 +450,8 @@
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbTrump)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbOppCard)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPlayerCard)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -350,7 +482,17 @@
         public System.Windows.Forms.ImageList ilCards;
         private System.Windows.Forms.ToolStripMenuItem creditsToolStripMenuItem;
         private System.Windows.Forms.PictureBox pbTrump;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.PictureBox pbOppCard;
+        private System.Windows.Forms.PictureBox pbPlayerCard;
+        private System.Windows.Forms.Label lblPlayerCard;
+        private System.Windows.Forms.Label lblOppCard;
+        private System.Windows.Forms.Label lblLoseFlip;
+        private System.Windows.Forms.Label lblWinFlip;
+        private System.Windows.Forms.Label lblPlayerTurn;
+        private System.Windows.Forms.Label lblOppTurn;
+        private System.Windows.Forms.Label lblDecree;
+        private System.Windows.Forms.Label lblWinTrick;
+        private System.Windows.Forms.Label lblLoseTrick;
     }
 }
 

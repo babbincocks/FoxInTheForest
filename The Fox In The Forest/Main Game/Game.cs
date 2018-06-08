@@ -123,28 +123,34 @@ namespace Main_Game
         {
             bool playerWin = false;
 
+            //If neither played card is an effect card...
              if (yourCard.CardNumber % 2 == 0  && oppCard.CardNumber % 2 == 0)
-            {
-                if (youLead == true)
+             {
+                //...and the player lead...
+                if (youLead)
                 {
-                    if (yourCard.CardSuit == Card.Trump().CardSuit && oppCard.CardSuit != Card.Trump().CardSuit)
+
+                    if (yourCard.CardSuit == Card.Trump().CardSuit)
                     {
-                        playerWin = true;
-                    }
-                    else if (yourCard.CardSuit != Card.Trump().CardSuit && oppCard.CardSuit == Card.Trump().CardSuit)
-                    {
-                        playerWin = false;
-                    }
-                    else if (yourCard.CardSuit == Card.Trump().CardSuit && oppCard.CardSuit == Card.Trump().CardSuit)
-                    {
-                        if(yourCard.CardNumber > oppCard.CardNumber)
+                        if (oppCard.CardSuit != Card.Trump().CardSuit)
                         {
                             playerWin = true;
                         }
                         else
                         {
-                            playerWin = false;
+                            if (yourCard.CardNumber > oppCard.CardNumber)
+                            {
+                                playerWin = true;
+                            }
+                            else
+                            {
+                                playerWin = false;
+                            }
                         }
+                    }
+                    else if (yourCard.CardSuit != Card.Trump().CardSuit && oppCard.CardSuit == Card.Trump().CardSuit)
+                    {
+                        playerWin = false;
                     }
                     else
                     {
@@ -168,7 +174,47 @@ namespace Main_Game
                 }
                 else
                 {
+                    if(oppCard.CardSuit == Card.Trump().CardSuit)
+                    {
+                        if (yourCard.CardSuit != Card.Trump().CardSuit)
+                        {
+                            playerWin = false;
+                        }
+                        else
+                        {
+                            if (yourCard.CardNumber > oppCard.CardNumber)
+                            {
+                                playerWin = true;
+                            }
+                            else
+                            {
+                                playerWin = false;
+                            }
+                        }
+                    }
+                    else if (yourCard.CardSuit == Card.Trump().CardSuit && oppCard.CardSuit != Card.Trump().CardSuit)
+                    {
+                        playerWin = true;
+                    }
+                    else
+                    {
+                        if (yourCard.CardSuit != oppCard.CardSuit)
+                        {
+                            playerWin = false;
+                        }
+                        else
+                        {
+                            if (yourCard.CardNumber > oppCard.CardNumber)
+                            {
+                                playerWin = true;
+                            }
+                            else
+                            {
+                                playerWin = false;
+                            }
+                        }
 
+                    }
                 }
              }
             else
@@ -177,15 +223,24 @@ namespace Main_Game
              0: No effect, just go off of card values. 
              1: Player definitely wins.
              2: Player definitely loses.
+             3: Player lost, but played a 1.
              */
             {
-                if (Card.Effect(yourCard, oppCard) == 1)
+                int result = Card.Effect(yourCard, oppCard);
+                if (result == 1)
                 {
                     playerWin = true;
+                    SetLead(true);
                 }
-                else if (Card.Effect(yourCard, oppCard) == 2)
+                else if (result == 2)
                 {
                     playerWin = false;
+                    SetLead(false);
+                }
+                else if (result == 3)
+                {
+                    playerWin = false;
+                    SetLead(true);
                 }
                 else
                 {

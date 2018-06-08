@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
@@ -47,14 +48,18 @@ namespace Main_Game
         int x = 0;
         int y = 0;
         bool drag = false;
+        Point initialPoint;
         List<Card> deck = new List<Card>();
 
         private void picMouseDown(object sender, MouseEventArgs e)
         {
+            PictureBox pic = (PictureBox)sender;
+            initialPoint = pic.Location;
             if (Game.PlayerTurn())
             {
                 x = e.X;
                 y = e.Y;
+                //initialPoint = this.FindForm().PointToClient(this.Parent.PointToScreen(this.Location));
                 drag = true;
             }
         }
@@ -125,6 +130,8 @@ namespace Main_Game
             if (ongoingGame != true)
             {
                 List<string> preCards = new List<string>();
+                //TODO: Change how retrieving scores is set up.
+                lblOppScore.Text = Game.OpponentScore();
                 try
                 {
                     if (Player.CurrentPlayer().Name == "Guest")
@@ -235,13 +242,7 @@ namespace Main_Game
                     int a = ilCards.Images.IndexOfKey(Card.Trump().CardKey);
                     pbTrump.Image = ilCards.Images[a];
 
-                    Label decreeLabel = new Label();
-                    decreeLabel.Location = new Point(391, 304);
-                    decreeLabel.Font = new Font("Palatino Linotype", 10, FontStyle.Regular);
-                    decreeLabel.Text = "Decree Card";
-                    decreeLabel.Size = new Size(85, 18);
-                    this.Controls.Add(decreeLabel);
-                    decreeLabel.Show();
+                    lblDecree.Visible = true;
 
 
                     ongoingGame = true;
@@ -266,30 +267,40 @@ namespace Main_Game
 
                         if (coinWin == true)
                         {
-                            Label newLabel = new Label();
-                            newLabel.Location = new Point(458, 497);
-                            newLabel.Font = new Font("Palatino Linotype", 12, FontStyle.Regular);
-                            newLabel.Text = "You won the coin flip; it's your turn.";
-                            newLabel.Size = new Size(252, 22);
-                            this.Controls.Add(newLabel);
-                            newLabel.Show();
                             
+                            lblWinFlip.Show();
+
+                            Game.SetLead(coinWin);
+                            Game.SetTurn(coinWin);
 
                         }
                         else
                         {
-                            Label newLabel = new Label();
-                            newLabel.Location = new Point(387, 497);
-                            newLabel.Font = new Font("Palatino Linotype", 12, FontStyle.Regular);
-                            newLabel.Size = new Size(323, 22);
-                            newLabel.Text = "You lost the coin flip; it's your opponent's turn.";
-                            this.Controls.Add(newLabel);
-                            newLabel.Show();
-                            OppTurnTimer();
+                            
+                            lblLoseFlip.Show();
+
+                            Game.SetLead(coinWin);
+                            Game.SetTurn(coinWin);
+
+                            //Random rng = new Random();
+                            //Thread.Sleep(rng.Next(1000, 4000));
+
+                            //CompThink();
+
+                            //OppTurnTimer();
+
+                            var t = Task.Run(async delegate
+                            {
+                                Random rng = new Random();
+                                await Task.Delay(rng.Next(1000, 5000));
+                                
+                            });
+                            t.Wait();
+                            TurnTimerCallBack();
+
                         }
 
-                        Game.SetLead(coinWin);
-                        Game.SetTurn(coinWin);
+                        
                     }
 
 
@@ -333,10 +344,9 @@ namespace Main_Game
             Point p = loc.Location;
             int x = p.X;
             int y = p.Y;
-            if (x > 200 && x < 700)
+            if (x > 200 && x < 700 && y > 280 && y < 460)
             {
-                if (y > 280 && y < 460)
-                {
+            
                     if (loc.Tag != null)
                     {
 
@@ -344,59 +354,75 @@ namespace Main_Game
                         Card cardChoice = new Card(int.Parse(bareChosen[0]), bareChosen[1]);
                         Game.SetPlayerCard(cardChoice);
                         Card.PlayCard(cardChoice);
-
-                        PictureBox playedCard = new PictureBox();
-                        int index = ilCards.Images.IndexOfKey(loc.Tag + ".bmp");
-                        playedCard.Image = ilCards.Images[index];
-                        playedCard.SizeMode = PictureBoxSizeMode.Zoom;
-                        playedCard.Size = new Size(70, 100);
-                        playedCard.Location = new Point(322, 332);
-                        this.Controls.Add(playedCard);
-
-                        Label newLabel = new Label();
-                        newLabel.Location = new Point(320, 429);
-                        newLabel.Font = new Font("Palatino Linotype", 11, FontStyle.Regular);
-                        newLabel.Text = "Your Card";
-                        newLabel.Size = new Size(77, 20);
-                        this.Controls.Add(newLabel);
+                        
+                        int index = ilCards.Images.IndexOfKey(cardChoice.CardKey);
+                        pbPlayerCard.Image = ilCards.Images[index];
+                        lblPlayerCard.Visible = true;
 
                         this.Controls.Remove(loc);
 
                         if (Game.PlayerLead())
                         {
                             Game.SetTurn(false);
-                            OppTurnTimer();
-                        }
+                        lblPlayerTurn.Visible = false;
+                        lblWinFlip.Visible = false;
+                        lblLoseFlip.Visible = false;
+                        lblOppTurn.Visible = true;
+                        //int a = 1;
+                        //    while(a < 40)
+                        //{
+                        //    a++;
+                        //}
+                        //Random rng = new Random();
+                        //int a = rng.Next(1000, 4000);
+                        //Thread.Sleep(a);
+                        //CompThink();
+                        //OppTurnTimer();
+                        var t = Task.Run(async delegate
+                        {
+                            Random rng = new Random();
+                            await Task.Delay(rng.Next(1000, 5000));
+                        });
+                        t.Wait();
+                        TurnTimerCallBack();
+                    }
                         //If the player did go first, that means both have put a card down by now, so the result is checked.
                         else if (!Game.PlayerLead())
                         {
                             if (Game.Hand(Game.PlayerChosenCard(), Game.OpponentChosenCard(), Game.PlayerLead()))
                             {
-                                //Player win trick.
+                                //Player wins the trick.
                                 Game.YourTricks++;
+                            lblPlayerTurn.Visible = false;
+                            lblOppTurn.Visible = false;
+                            lblWinTrick.Visible = true;
                             }
                             else
                             {
-                                //Player lose trick. If the player had played a 1, then they lead the next turn.
+                                //Player loses the trick.
                                 Game.OpponentTricks++;
-                                if (Game.PlayerChosenCard().CardNumber == 1)
-                                {
-                                    Game.SetLead(true);
-                                }
+                            lblPlayerTurn.Visible = false;
+                            lblOppTurn.Visible = true;
+                            lblLoseTrick.Visible = true;
                             }
                         }
-                        Game.SetTurn(false);
+                        
                         
                     }
-                }
+                
+            }
+            else
+            {
+                loc.Location = initialPoint;
             }
 
         }
 
-        public static void OppTurnTimer()
+        public void OppTurnTimer()
         {
 
             Random rand = new Random();
+
             int waitTime = rand.Next(1000, 4000);
             int elTime = waitTime / 4;
             System.Timers.Timer turnTimer = new System.Timers.Timer(waitTime);
@@ -404,25 +430,48 @@ namespace Main_Game
 
             turnTimer.AutoReset = false;
             elTimer.Elapsed += EllipsisTimerCallback;
-            turnTimer.Elapsed += TurnTimerCallBack;
+            //turnTimer.Elapsed += TurnTimerCallBack;
             turnTimer.Enabled = true;
             elTimer.Enabled = true;
 
-            
+
 
         }
 
-        private static void TurnTimerCallBack(Object source, System.Timers.ElapsedEventArgs e)
+        public void CompThink()
+        {
+            Random rng = new Random();
+            DateTime thinking = DateTime.Now.AddSeconds(rng.Next(1, 5));
+            //int a = 1;
+            while (DateTime.Now < thinking)
+            {
+                //a++;
+                //a--;
+            }
+        }
+
+
+        public void TurnTimerCallBack()
         {
             try
             {
                 //Timer is set off, so the AI takes its turn.
-               AI.TakeTurn();
-                //TODO: Make it display the opponent's card when it is played.
+               Card oppChoice = AI.TakeTurn();
+
+                        
+                int index = ilCards.Images.IndexOfKey(oppChoice.CardKey);
+                pbOppCard.Image = ilCards.Images[index];
+                lblOppCard.Visible = true;
+
                 //If the player didn't go first, it's assumed that the player now needs to go, so now they can.
                 if (!Game.PlayerLead())
                 {
                     Game.SetTurn(true);
+                    lblPlayerTurn.Visible = false;
+                    lblWinFlip.Visible = false;
+                    lblLoseFlip.Visible = false;
+                    lblOppTurn.Visible = false;
+                    lblPlayerTurn.Visible = true;
                 }
                 //If the player did go first, that means both have put a card down by now, so the result is checked.
                 else if (Game.PlayerLead())
@@ -431,16 +480,20 @@ namespace Main_Game
                     {
                         //Player win trick.
                         Game.YourTricks++;
+                        lblPlayerTurn.Visible = false;
+                        lblOppTurn.Visible = false;
+                        lblWinTrick.Visible = true;
                     }
                     else
                     {
-                        //Player lose trick. If the player had played a 1, then they lead the next turn.
+                        //Player lose trick.
                         Game.OpponentTricks++;
-                        if (Game.PlayerChosenCard().CardNumber == 1)
-                        {
-                            Game.SetLead(true);
-                        }
+                        lblPlayerTurn.Visible = false;
+                        lblOppTurn.Visible = true;
+                        lblLoseTrick.Visible = true;
+                        
                     }
+                    
                 }
 
             }
