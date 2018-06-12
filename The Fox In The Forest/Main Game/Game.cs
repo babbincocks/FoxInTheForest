@@ -48,25 +48,25 @@ namespace Main_Game
             oppTricks = 0;
         }
 
-        public static int YourScore
+        public int YourScore
             {
             get { return yourScore; }
             set { yourScore = value; }
             }
 
-        public static int OpponentScore
+        public int OpponentScore
         {
             get { return oppScore; }
             set { oppScore = value; }
         }
 
-        public static int YourTricks
+        public int YourTricks
         {
             get { return yourTricks; }
             set { yourTricks = value; }
         }
 
-        public static int OpponentTricks
+        public int OpponentTricks
         {
             get { return oppTricks; }
             set { oppTricks = value; }
@@ -248,11 +248,17 @@ namespace Main_Game
                 }
             }
 
+
+
             return playerWin;
         }
 
         
 
+        public static void RoundEnd()
+        {
+
+        }
         
 
 

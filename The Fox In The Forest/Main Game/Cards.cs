@@ -63,6 +63,8 @@ namespace Main_Game
         }
 
         //As odd-numbered cards have special effects that can affect a play, it needs to be handled somewhere. Maybe here?
+
+            //11 is handled in the AI class, if the player plays it at least.
         public static int Effect(Card yourCard, Card oppCard)
         {
             int result = 0;

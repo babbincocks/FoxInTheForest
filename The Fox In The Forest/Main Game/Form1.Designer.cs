@@ -64,6 +64,10 @@
             this.lblDecree = new System.Windows.Forms.Label();
             this.lblWinTrick = new System.Windows.Forms.Label();
             this.lblLoseTrick = new System.Windows.Forms.Label();
+            this.lblOppTricks = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblTricks = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbTrump)).BeginInit();
@@ -415,12 +419,58 @@
             this.lblLoseTrick.Text = "You lost the trick; next hand";
             this.lblLoseTrick.Visible = false;
             // 
+            // lblOppTricks
+            // 
+            this.lblOppTricks.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblOppTricks.Font = new System.Drawing.Font("Palatino Linotype", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOppTricks.Location = new System.Drawing.Point(727, 59);
+            this.lblOppTricks.Name = "lblOppTricks";
+            this.lblOppTricks.Size = new System.Drawing.Size(98, 80);
+            this.lblOppTricks.TabIndex = 22;
+            this.lblOppTricks.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Palatino Linotype", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(735, 140);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(86, 40);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "Opponent\'s\r\nTricks";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Palatino Linotype", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(751, 590);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(50, 40);
+            this.label3.TabIndex = 25;
+            this.label3.Text = "Your\r\nTricks";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblTricks
+            // 
+            this.lblTricks.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblTricks.Font = new System.Drawing.Font("Palatino Linotype", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTricks.Location = new System.Drawing.Point(727, 632);
+            this.lblTricks.Name = "lblTricks";
+            this.lblTricks.Size = new System.Drawing.Size(98, 80);
+            this.lblTricks.TabIndex = 24;
+            this.lblTricks.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // frmGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(858, 755);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblTricks);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblOppTricks);
             this.Controls.Add(this.lblLoseTrick);
             this.Controls.Add(this.lblWinTrick);
             this.Controls.Add(this.lblDecree);
@@ -493,6 +543,10 @@
         private System.Windows.Forms.Label lblDecree;
         private System.Windows.Forms.Label lblWinTrick;
         private System.Windows.Forms.Label lblLoseTrick;
+        private System.Windows.Forms.Label lblOppTricks;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblTricks;
     }
 }
 

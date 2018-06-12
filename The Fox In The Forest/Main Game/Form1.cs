@@ -129,9 +129,10 @@ namespace Main_Game
         {
             if (ongoingGame != true)
             {
+                currentGame = new Game();
                 List<string> preCards = new List<string>();
                 //TODO: Change how retrieving scores is set up.
-                lblOppScore.Text = Game.OpponentScore();
+                
                 try
                 {
                     if (Player.CurrentPlayer().Name == "Guest")
@@ -152,6 +153,9 @@ namespace Main_Game
 
                     currentGame = new Game();
                     ongoingGame = true;
+
+
+                    UpdateLabels();
 
                     deck = Game.SetCards(preCards);
 
@@ -338,6 +342,39 @@ namespace Main_Game
             
         }
 
+        private void HandFinish()
+        {
+            if (Game.Hand(Game.PlayerChosenCard(), Game.OpponentChosenCard(), Game.PlayerLead()))
+            {
+                //Player wins the trick.
+                currentGame.YourTricks++;
+                lblPlayerTurn.Visible = false;
+                lblOppTurn.Visible = false;
+                lblWinTrick.Visible = true;
+                if (Game.OpponentChosenCard().CardNumber == 1)
+                {
+                    Game.SetLead(false);
+                }
+                else
+                {
+                    Game.SetLead(true);
+                }
+                UpdateLabels();
+            }
+            else if (!Game.Hand(Game.PlayerChosenCard(), Game.OpponentChosenCard(), Game.PlayerLead()))
+            {
+                //Player loses the trick.
+                currentGame.OpponentTricks++;
+
+                lblPlayerTurn.Visible = false;
+                lblOppTurn.Visible = true;
+                lblLoseTrick.Visible = true;
+
+                Game.SetLead(false);
+
+            }
+        }
+
         private void InitiatePlay(object sender, EventArgs e)
         {
             PictureBox loc = (sender as PictureBox);
@@ -389,22 +426,9 @@ namespace Main_Game
                         //If the player did go first, that means both have put a card down by now, so the result is checked.
                         else if (!Game.PlayerLead())
                         {
-                            if (Game.Hand(Game.PlayerChosenCard(), Game.OpponentChosenCard(), Game.PlayerLead()))
-                            {
-                                //Player wins the trick.
-                                Game.YourTricks++;
-                            lblPlayerTurn.Visible = false;
-                            lblOppTurn.Visible = false;
-                            lblWinTrick.Visible = true;
-                            }
-                            else
-                            {
-                                //Player loses the trick.
-                                Game.OpponentTricks++;
-                            lblPlayerTurn.Visible = false;
-                            lblOppTurn.Visible = true;
-                            lblLoseTrick.Visible = true;
-                            }
+
+                        HandFinish();
+   
                         }
                         
                         
@@ -450,6 +474,15 @@ namespace Main_Game
             }
         }
 
+        private void UpdateLabels()
+        {
+            lblTricks.Text = currentGame.YourTricks.ToString();
+            lblOppTricks.Text = currentGame.OpponentTricks.ToString();
+
+            lblScore.Text = currentGame.YourScore.ToString();
+            lblOppScore.Text = currentGame.OpponentScore.ToString();
+        }
+
 
         public void TurnTimerCallBack()
         {
@@ -476,24 +509,8 @@ namespace Main_Game
                 //If the player did go first, that means both have put a card down by now, so the result is checked.
                 else if (Game.PlayerLead())
                 {
-                    if (Game.Hand(Game.PlayerChosenCard(), Game.OpponentChosenCard(), Game.PlayerLead()))
-                    {
-                        //Player win trick.
-                        Game.YourTricks++;
-                        lblPlayerTurn.Visible = false;
-                        lblOppTurn.Visible = false;
-                        lblWinTrick.Visible = true;
-                    }
-                    else
-                    {
-                        //Player lose trick.
-                        Game.OpponentTricks++;
-                        lblPlayerTurn.Visible = false;
-                        lblOppTurn.Visible = true;
-                        lblLoseTrick.Visible = true;
-                        
-                    }
-                    
+                    HandFinish();
+
                 }
 
             }

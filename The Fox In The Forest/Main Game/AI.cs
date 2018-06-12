@@ -9,6 +9,9 @@ namespace Main_Game
     class AI
     {
 
+        private static int score;
+        private static int tricks;
+
         public static bool CheckScore(int compTricks)
         {
             bool desirePoints = true;
@@ -20,6 +23,35 @@ namespace Main_Game
             return desirePoints;
         }
 
+        public static void SetScore(int points)
+        {
+            score += points;
+        }
+
+        public static int GetScore()
+        {
+            return score;
+        }
+
+        public static void SetTricks(int points)
+        {
+            tricks += points;
+        }
+
+        public static int GetTricks()
+        {
+            return tricks;
+        }
+
+        public static void ResetPoints()
+        {
+            score = 0;
+        }
+
+        public static void ResetTricks()
+        {
+            tricks = 0;
+        }
 
 
         public static Card TakeTurn()
@@ -36,13 +68,26 @@ namespace Main_Game
                 {
                     if (!Game.PlayerLead())
                     {
-                        if (AI.CheckScore(Game.OpponentTricks))
+                        if (AI.CheckScore(GetTricks()))
                         {
-
+                            foreach(Card card in Card.OpponentCurrentHand())
+                            {
+                                if(card.CardNumber == 11 || card.CardNumber == 9 || card.CardSuit == Card.Trump().CardSuit)
+                                {
+                                    cardPicks.Add(card);
+                                }
+                                
+                            }
                         }
                         else
                         {
-                            cardPicks.Add(Card.OpponentCurrentHand()[0]);
+                            foreach (Card card in Card.OpponentCurrentHand())
+                            {
+                                if (card.CardNumber == 1 || card.CardNumber == 3 || card.CardSuit != Card.Trump().CardSuit)
+                                {
+                                    cardPicks.Add(card);
+                                }
+                            }
                         }
                     }
                     else
@@ -82,7 +127,7 @@ namespace Main_Game
                             no11 = true;
                         }
 
-
+                        
                         if (no11 == true)
                         {
                             foreach (Card card in Card.OpponentCurrentHand())
@@ -98,7 +143,7 @@ namespace Main_Game
                                 foreach (Card card in Card.OpponentCurrentHand())
                                 {
 
-                                    if (AI.CheckScore(Game.OpponentTricks))
+                                    if (AI.CheckScore(GetTricks()))
                                     {
                                         if (card.CardSuit == Card.Trump().CardSuit)
                                         {
@@ -116,6 +161,14 @@ namespace Main_Game
                                             cardPicks.Add(card);
 
                                         }
+                                        else
+                                        {
+
+                                        }
+
+                                    }
+                                    else
+                                    {
 
                                     }
                                 }
@@ -138,7 +191,7 @@ namespace Main_Game
                 {
                     throw ex;
                 }
-
+             
             }
             Game.SetOpponentCard(chosenCard);
             return Card.OpponentPlayCard(chosenCard);
