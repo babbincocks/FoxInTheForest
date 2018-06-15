@@ -108,7 +108,14 @@ namespace Main_Game
             }
             else if (yourCard.CardNumber == 7)
             {
-
+                if (oppCard.CardNumber == 7)
+                {
+                    Game.SetRoundPoints(2);
+                }
+                else
+                {
+                    Game.SetRoundPoints(1);
+                }
             }
             else if (yourCard.CardNumber == 9)
             { 
@@ -209,6 +216,13 @@ namespace Main_Game
 
         }
 
+        public static void OppDrawCard()
+        {
+            Card newCard = deck.Last();
+            deck.RemoveAt(deck.Count - 1);
+            oppHand.Add(newCard);
+        }
+
 
 
         public static List<Card> PopulateDeck(List<string> cards)
@@ -298,6 +312,8 @@ namespace Main_Game
                 deck.Remove(deck[deck.Count - 1]);
             }
         }
+
+
 
     }
 }

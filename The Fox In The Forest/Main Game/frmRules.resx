@@ -124,6 +124,17 @@ three suits: keys, bells, and moons, with every odd numbered card having a
 special effect that can alter the course of play (as can be seen in the bar to
 the right.)
 
-</value>
+In this version of the game, a coin flip decides who goes first; that person 
+then leads and the other player must follow suit, if able. A card is placed in
+the center before play starts; this card is the decree card, and its suit is the
+trump suit. When both players have put a card down, a winner of that trick
+is determined, and that player gets the trick. Play proceeds until both 
+players don't have any cards left.
+
+If a player has less than 4 tricks at this point, they receive 6 points. If they
+have 4, 5, or 6 points, they will receive either 1, 2 , or 3 points, respectively.
+If they have 7 - 9 points, they receive 6 points. If a player has any more
+points, they will receive 0 points. When a player reaches 21 points, the
+game ends. The player with the most points wins.</value>
   </data>
 </root>

@@ -21,7 +21,7 @@ namespace Main_Game
         {
             frmTrickTake newTake = new frmTrickTake();
 
-            newTake.ShowDialog();
+            newTake.Show();
         }
 
         private void frmRules_Load(object sender, EventArgs e)

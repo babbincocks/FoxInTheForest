@@ -55,7 +55,7 @@ namespace Main_Game
 
 
         public static Card TakeTurn()
-        {
+        {       //TODO: Find inconsistency somewhere probably in here; it causes error to pop up when opponent takes their turn, typically after they've played most of their cards.
             Card chosenCard = new Card();
             bool overrideChoice = false;
             bool no11 = false;
@@ -137,7 +137,7 @@ namespace Main_Game
                                     cardPicks.Add(card);
                                 }
                             }
-                            //TODO: Check if this method of checking if the card list is empty is functional.
+                            
                             if (!cardPicks.Any())
                             {
                                 foreach (Card card in Card.OpponentCurrentHand())
@@ -145,7 +145,7 @@ namespace Main_Game
 
                                     if (AI.CheckScore(GetTricks()))
                                     {
-                                        if (card.CardSuit == Card.Trump().CardSuit)
+                                        if (card.CardSuit != Card.Trump().CardSuit)
                                         {
                                             if (card.CardNumber == 9)
                                             {
@@ -161,10 +161,7 @@ namespace Main_Game
                                             cardPicks.Add(card);
 
                                         }
-                                        else
-                                        {
-
-                                        }
+                                       
 
                                     }
                                     else

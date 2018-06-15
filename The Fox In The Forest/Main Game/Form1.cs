@@ -80,7 +80,12 @@ namespace Main_Game
         private void picMouseUp(object sender, MouseEventArgs e)
         {
             drag = false;
-            InitiatePlay(sender, e);
+            PictureBox pb = (PictureBox)sender;
+
+            if (pb.Tag.ToString() != "FitF")
+            {
+                InitiatePlay(sender, e);
+            }
             
         }
 
@@ -308,17 +313,7 @@ namespace Main_Game
                     }
 
 
-                    //if (Game.CheckEnd(newGame.YourScore, newGame.OpponentScore))
-                    //{
-                    //    if (Game.Winner(newGame.YourScore, newGame.OpponentScore))
-                    //    {
-                    //        MessageBox.Show("You win!");
-                    //    }
-                    //    else
-                    //    {
-                    //        MessageBox.Show("You lost...");
-                    //    }
-                    //}
+                   
 
 
 
@@ -344,12 +339,14 @@ namespace Main_Game
 
         private void HandFinish()
         {
-            if (Game.Hand(Game.PlayerChosenCard(), Game.OpponentChosenCard(), Game.PlayerLead()))
+
+            lblPlayerTurn.Visible = false;
+            lblOppTurn.Visible = false;
+            if (Game.Hand())
             {
                 //Player wins the trick.
                 currentGame.YourTricks++;
-                lblPlayerTurn.Visible = false;
-                lblOppTurn.Visible = false;
+                
                 lblWinTrick.Visible = true;
                 if (Game.OpponentChosenCard().CardNumber == 1)
                 {
@@ -361,18 +358,95 @@ namespace Main_Game
                 }
                 UpdateLabels();
             }
-            else if (!Game.Hand(Game.PlayerChosenCard(), Game.OpponentChosenCard(), Game.PlayerLead()))
+            else if (!Game.Hand())
             {
                 //Player loses the trick.
                 currentGame.OpponentTricks++;
 
-                lblPlayerTurn.Visible = false;
-                lblOppTurn.Visible = true;
                 lblLoseTrick.Visible = true;
 
-                Game.SetLead(false);
+                if (Game.PlayerChosenCard().CardNumber == 1)
+                {
+                    Game.SetLead(true);
+                }
+                else
+                {
+                    Game.SetLead(false);
+                }
+                UpdateLabels();
 
             }
+
+
+            var t = Task.Run(async delegate
+            {
+                await Task.Delay(2000);
+            });
+            t.Wait();
+            //TODO: Get rid of drawing cards. 
+
+
+            if (!Card.OpponentCurrentHand().Any() && !Card.YourCurrentHand().Any())
+            {
+                int[] scores = Game.RoundEnd(currentGame.YourTricks, currentGame.OpponentTricks);
+                currentGame.YourScore = currentGame.YourScore + scores[0];
+                currentGame.OpponentScore = currentGame.OpponentScore + scores[1];
+
+                Player.CurrentPlayer().TotalTricks += currentGame.YourTricks;
+                currentGame.YourTricks = 0;
+                currentGame.OpponentTricks = 0;
+
+                UpdateLabels();
+                
+                if (Game.CheckEnd(currentGame.YourScore, currentGame.OpponentScore))
+                {
+                    if(Game.Winner(currentGame.YourScore, currentGame.OpponentScore))
+                        {
+                        MessageBox.Show("You've won!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("You've lost...");
+                    }
+
+
+
+                }
+                else
+                {
+
+                }
+
+            }
+
+            lblLoseTrick.Visible = false;
+            lblWinTrick.Visible = false;
+
+
+
+            pbPlayerCard.Image = null;
+            pbOppCard.Image = null;
+            lblOppCard.Visible = false;
+            lblPlayerCard.Visible = false;
+
+            if(Game.PlayerLead())
+            {
+                lblPlayerTurn.Visible = true;
+                Game.SetTurn(true);
+            }
+            else
+            {
+                Game.SetTurn(false);
+                lblOppTurn.Visible = true;
+                var think = Task.Run(async delegate
+                {
+                    Random rng = new Random();
+                    await Task.Delay(rng.Next(1000, 5000));
+                });
+                think.Wait();
+                TurnTimerCallBack();
+            }
+
         }
 
         private void InitiatePlay(object sender, EventArgs e)
@@ -437,42 +511,45 @@ namespace Main_Game
             }
             else
             {
-                loc.Location = initialPoint;
+                if (loc.Tag.ToString() != "FitF")
+                {
+                    loc.Location = initialPoint;
+                }
             }
 
         }
 
-        public void OppTurnTimer()
-        {
+        //public void OppTurnTimer()
+        //{
 
-            Random rand = new Random();
+        //    Random rand = new Random();
 
-            int waitTime = rand.Next(1000, 4000);
-            int elTime = waitTime / 4;
-            System.Timers.Timer turnTimer = new System.Timers.Timer(waitTime);
-            System.Timers.Timer elTimer = new System.Timers.Timer(elTime);
+        //    int waitTime = rand.Next(1000, 4000);
+        //    int elTime = waitTime / 4;
+        //    System.Timers.Timer turnTimer = new System.Timers.Timer(waitTime);
+        //    System.Timers.Timer elTimer = new System.Timers.Timer(elTime);
 
-            turnTimer.AutoReset = false;
-            elTimer.Elapsed += EllipsisTimerCallback;
-            //turnTimer.Elapsed += TurnTimerCallBack;
-            turnTimer.Enabled = true;
-            elTimer.Enabled = true;
+        //    turnTimer.AutoReset = false;
+        //    elTimer.Elapsed += EllipsisTimerCallback;
+        //    //turnTimer.Elapsed += TurnTimerCallBack;
+        //    turnTimer.Enabled = true;
+        //    elTimer.Enabled = true;
 
 
 
-        }
+        //}
 
-        public void CompThink()
-        {
-            Random rng = new Random();
-            DateTime thinking = DateTime.Now.AddSeconds(rng.Next(1, 5));
-            //int a = 1;
-            while (DateTime.Now < thinking)
-            {
-                //a++;
-                //a--;
-            }
-        }
+        //public void CompThink()
+        //{
+        //    Random rng = new Random();
+        //    DateTime thinking = DateTime.Now.AddSeconds(rng.Next(1, 5));
+        //    //int a = 1;
+        //    while (DateTime.Now < thinking)
+        //    {
+        //        //a++;
+        //        //a--;
+        //    }
+        //}
 
         private void UpdateLabels()
         {
@@ -561,6 +638,7 @@ namespace Main_Game
                 pbScoring.MouseUp += new MouseEventHandler(picMouseUp);
                 pbScoring.Image = ilCards.Images["FitFScoreRef.png"];
                 pbScoring.SizeMode = PictureBoxSizeMode.Zoom;
+                pbScoring.Tag = "FitF";
                 this.Controls.Add(pbScoring);
                 
             }
@@ -591,7 +669,7 @@ namespace Main_Game
         {
             frmRules newForm = new frmRules();
 
-            newForm.ShowDialog();
+            newForm.Show();
         }
 
         private void btnDraw_Click(object sender, EventArgs e)

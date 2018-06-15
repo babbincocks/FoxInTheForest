@@ -12,6 +12,7 @@ namespace Main_Game
         private static int oppScore;
         private static int yourTricks;
         private static int oppTricks;
+        private static int roundPoints = 1;
 
         private static bool yourTurn;
         private static bool playLead;
@@ -23,6 +24,25 @@ namespace Main_Game
         {
             playLead = lead;
 
+        }
+
+        public static int GetRoundPoints()
+        {
+            return roundPoints;
+        }
+
+        public static void SetRoundPoints(int increase)
+        {
+            if (increase > 0 && increase < 3)
+            {
+                roundPoints += increase;
+            }
+
+        }
+
+        public static void ResetRoundPoints()
+        {
+            roundPoints = 1;
         }
 
         public static void SetTurn(bool turn)
@@ -119,26 +139,26 @@ namespace Main_Game
 
         }
 
-        public static bool Hand(Card yourCard, Card oppCard, bool youLead)
+        public static bool Hand()
         {
             bool playerWin = false;
 
             //If neither played card is an effect card...
-             if (yourCard.CardNumber % 2 == 0  && oppCard.CardNumber % 2 == 0)
+             if (Game.PlayerChosenCard().CardNumber % 2 == 0  && Game.OpponentChosenCard().CardNumber % 2 == 0)
              {
                 //...and the player lead...
-                if (youLead)
+                if (Game.PlayerLead())
                 {
 
-                    if (yourCard.CardSuit == Card.Trump().CardSuit)
+                    if (Game.PlayerChosenCard().CardSuit == Card.Trump().CardSuit)
                     {
-                        if (oppCard.CardSuit != Card.Trump().CardSuit)
+                        if (Game.OpponentChosenCard().CardSuit != Card.Trump().CardSuit)
                         {
                             playerWin = true;
                         }
                         else
                         {
-                            if (yourCard.CardNumber > oppCard.CardNumber)
+                            if (Game.PlayerChosenCard().CardNumber > Game.OpponentChosenCard().CardNumber)
                             {
                                 playerWin = true;
                             }
@@ -148,19 +168,19 @@ namespace Main_Game
                             }
                         }
                     }
-                    else if (yourCard.CardSuit != Card.Trump().CardSuit && oppCard.CardSuit == Card.Trump().CardSuit)
+                    else if (Game.PlayerChosenCard().CardSuit != Card.Trump().CardSuit && Game.OpponentChosenCard().CardSuit == Card.Trump().CardSuit)
                     {
                         playerWin = false;
                     }
                     else
                     {
-                        if (yourCard.CardSuit != oppCard.CardSuit)
+                        if (Game.PlayerChosenCard().CardSuit != Game.OpponentChosenCard().CardSuit)
                         {
                             playerWin = true;
                         }
                         else
                         {
-                            if (yourCard.CardNumber > oppCard.CardNumber)
+                            if (Game.PlayerChosenCard().CardNumber > Game.OpponentChosenCard().CardNumber)
                             {
                                 playerWin = true;
                             }
@@ -174,15 +194,15 @@ namespace Main_Game
                 }
                 else
                 {
-                    if(oppCard.CardSuit == Card.Trump().CardSuit)
+                    if(Game.OpponentChosenCard().CardSuit == Card.Trump().CardSuit)
                     {
-                        if (yourCard.CardSuit != Card.Trump().CardSuit)
+                        if (Game.PlayerChosenCard().CardSuit != Card.Trump().CardSuit)
                         {
                             playerWin = false;
                         }
                         else
                         {
-                            if (yourCard.CardNumber > oppCard.CardNumber)
+                            if (Game.PlayerChosenCard().CardNumber > Game.OpponentChosenCard().CardNumber)
                             {
                                 playerWin = true;
                             }
@@ -192,19 +212,19 @@ namespace Main_Game
                             }
                         }
                     }
-                    else if (yourCard.CardSuit == Card.Trump().CardSuit && oppCard.CardSuit != Card.Trump().CardSuit)
+                    else if (Game.PlayerChosenCard().CardSuit == Card.Trump().CardSuit && Game.OpponentChosenCard().CardSuit != Card.Trump().CardSuit)
                     {
                         playerWin = true;
                     }
                     else
                     {
-                        if (yourCard.CardSuit != oppCard.CardSuit)
+                        if (Game.PlayerChosenCard().CardSuit != Game.OpponentChosenCard().CardSuit)
                         {
                             playerWin = false;
                         }
                         else
                         {
-                            if (yourCard.CardNumber > oppCard.CardNumber)
+                            if (Game.PlayerChosenCard().CardNumber > Game.OpponentChosenCard().CardNumber)
                             {
                                 playerWin = true;
                             }
@@ -223,10 +243,11 @@ namespace Main_Game
              0: No effect, just go off of card values. 
              1: Player definitely wins.
              2: Player definitely loses.
-             3: Player lost, but played a 1.
+             3: Player lost, but played a 1, so they will have the lead next round.
+             4: Needs logic like above to determine winner at this point.
              */
             {
-                int result = Card.Effect(yourCard, oppCard);
+                int result = Card.Effect(Game.PlayerChosenCard(), Game.OpponentChosenCard());
                 if (result == 1)
                 {
                     playerWin = true;
@@ -244,7 +265,95 @@ namespace Main_Game
                 }
                 else
                 {
+                    if (Game.PlayerLead())
+                    {
 
+                        if (Game.PlayerChosenCard().CardSuit == Card.Trump().CardSuit)
+                        {
+                            if (Game.OpponentChosenCard().CardSuit != Card.Trump().CardSuit)
+                            {
+                                playerWin = true;
+                            }
+                            else
+                            {
+                                if (Game.PlayerChosenCard().CardNumber > Game.OpponentChosenCard().CardNumber)
+                                {
+                                    playerWin = true;
+                                }
+                                else
+                                {
+                                    playerWin = false;
+                                }
+                            }
+                        }
+                        else if (Game.PlayerChosenCard().CardSuit != Card.Trump().CardSuit && Game.OpponentChosenCard().CardSuit == Card.Trump().CardSuit)
+                        {
+                            playerWin = false;
+                        }
+                        else
+                        {
+                            if (Game.PlayerChosenCard().CardSuit != Game.OpponentChosenCard().CardSuit)
+                            {
+                                playerWin = true;
+                            }
+                            else
+                            {
+                                if (Game.PlayerChosenCard().CardNumber > Game.OpponentChosenCard().CardNumber)
+                                {
+                                    playerWin = true;
+                                }
+                                else
+                                {
+                                    playerWin = false;
+                                }
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        if (Game.OpponentChosenCard().CardSuit == Card.Trump().CardSuit)
+                        {
+                            if (Game.PlayerChosenCard().CardSuit != Card.Trump().CardSuit)
+                            {
+                                playerWin = false;
+                            }
+                            else
+                            {
+                                if (Game.PlayerChosenCard().CardNumber > Game.OpponentChosenCard().CardNumber)
+                                {
+                                    playerWin = true;
+                                }
+                                else
+                                {
+                                    playerWin = false;
+                                }
+                            }
+                        }
+                        else if (Game.PlayerChosenCard().CardSuit == Card.Trump().CardSuit && Game.OpponentChosenCard().CardSuit != Card.Trump().CardSuit)
+                        {
+                            playerWin = true;
+                        }
+                        else
+                        {
+                            if (Game.PlayerChosenCard().CardSuit != Game.OpponentChosenCard().CardSuit)
+                            {
+                                playerWin = false;
+                            }
+                            else
+                            {
+                                if (Game.PlayerChosenCard().CardNumber > Game.OpponentChosenCard().CardNumber)
+                                {
+                                    playerWin = true;
+                                }
+                                else
+                                {
+                                    playerWin = false;
+                                }
+                            }
+
+                        }
+                    }
                 }
             }
 
@@ -255,9 +364,65 @@ namespace Main_Game
 
         
 
-        public static void RoundEnd()
+        public static int[] RoundEnd(int yourTricks, int oppTricks)
         {
+            int[] scores = new int[2];
 
+            if(yourTricks < 4)
+            {
+                scores[0] = 6;
+            }
+            else if(yourTricks == 4)
+            {
+                scores[0] = 1;
+            }
+            else if (yourTricks == 5)
+            {
+                scores[0] = 2;
+            }
+            else if (yourTricks == 6)
+            {
+                scores[0] = 3;
+            }
+            else if (yourTricks > 6 && yourTricks < 10)
+            {
+                scores[0] = 6;
+            }
+            else if (yourTricks > 9)
+            {
+                scores[0] = 0;
+            }
+
+
+            if (oppTricks < 4)
+            {
+                scores[1] = 6;
+            }
+            else if (oppTricks == 4)
+            {
+                scores[1] = 1;
+            }
+            else if (oppTricks == 5)
+            {
+                scores[1] = 2;
+            }
+            else if (oppTricks == 6)
+            {
+                scores[1] = 3;
+            }
+            else if (oppTricks > 6 && oppTricks < 10)
+            {
+                scores[1] = 6;
+            }
+            else if (oppTricks > 9)
+            {
+                scores[1] = 0;
+            }
+
+
+            
+
+            return scores;
         }
         
 
