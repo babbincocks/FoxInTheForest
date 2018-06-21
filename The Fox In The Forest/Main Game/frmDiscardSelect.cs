@@ -19,7 +19,7 @@ namespace Main_Game
         frmGame a = new frmGame();
         private void frmDiscardSelect_Load(object sender, EventArgs e)
         {
-            int leftPos = 25;
+            int leftPos = 55;
             int topPos = 66;
             int row = 1;
             foreach(Card card in Card.YourCurrentHand())
@@ -44,7 +44,7 @@ namespace Main_Game
                         {
                             topPos += 70;
                             leftPos -= 378;
-                            row = 1;
+                            row = 0;
                         }
                         newCard.Image = a.ilCards.Images[b];
                         this.Controls.Add(newCard);

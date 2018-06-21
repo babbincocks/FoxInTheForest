@@ -50,7 +50,6 @@
             this.lblScore = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnDraw = new System.Windows.Forms.Button();
             this.pbDeck = new System.Windows.Forms.PictureBox();
             this.pbTrump = new System.Windows.Forms.PictureBox();
             this.pbOppCard = new System.Windows.Forms.PictureBox();
@@ -274,16 +273,6 @@
             this.label2.Text = "Opponent\'s\r\nScore";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnDraw
-            // 
-            this.btnDraw.Location = new System.Drawing.Point(60, 447);
-            this.btnDraw.Name = "btnDraw";
-            this.btnDraw.Size = new System.Drawing.Size(74, 27);
-            this.btnDraw.TabIndex = 9;
-            this.btnDraw.Text = "&Draw";
-            this.btnDraw.UseVisualStyleBackColor = true;
-            this.btnDraw.Click += new System.EventHandler(this.btnDraw_Click);
-            // 
             // pbDeck
             // 
             this.pbDeck.Location = new System.Drawing.Point(42, 277);
@@ -292,6 +281,7 @@
             this.pbDeck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbDeck.TabIndex = 2;
             this.pbDeck.TabStop = false;
+            this.pbDeck.Tag = "Deck";
             // 
             // pbTrump
             // 
@@ -301,6 +291,7 @@
             this.pbTrump.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbTrump.TabIndex = 10;
             this.pbTrump.TabStop = false;
+            this.pbTrump.Tag = "Decree";
             // 
             // pbOppCard
             // 
@@ -310,6 +301,7 @@
             this.pbOppCard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbOppCard.TabIndex = 11;
             this.pbOppCard.TabStop = false;
+            this.pbOppCard.Tag = "OppChoice";
             // 
             // pbPlayerCard
             // 
@@ -319,6 +311,7 @@
             this.pbPlayerCard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbPlayerCard.TabIndex = 12;
             this.pbPlayerCard.TabStop = false;
+            this.pbPlayerCard.Tag = "PlayerChoice";
             // 
             // lblPlayerCard
             // 
@@ -466,7 +459,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(858, 755);
+            this.ClientSize = new System.Drawing.Size(858, 749);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lblTricks);
             this.Controls.Add(this.label1);
@@ -483,7 +476,6 @@
             this.Controls.Add(this.lblOppCard);
             this.Controls.Add(this.pbPlayerCard);
             this.Controls.Add(this.lblPlayerCard);
-            this.Controls.Add(this.btnDraw);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.lblScore);
@@ -522,7 +514,6 @@
         private System.Windows.Forms.Label lblScore;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnDraw;
         private System.Windows.Forms.ToolStripMenuItem choosePlayerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showScoringToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hideScoringToolStripMenuItem;

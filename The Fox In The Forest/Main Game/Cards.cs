@@ -103,6 +103,7 @@ namespace Main_Game
                         if (b.CardKey == card.CardKey)
                         {
                             Discard(card);
+                            break;
                         }
                     }
                     
@@ -290,14 +291,29 @@ namespace Main_Game
 
         public static Card PlayCard(Card chosenCard)
         {
-            yourHand.Remove(chosenCard);
+            foreach(Card card in yourHand)
+            {
+                if (card.CardKey == chosenCard.CardKey)
+                {
+                    yourHand.Remove(card);
+                    break;
+                }
+            }
+            
             return chosenCard;
             
         }
 
         public static Card OpponentPlayCard(Card chosenCard)
         {
-            oppHand.Remove(chosenCard);
+            foreach (Card card in oppHand)
+            {
+                if (card.CardKey == chosenCard.CardKey)
+                {
+                    oppHand.Remove(chosenCard);
+                    break;
+                }
+            }
             return chosenCard;
         }
 

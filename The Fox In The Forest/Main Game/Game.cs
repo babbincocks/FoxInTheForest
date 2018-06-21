@@ -126,6 +126,7 @@ namespace Main_Game
         public static void SetPlayerCard(Card choice)
         {
             playerChosenCard = choice;
+            Card.YourCurrentHand().Remove(choice);
         }
 
         public static void SetOpponentCard(Card choice)

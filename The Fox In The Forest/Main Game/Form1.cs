@@ -32,6 +32,7 @@ namespace Main_Game
             this.hideScoringToolStripMenuItem.Visible = false;
 
             pbDeck.Image = ilCards.Images["Owl-Key_Card.png"];
+            pbDeck.Tag = "Deck";
 
             if(loadBefore != 0)
             {
@@ -166,85 +167,7 @@ namespace Main_Game
 
                     Card.PopulateHands();
 
-
-
-                    int left = 53; //10
-                    int top = 529; //10
-                    int row = 0;
-                    foreach (Card card in Card.YourCurrentHand())
-                    {
-
-                        string cardFile = card.CardKey;
-                        foreach (string cardImage in ilCards.Images.Keys)
-                        {
-                            
-                            if (card.CardKey == cardImage)
-                            {
-                                
-                                PictureBox newCard = new PictureBox();
-                                int index = ilCards.Images.IndexOfKey(cardImage);
-                                newCard.Image = ilCards.Images[index];
-                                newCard.SizeMode = PictureBoxSizeMode.Zoom;
-                                newCard.Size = new Size(70, 100);
-                                newCard.Location = new Point(left, top);
-                                newCard.Tag = card.CardNumber + "_" + card.CardSuit;
-                                
-                                if (row == 0)
-                                {
-                                    top += 110;
-                                    left += 45;
-                                    row++;
-                                }
-                                else
-                                {
-                                    top -= 110;
-                                    left += 45;
-                                    row--;
-                                }
-                                
-                                this.Controls.Add(newCard);
-                                newCard.MouseDown += new MouseEventHandler(picMouseDown);
-                                newCard.MouseMove += new MouseEventHandler(picMouseMove);
-                                newCard.MouseUp += new MouseEventHandler(picMouseUp);
-                                //newCard.LocationChanged += new EventHandler(InitiatePlay);
-
-                            }
-                        }
-                    }
-
-                    left = 42;
-                    top = 50;
-                    row = 0;
-                    foreach (Card card in Card.OpponentCurrentHand())
-                    {
-                        PictureBox newCard = new PictureBox();
-                        
-                        newCard.Image = ilCards.Images[0];
-                        newCard.SizeMode = PictureBoxSizeMode.Zoom;
-                        newCard.Size = new Size(70, 100);
-
-                        
-                        
-                        newCard.Location = new Point(left, top);
-
-                        
-                       
-                        if (row == 0)
-                        {
-                            top += 110;
-                            left += 45;
-                            row++;
-                        }
-                        else
-                        {
-                            top -= 110;
-                            left += 45;
-                            row--;
-                        }
-
-                        this.Controls.Add(newCard);
-
-                    }
+                    RefreshCardDisplay();
 
                     Card.SetTrump();
 
@@ -356,7 +279,7 @@ namespace Main_Game
                 {
                     Game.SetLead(true);
                 }
-                UpdateLabels();
+                
             }
             else if (!Game.Hand())
             {
@@ -373,10 +296,11 @@ namespace Main_Game
                 {
                     Game.SetLead(false);
                 }
-                UpdateLabels();
+                
 
             }
 
+            UpdateLabels();
 
             var t = Task.Run(async delegate
             {
@@ -403,21 +327,50 @@ namespace Main_Game
                     if(Game.Winner(currentGame.YourScore, currentGame.OpponentScore))
                         {
                         MessageBox.Show("You've won!");
+                        Player.CurrentPlayer().TotalWins++;
                     }
                     else
                     {
                         MessageBox.Show("You've lost...");
+                        Player.CurrentPlayer().TotalLosses++;
                     }
 
                     ongoingGame = false;
+                    
 
                 }
                 else
                 {
-                    //TODO: Put in code for setting up the next round here.
+                    deck.Clear();
+                    
+                    List<string> preCards = new List<string>();
+
+                    foreach (string card in ilCards.Images.Keys)
+                    {
+                        preCards.Add(card);
+                    }
+
+                    deck = Game.SetCards(preCards);
+
+                    Card.SetTrump();
+
+                    Card.PopulateHands();
+
+                    RefreshCardDisplay();
+
+                    Card.SetTrump();
+
+                    int a = ilCards.Images.IndexOfKey(Card.Trump().CardKey);
+                    pbTrump.Image = ilCards.Images[a];
+
+                    lblDecree.Visible = true;
+
+
                 }
 
             }
+
+            RefreshCardDisplay();
 
             lblLoseTrick.Visible = false;
             lblWinTrick.Visible = false;
@@ -676,9 +629,94 @@ namespace Main_Game
             newForm.Show();
         }
 
-        private void btnDraw_Click(object sender, EventArgs e)
+        private void RefreshCardDisplay()
         {
 
+            foreach(Control ctrl in this.Controls.OfType<PictureBox>())
+            {
+                
+                if (ctrl.Tag.ToString().Contains("Bell") || ctrl.Tag.ToString().Contains("Key") || ctrl.Tag.ToString().Contains("Moon"))
+                {
+                    this.Controls.Remove(ctrl);
+                }
+            }
+
+            int left = 53; //10
+            int top = 529; //10
+            int row = 0;
+            foreach (Card card in Card.YourCurrentHand())
+            {
+
+                string cardFile = card.CardKey;
+                foreach (string cardImage in ilCards.Images.Keys)
+                {
+
+                    if (cardFile == cardImage)
+                    {
+
+                        PictureBox newCard = new PictureBox();
+                        int index = ilCards.Images.IndexOfKey(cardImage);
+                        newCard.Image = ilCards.Images[index];
+                        newCard.SizeMode = PictureBoxSizeMode.Zoom;
+                        newCard.Size = new Size(70, 100);
+                        newCard.Location = new Point(left, top);
+                        newCard.Tag = card.CardNumber + "_" + card.CardSuit;
+
+                        if (row == 0)
+                        {
+                            top += 110;
+                            left += 45;
+                            row++;
+                        }
+                        else
+                        {
+                            top -= 110;
+                            left += 45;
+                            row--;
+                        }
+
+                        this.Controls.Add(newCard);
+                        newCard.MouseDown += new MouseEventHandler(picMouseDown);
+                        newCard.MouseMove += new MouseEventHandler(picMouseMove);
+                        newCard.MouseUp += new MouseEventHandler(picMouseUp);
+                        break;
+                    }
+                }
+            }
+
+            left = 42;
+            top = 50;
+            row = 0;
+            foreach (Card card in Card.OpponentCurrentHand())
+            {
+                PictureBox newCard = new PictureBox();
+
+                newCard.Image = ilCards.Images[0];
+                newCard.SizeMode = PictureBoxSizeMode.Zoom;
+                newCard.Size = new Size(70, 100);
+                newCard.Tag = "oppCard_" + card.CardKey;
+
+
+                newCard.Location = new Point(left, top);
+
+
+
+                if (row == 0)
+                {
+                    top += 110;
+                    left += 45;
+                    row++;
+                }
+                else
+                {
+                    top -= 110;
+                    left += 45;
+                    row--;
+                }
+
+                this.Controls.Add(newCard);
+
+            }
         }
     }
 }
