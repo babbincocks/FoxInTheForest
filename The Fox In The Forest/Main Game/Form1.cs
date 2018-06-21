@@ -409,12 +409,12 @@ namespace Main_Game
                         MessageBox.Show("You've lost...");
                     }
 
-
+                    ongoingGame = false;
 
                 }
                 else
                 {
-
+                    //TODO: Put in code for setting up the next round here.
                 }
 
             }
@@ -429,7 +429,9 @@ namespace Main_Game
             lblOppCard.Visible = false;
             lblPlayerCard.Visible = false;
 
-            if(Game.PlayerLead())
+            Game.SetOpponentCard(null);
+
+            if (Game.PlayerLead())
             {
                 lblPlayerTurn.Visible = true;
                 Game.SetTurn(true);
@@ -446,6 +448,8 @@ namespace Main_Game
                 think.Wait();
                 TurnTimerCallBack();
             }
+
+            
 
         }
 

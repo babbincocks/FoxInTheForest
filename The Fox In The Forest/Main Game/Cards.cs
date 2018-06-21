@@ -90,15 +90,17 @@ namespace Main_Game
                 //This might not work, actions might need to be switched over to the new discard form.
                 DrawCard();
                 frmDiscardSelect newDiscard = new frmDiscardSelect();
+                newDiscard.ShowDialog();
                 if (newDiscard.DialogResult == System.Windows.Forms.DialogResult.OK)
                 {
-                    string a = newDiscard.GetChosen();
+                    string returnedCard = newDiscard.GetChosen();
                     newDiscard.Close();
                     foreach(Card card in YourCurrentHand())
                     {
-                        string[] c = a.Split('_');
+                        string[] c = returnedCard.Split('_');
+                        c[1] = c[1].Replace(".bmp", "");
                         Card b = new Card(int.Parse(c[0]), c[1]);
-                        if (b == card)
+                        if (b.CardKey == card.CardKey)
                         {
                             Discard(card);
                         }

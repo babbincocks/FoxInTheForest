@@ -166,7 +166,10 @@ namespace Main_Game
                                     }
                                     else
                                     {
-
+                                        if (card.CardSuit == Game.PlayerChosenCard().CardSuit)
+                                        {
+                                            cardPicks.Add(card);
+                                        }
                                     }
                                 }
                             }
@@ -175,9 +178,19 @@ namespace Main_Game
 
                     if (!overrideChoice)
                     {
-                        Random rng = new Random();
-                        int choice = rng.Next(cardPicks.Count);
-                        chosenCard = cardPicks[choice];
+                        if (!cardPicks.Any())
+                        {
+                            foreach(Card card in Card.OpponentCurrentHand())
+                            {
+                                cardPicks.Add(card);
+                            }
+                            
+                        }
+                        
+                            Random rng = new Random();
+                            int choice = rng.Next(cardPicks.Count);
+                            chosenCard = cardPicks[choice];
+                        
 
                     }
 

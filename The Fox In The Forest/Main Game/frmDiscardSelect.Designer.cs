@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.gbCards = new System.Windows.Forms.GroupBox();
             this.SuspendLayout();
             // 
             // label1
@@ -42,21 +41,11 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Choose the card you would like to discard back into the deck.";
             // 
-            // gbCards
-            // 
-            this.gbCards.Location = new System.Drawing.Point(12, 64);
-            this.gbCards.Name = "gbCards";
-            this.gbCards.Size = new System.Drawing.Size(623, 197);
-            this.gbCards.TabIndex = 1;
-            this.gbCards.TabStop = false;
-            this.gbCards.Text = "Your Hand";
-            // 
             // frmDiscardSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(647, 273);
-            this.Controls.Add(this.gbCards);
             this.Controls.Add(this.label1);
             this.Name = "frmDiscardSelect";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -70,6 +59,5 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox gbCards;
     }
 }
