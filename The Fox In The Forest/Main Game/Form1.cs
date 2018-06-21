@@ -281,7 +281,7 @@ namespace Main_Game
                 }
                 
             }
-            else if (!Game.Hand())
+            else
             {
                 //Player loses the trick.
                 currentGame.OpponentTricks++;
@@ -356,7 +356,6 @@ namespace Main_Game
 
                     Card.PopulateHands();
 
-                    RefreshCardDisplay();
 
                     Card.SetTrump();
 
@@ -432,10 +431,10 @@ namespace Main_Game
                         if (Game.PlayerLead())
                         {
                             Game.SetTurn(false);
-                        lblPlayerTurn.Visible = false;
-                        lblWinFlip.Visible = false;
-                        lblLoseFlip.Visible = false;
-                        lblOppTurn.Visible = true;
+                            lblPlayerTurn.Visible = false;
+                            lblWinFlip.Visible = false;
+                            lblLoseFlip.Visible = false;
+                            lblOppTurn.Visible = true;
                         //int a = 1;
                         //    while(a < 40)
                         //{
@@ -446,14 +445,14 @@ namespace Main_Game
                         //Thread.Sleep(a);
                         //CompThink();
                         //OppTurnTimer();
-                        var t = Task.Run(async delegate
-                        {
-                            Random rng = new Random();
-                            await Task.Delay(rng.Next(1000, 5000));
-                        });
-                        t.Wait();
-                        TurnTimerCallBack();
-                    }
+                            var t = Task.Run(async delegate
+                            {
+                                Random rng = new Random();
+                                await Task.Delay(rng.Next(1000, 5000));
+                            });
+                            t.Wait();
+                            TurnTimerCallBack();
+                        }
                         //If the player did go first, that means both have put a card down by now, so the result is checked.
                         else if (!Game.PlayerLead())
                         {
@@ -632,7 +631,7 @@ namespace Main_Game
         private void RefreshCardDisplay()
         {
 
-            foreach(Control ctrl in this.Controls.OfType<PictureBox>())
+            foreach(Control ctrl in this.Controls.OfType<PictureBox>().ToList())
             {
                 
                 if (ctrl.Tag.ToString().Contains("Bell") || ctrl.Tag.ToString().Contains("Key") || ctrl.Tag.ToString().Contains("Moon"))
