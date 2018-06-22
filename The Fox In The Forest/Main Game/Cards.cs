@@ -30,6 +30,11 @@ namespace Main_Game
             deck.RemoveAt(deck.Count - 1);
         }
 
+        public static void SetTrump(Card choice)
+        {
+            trump = choice;
+        }
+
         public Card()
         {
 
@@ -60,6 +65,7 @@ namespace Main_Game
         public string CardKey
         {
             get { return cardKey; }
+            set { cardKey = number + "_" + suit + ".bmp"; }
         }
 
         //As odd-numbered cards have special effects that can affect a play, it needs to be handled somewhere. Maybe here?
@@ -72,11 +78,19 @@ namespace Main_Game
 
             if (yourCard.CardNumber == 1)
             {
-                if (oppCard.CardNumber > 1 && oppCard.CardSuit == yourCard.CardSuit)
+                if (oppCard.CardNumber > 1)
                 {
-                    result = 3;
+                    if (oppCard.CardSuit == yourCard.CardSuit)
+                    {
+                        result = 3;
+                        
+                    }
+                    //else if (oppCard.CardSuit == trump.CardSuit)
+                    //{
+
+                    //}
                 }
-                //else if ()
+                //else
                 //{
 
                 //}
@@ -157,10 +171,17 @@ namespace Main_Game
                 }
                 
             }
-            else if (yourCard.CardNumber == 11)
+            //11 will be handled elsewhere.
+
+            if (oppCard.CardNumber == 7 && yourCard.CardNumber != 7)
+            {
+                Game.SetRoundPoints(1);
+            }
+            else if(oppCard.CardNumber == 9)
             {
 
             }
+
 
             return result;
         }

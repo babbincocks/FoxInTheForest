@@ -12,7 +12,7 @@ namespace Main_Game
         private static int oppScore;
         private static int yourTricks;
         private static int oppTricks;
-        private static int roundPoints = 1;
+        private static int roundPoints = 0;
 
         private static bool yourTurn;
         private static bool playLead;
@@ -42,7 +42,7 @@ namespace Main_Game
 
         public static void ResetRoundPoints()
         {
-            roundPoints = 1;
+            roundPoints = 0;
         }
 
         public static void SetTurn(bool turn)

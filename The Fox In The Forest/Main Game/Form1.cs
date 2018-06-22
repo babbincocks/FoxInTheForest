@@ -83,21 +83,68 @@ namespace Main_Game
             drag = false;
             PictureBox pb = (PictureBox)sender;
 
-            if (pb.Tag.ToString() != "FitF")
+            if (pb.Tag.ToString() != "FitF" && !pb.Tag.ToString().Contains("3"))
             {
+                InitiatePlay(sender, e);
+            }
+            else if (pb.Tag.ToString().Contains("3"))
+            {
+                frmDecreeSwitch newSwitch = new frmDecreeSwitch();
+                newSwitch.ShowDialog();
+                if(newSwitch.DialogResult == DialogResult.OK)
+                {
+                    Card place = Card.Trump();
+                    foreach (Card card in Card.YourCurrentHand())
+                    {
+                        if(card.CardKey == newSwitch.GetChosen())
+                        {
+
+                            Card.SetTrump(card);
+                            card.CardNumber = place.CardNumber;
+                            card.CardSuit = place.CardSuit;
+                            card.CardKey = card.CardNumber + "_" + card.CardSuit + ".bmp";
+
+
+                            int i = ilCards.Images.IndexOfKey(newSwitch.GetChosen());
+                            pbTrump.Image = ilCards.Images[i];
+                            break;
+                        }
+                    }
+                    
+                    
+                    
+                }
                 InitiatePlay(sender, e);
             }
             
         }
 
+        private void FoxSwitch(Card handCard, Card decreeCard)
+        {
 
+            
+        }
 
         private void choosePlayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmPlayerChoice newForm = new frmPlayerChoice();
-            newForm.ShowDialog();
-            setNamePosition();
-            
+            if (ongoingGame == true)
+            {
+                frmPlayerChangeWarning newWarning = new frmPlayerChangeWarning();
+                newWarning.ShowDialog();
+                if(newWarning.DialogResult == DialogResult.Yes)
+                {
+                    frmPlayerChoice newForm = new frmPlayerChoice();
+                    newForm.ShowDialog();
+                    setNamePosition();
+                    //TODO: Have it so if the player chooses a new player, the game will reset.
+                }
+            }
+            else
+            {
+                frmPlayerChoice newForm = new frmPlayerChoice();
+                newForm.ShowDialog();
+                setNamePosition();
+            }
         }
 
         private void setNamePosition()
@@ -269,6 +316,9 @@ namespace Main_Game
             {
                 //Player wins the trick.
                 currentGame.YourTricks++;
+                currentGame.YourScore += Game.GetRoundPoints();
+                
+
                 
                 lblWinTrick.Visible = true;
                 if (Game.OpponentChosenCard().CardNumber == 1)
@@ -285,6 +335,8 @@ namespace Main_Game
             {
                 //Player loses the trick.
                 currentGame.OpponentTricks++;
+                currentGame.OpponentScore += Game.GetRoundPoints();
+                
 
                 lblLoseTrick.Visible = true;
 
@@ -299,6 +351,8 @@ namespace Main_Game
                 
 
             }
+
+            Game.ResetRoundPoints();
 
             UpdateLabels();
 
