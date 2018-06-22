@@ -121,7 +121,7 @@ namespace Main_Game
                 }
             }
             else if (yourCard.CardNumber == 9)
-            { 
+            { //TODO: Make it so this applies to the opponent as well, so if the opponent plays a 9 and the player doesn't, the opponent should have the effect kick in.
                 if (oppCard.CardSuit == trump.CardSuit)
                 {
                      if(oppCard.CardNumber != 9)
@@ -135,14 +135,25 @@ namespace Main_Game
                             result = 1;
                         }
                      }
-                     else if (oppCard.CardNumber == 9)
-                    {
-                        result = 0;
-                    }
+                     else
+                     {
+                        result = 2;
+                     }
                 }
                 else if (oppCard.CardSuit != trump.CardSuit)
                 {
-                    result = 1;
+                    if (oppCard.CardNumber != 9)
+                    {
+                        result = 1;
+                    }
+                    else if (Game.PlayerLead())
+                    {
+                        result = 1;
+                    }
+                    else
+                    {
+                        result = 2;
+                    }
                 }
                 
             }

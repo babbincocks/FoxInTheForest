@@ -245,7 +245,6 @@ namespace Main_Game
              1: Player definitely wins.
              2: Player definitely loses.
              3: Player lost, but played a 1, so they will have the lead next round.
-             4: Needs logic like above to determine winner at this point.
              */
             {
                 int result = Card.Effect(Game.PlayerChosenCard(), Game.OpponentChosenCard());
