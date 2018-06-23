@@ -137,6 +137,7 @@ namespace Main_Game
                     newForm.ShowDialog();
                     setNamePosition();
                     //TODO: Have it so if the player chooses a new player, the game will reset.
+
                 }
             }
             else
@@ -223,9 +224,6 @@ namespace Main_Game
 
                     lblDecree.Visible = true;
 
-
-                    ongoingGame = true;
-
                     //Asks user to call heads or tails to see who leads; the form returns Yes if they choose Heads, No if Tails.
                     frmCoinCall coin = new frmCoinCall();
                     coin.ShowDialog();
@@ -261,13 +259,6 @@ namespace Main_Game
                             Game.SetLead(coinWin);
                             Game.SetTurn(coinWin);
 
-                            //Random rng = new Random();
-                            //Thread.Sleep(rng.Next(1000, 4000));
-
-                            //CompThink();
-
-                            //OppTurnTimer();
-
                             var t = Task.Run(async delegate
                             {
                                 Random rng = new Random();
@@ -281,10 +272,6 @@ namespace Main_Game
 
                         
                     }
-
-
-                   
-
 
 
                 }
