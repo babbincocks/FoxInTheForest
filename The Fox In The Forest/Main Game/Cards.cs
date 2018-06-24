@@ -45,7 +45,7 @@ namespace Main_Game
         {
             number = cardNumber;
             suit = cardSuit;
-            cardKey = cardNumber + "_" + cardSuit + ".bmp";
+            cardKey = cardNumber + "_" + cardSuit + ".png";
         }
 
         //Couple of accessors.
@@ -65,7 +65,7 @@ namespace Main_Game
         public string CardKey
         {
             get { return cardKey; }
-            set { cardKey = number + "_" + suit + ".bmp"; }
+            set { cardKey = number + "_" + suit + ".png"; }
         }
 
         //As odd-numbered cards have special effects that can affect a play, it needs to be handled somewhere. Maybe here?
@@ -112,7 +112,7 @@ namespace Main_Game
                     foreach(Card card in YourCurrentHand())
                     {
                         string[] c = returnedCard.Split('_');
-                        c[1] = c[1].Replace(".bmp", "");
+                        c[1] = c[1].Replace(".png", "");
                         Card b = new Card(int.Parse(c[0]), c[1]);
                         if (b.CardKey == card.CardKey)
                         {
@@ -135,7 +135,7 @@ namespace Main_Game
                 }
             }
             else if (yourCard.CardNumber == 9)
-            { //TODO: Make it so this applies to the opponent as well, so if the opponent plays a 9 and the player doesn't, the opponent should have the effect kick in.
+            {
                 if (oppCard.CardSuit == trump.CardSuit)
                 {
                      if(oppCard.CardNumber != 9)
@@ -148,6 +148,10 @@ namespace Main_Game
                         {
                             result = 1;
                         }
+                     }
+                     else if (Game.PlayerLead())
+                     {
+                        result = 1;
                      }
                      else
                      {
@@ -177,9 +181,23 @@ namespace Main_Game
             {
                 Game.SetRoundPoints(1);
             }
-            else if(oppCard.CardNumber == 9)
+            else if(oppCard.CardNumber == 9 && yourCard.CardNumber != 9)
             {
-
+                if (yourCard.CardSuit == trump.CardSuit)
+                {
+                    if (yourCard.CardNumber > oppCard.CardNumber)
+                    {
+                        result = 1;
+                    }
+                    else if (yourCard.CardNumber < oppCard.CardNumber)
+                    {
+                        result = 2;
+                    }
+                }
+                else
+                {
+                    result = 2;
+                }
             }
 
 
@@ -273,7 +291,6 @@ namespace Main_Game
                     string cardSuit = cardEle[1];
 
                     cardSuit = cardSuit.Replace(".png", "");
-                    cardSuit = cardSuit.Replace(".bmp", ""); //Erase line later.
 
                     Card current = new Card(int.Parse(cardNumber), cardSuit);
                     deck.Add(current);

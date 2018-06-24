@@ -82,41 +82,53 @@ namespace Main_Game
         {
             drag = false;
             PictureBox pb = (PictureBox)sender;
-
-            if (pb.Tag.ToString() != "FitF" && !pb.Tag.ToString().Contains("3"))
+            Point p = pb.Location;
+            int x = p.X;
+            int y = p.Y;
+            if (x > 200 && x < 700 && y > 280 && y < 460)
             {
-                InitiatePlay(sender, e);
-            }
-            else if (pb.Tag.ToString().Contains("3"))
-            {
-                frmDecreeSwitch newSwitch = new frmDecreeSwitch();
-                newSwitch.ShowDialog();
-                if(newSwitch.DialogResult == DialogResult.OK)
+                if (pb.Tag.ToString() != "FitF" && !pb.Tag.ToString().Contains("3"))
                 {
-                    Card place = Card.Trump();
-                    foreach (Card card in Card.YourCurrentHand())
-                    {
-                        if(card.CardKey == newSwitch.GetChosen())
-                        {
-
-                            Card.SetTrump(card);
-                            card.CardNumber = place.CardNumber;
-                            card.CardSuit = place.CardSuit;
-                            card.CardKey = card.CardNumber + "_" + card.CardSuit + ".bmp";
-
-
-                            int i = ilCards.Images.IndexOfKey(newSwitch.GetChosen());
-                            pbTrump.Image = ilCards.Images[i];
-                            break;
-                        }
-                    }
-                    
-                    
-                    
+                    InitiatePlay(sender, e);
                 }
-                InitiatePlay(sender, e);
+                else if (pb.Tag.ToString().Contains("3"))
+                {
+                    string[] bareChosen = pb.Tag.ToString().Split('_');
+                    Card cardChoice = new Card(int.Parse(bareChosen[0]), bareChosen[1]);
+                    Game.SetPlayerCard(cardChoice);
+
+                    frmDecreeSwitch newSwitch = new frmDecreeSwitch();
+                    newSwitch.ShowDialog();
+                    if (newSwitch.DialogResult == DialogResult.OK)
+                    {
+                        Card place = Card.Trump();
+                        foreach (Card card in Card.YourCurrentHand())
+                        {
+                            if (card.CardKey == newSwitch.GetChosen())
+                            {
+
+                                Card.SetTrump(card);
+                                card.CardNumber = place.CardNumber;
+                                card.CardSuit = place.CardSuit;
+                                card.CardKey = card.CardNumber + "_" + card.CardSuit + ".png";
+
+
+                                int i = ilCards.Images.IndexOfKey(newSwitch.GetChosen());
+                                pbTrump.Image = ilCards.Images[i];
+                                break;
+                            }
+                        }
+
+
+
+                    }
+                    InitiatePlay(sender, e);
+                }
             }
-            
+            else
+            {
+                pb.Location = initialPoint;
+            }
         }
 
         private void FoxSwitch(Card handCard, Card decreeCard)
@@ -340,6 +352,7 @@ namespace Main_Game
             }
 
             Game.ResetRoundPoints();
+            lblRoundEnd.Visible = true;
 
             UpdateLabels();
 
@@ -412,6 +425,8 @@ namespace Main_Game
 
             RefreshCardDisplay();
 
+            lblRoundEnd.Visible = false;
+
             lblLoseTrick.Visible = false;
             lblWinTrick.Visible = false;
 
@@ -446,14 +461,24 @@ namespace Main_Game
 
         }
 
+        private void CompThink()
+        {
+            var think = Task.Run(async delegate
+                {
+                    Random rng = new Random();
+                    await Task.Delay(rng.Next(1000, 5000));
+                });
+                think.Wait();
+        }
+
         private void InitiatePlay(object sender, EventArgs e)
         {
             PictureBox loc = (sender as PictureBox);
-            Point p = loc.Location;
-            int x = p.X;
-            int y = p.Y;
-            if (x > 200 && x < 700 && y > 280 && y < 460)
-            {
+            //Point p = loc.Location;
+            //int x = p.X;
+            //int y = p.Y;
+            //if (x > 200 && x < 700 && y > 280 && y < 460)
+            //{
             
                     if (loc.Tag != null)
                     {
@@ -476,16 +501,7 @@ namespace Main_Game
                             lblWinFlip.Visible = false;
                             lblLoseFlip.Visible = false;
                             lblOppTurn.Visible = true;
-                        //int a = 1;
-                        //    while(a < 40)
-                        //{
-                        //    a++;
-                        //}
-                        //Random rng = new Random();
-                        //int a = rng.Next(1000, 4000);
-                        //Thread.Sleep(a);
-                        //CompThink();
-                        //OppTurnTimer();
+
                             var t = Task.Run(async delegate
                             {
                                 Random rng = new Random();
@@ -505,14 +521,14 @@ namespace Main_Game
                         
                     }
                 
-            }
-            else
-            {
-                if (loc.Tag.ToString() != "FitF")
-                {
-                    loc.Location = initialPoint;
-                }
-            }
+            //}
+            //else
+            //{
+            //    if (loc.Tag.ToString() != "FitF")
+            //    {
+            //        loc.Location = initialPoint;
+            //    }
+            //}
 
         }
 
@@ -549,7 +565,7 @@ namespace Main_Game
         //}
 
         private void UpdateLabels()
-        {
+        {       //Code to update the scoring labels.
             lblTricks.Text = currentGame.YourTricks.ToString();
             lblOppTricks.Text = currentGame.OpponentTricks.ToString();
 
@@ -564,6 +580,11 @@ namespace Main_Game
             {
                 //Timer is set off, so the AI takes its turn.
                Card oppChoice = AI.TakeTurn();
+
+                if (oppChoice.CardNumber == 3)
+                {
+                    Card.SetTrump(AI.ChangeDecree());
+                }
 
                         
                 int index = ilCards.Images.IndexOfKey(oppChoice.CardKey);
@@ -595,24 +616,25 @@ namespace Main_Game
 
         }
 
-        public static int dotx = 727;
-        public static int dotNum = 0;
-        private static void EllipsisTimerCallback(Object source, System.Timers.ElapsedEventArgs e)
-        {
-            //TODO: The turn timer works, but the ellipsis timer to show the AI "thinking" isn't quite working.
-            Label dot = new Label();
-            dot.Text = ".";
-            dot.Font = new Font("Palatino Linotype", 16, FontStyle.Regular);
-            dot.Location = new Point(dotx, 128);
-            dotNum++;
-            dotx += 15;
+        //public static int dotx = 727;
+        //public static int dotNum = 0;
+        //private void EllipsisTimerCallback(Object source, System.Timers.ElapsedEventArgs e)
+        //{
+        //    //TODO: The turn timer works, but the ellipsis timer to show the AI "thinking" isn't quite working.
+        //    Label dot = new Label();
+        //    dot.Text = ".";
+        //    dot.Font = new Font("Palatino Linotype", 16, FontStyle.Regular);
+        //    dot.Location = new Point(dotx, 128);
+        //    dotNum++;
+        //    dotx += 15;
+        //    this.Controls.Add(dot);
             
-            if (dotNum == 3)
-            {
-                dotx = 727;
-                dotNum = 0;
-            }
-        }
+        //    if (dotNum == 3)
+        //    {
+        //        dotx = 727;
+        //        dotNum = 0;
+        //    }
+        //}
 
 
         //A picture box item for if the player wants to see a reference on how scoring works.
@@ -757,6 +779,12 @@ namespace Main_Game
                 this.Controls.Add(newCard);
 
             }
+        }
+
+        private void creditsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCredits newForm = new frmCredits();
+            newForm.Show();
         }
     }
 }

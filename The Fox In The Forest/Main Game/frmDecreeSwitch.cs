@@ -19,6 +19,9 @@ namespace Main_Game
 
         private void frmDecreeSwitch_Load(object sender, EventArgs e)
         {
+            this.MaximizeBox = false;
+
+
             int leftPos = 55;
             int topPos = 66;
             int row = 1;
@@ -31,7 +34,7 @@ namespace Main_Game
 
                 foreach (string file in a.ilCards.Images.Keys)
                 {
-                    if (file == card.CardKey)
+                    if (file == card.CardKey && file != Game.PlayerChosenCard().CardKey)
                     {
                         int b = a.ilCards.Images.IndexOfKey(file);
                         PictureBox newCard = new PictureBox();

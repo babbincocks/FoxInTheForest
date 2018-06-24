@@ -60,7 +60,9 @@
             this.ClientSize = new System.Drawing.Size(647, 273);
             this.Controls.Add(this.btnNoSwitch);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "frmDecreeSwitch";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Decree Card Switch";
             this.Load += new System.EventHandler(this.frmDecreeSwitch_Load);
             this.ResumeLayout(false);

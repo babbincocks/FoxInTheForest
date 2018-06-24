@@ -59,6 +59,12 @@
     <Compile Include="frmCoinCall.Designer.cs">
       <DependentUpon>frmCoinCall.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCredits.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCredits.Designer.cs">
+      <DependentUpon>frmCredits.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmDecreeSwitch.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +122,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmCoinCall.resx">
       <DependentUpon>frmCoinCall.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCredits.resx">
+      <DependentUpon>frmCredits.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmDecreeSwitch.resx">
       <DependentUpon>frmDecreeSwitch.cs</DependentUpon>

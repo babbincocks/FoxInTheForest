@@ -67,6 +67,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lblTricks = new System.Windows.Forms.Label();
+            this.lblRoundEnd = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbTrump)).BeginInit();
@@ -159,8 +160,9 @@
             // creditsToolStripMenuItem
             // 
             this.creditsToolStripMenuItem.Name = "creditsToolStripMenuItem";
-            this.creditsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.creditsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.creditsToolStripMenuItem.Text = "Credits";
+            this.creditsToolStripMenuItem.Click += new System.EventHandler(this.creditsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -196,39 +198,39 @@
             this.ilCards.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilCards.ImageStream")));
             this.ilCards.TransparentColor = System.Drawing.Color.Transparent;
             this.ilCards.Images.SetKeyName(0, "Owl-Key_Card.png");
-            this.ilCards.Images.SetKeyName(1, "1_Bell.bmp");
-            this.ilCards.Images.SetKeyName(2, "1_Moon.bmp");
-            this.ilCards.Images.SetKeyName(3, "1_Key.bmp");
-            this.ilCards.Images.SetKeyName(4, "2_Bell.bmp");
-            this.ilCards.Images.SetKeyName(5, "2_Moon.bmp");
-            this.ilCards.Images.SetKeyName(6, "2_Key.bmp");
-            this.ilCards.Images.SetKeyName(7, "3_Bell.bmp");
-            this.ilCards.Images.SetKeyName(8, "3_Moon.bmp");
-            this.ilCards.Images.SetKeyName(9, "3_Key.bmp");
-            this.ilCards.Images.SetKeyName(10, "4_Bell.bmp");
-            this.ilCards.Images.SetKeyName(11, "4_Moon.bmp");
-            this.ilCards.Images.SetKeyName(12, "4_Key.bmp");
-            this.ilCards.Images.SetKeyName(13, "5_Bell.bmp");
-            this.ilCards.Images.SetKeyName(14, "5_Moon.bmp");
-            this.ilCards.Images.SetKeyName(15, "5_Key.bmp");
-            this.ilCards.Images.SetKeyName(16, "6_Bell.bmp");
-            this.ilCards.Images.SetKeyName(17, "6_Moon.bmp");
-            this.ilCards.Images.SetKeyName(18, "6_Key.bmp");
-            this.ilCards.Images.SetKeyName(19, "7_Bell.bmp");
-            this.ilCards.Images.SetKeyName(20, "7_Moon.bmp");
-            this.ilCards.Images.SetKeyName(21, "7_Key.bmp");
-            this.ilCards.Images.SetKeyName(22, "8_Bell.bmp");
-            this.ilCards.Images.SetKeyName(23, "8_Moon.bmp");
-            this.ilCards.Images.SetKeyName(24, "8_Key.bmp");
-            this.ilCards.Images.SetKeyName(25, "9_Bell.bmp");
-            this.ilCards.Images.SetKeyName(26, "9_Moon.bmp");
-            this.ilCards.Images.SetKeyName(27, "9_Key.bmp");
-            this.ilCards.Images.SetKeyName(28, "10_Bell.bmp");
-            this.ilCards.Images.SetKeyName(29, "10_Moon.bmp");
-            this.ilCards.Images.SetKeyName(30, "10_Key.bmp");
-            this.ilCards.Images.SetKeyName(31, "11_Bell.bmp");
-            this.ilCards.Images.SetKeyName(32, "11_Moon.bmp");
-            this.ilCards.Images.SetKeyName(33, "11_Key.bmp");
+            this.ilCards.Images.SetKeyName(1, "1_Bell.png");
+            this.ilCards.Images.SetKeyName(2, "1_Key.png");
+            this.ilCards.Images.SetKeyName(3, "1_Moon.png");
+            this.ilCards.Images.SetKeyName(4, "2_Bell.png");
+            this.ilCards.Images.SetKeyName(5, "2_Key.png");
+            this.ilCards.Images.SetKeyName(6, "2_Moon.png");
+            this.ilCards.Images.SetKeyName(7, "3_Bell.png");
+            this.ilCards.Images.SetKeyName(8, "3_Key.png");
+            this.ilCards.Images.SetKeyName(9, "3_Moon.png");
+            this.ilCards.Images.SetKeyName(10, "4_Bell.png");
+            this.ilCards.Images.SetKeyName(11, "4_Key.png");
+            this.ilCards.Images.SetKeyName(12, "4_Moon.png");
+            this.ilCards.Images.SetKeyName(13, "5_Bell.png");
+            this.ilCards.Images.SetKeyName(14, "5_Key.png");
+            this.ilCards.Images.SetKeyName(15, "5_Moon.png");
+            this.ilCards.Images.SetKeyName(16, "6_Bell.png");
+            this.ilCards.Images.SetKeyName(17, "6_Key.png");
+            this.ilCards.Images.SetKeyName(18, "6_Moon.png");
+            this.ilCards.Images.SetKeyName(19, "7_Bell.png");
+            this.ilCards.Images.SetKeyName(20, "7_Key.png");
+            this.ilCards.Images.SetKeyName(21, "7_Moon.png");
+            this.ilCards.Images.SetKeyName(22, "8_Bell.png");
+            this.ilCards.Images.SetKeyName(23, "8_Key.png");
+            this.ilCards.Images.SetKeyName(24, "8_Moon.png");
+            this.ilCards.Images.SetKeyName(25, "9_Bell.png");
+            this.ilCards.Images.SetKeyName(26, "9_Key.png");
+            this.ilCards.Images.SetKeyName(27, "9_Moon.png");
+            this.ilCards.Images.SetKeyName(28, "10_Bell.png");
+            this.ilCards.Images.SetKeyName(29, "10_Key.png");
+            this.ilCards.Images.SetKeyName(30, "10_Moon.png");
+            this.ilCards.Images.SetKeyName(31, "11_bell.png");
+            this.ilCards.Images.SetKeyName(32, "11_Key.png");
+            this.ilCards.Images.SetKeyName(33, "11_Moon.png");
             this.ilCards.Images.SetKeyName(34, "FitFScoreRef.png");
             // 
             // lblOppScore
@@ -275,7 +277,7 @@
             // 
             // pbDeck
             // 
-            this.pbDeck.Location = new System.Drawing.Point(42, 277);
+            this.pbDeck.Location = new System.Drawing.Point(42, 313);
             this.pbDeck.Name = "pbDeck";
             this.pbDeck.Size = new System.Drawing.Size(109, 155);
             this.pbDeck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -454,12 +456,24 @@
             this.lblTricks.TabIndex = 24;
             this.lblTricks.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // lblRoundEnd
+            // 
+            this.lblRoundEnd.AutoSize = true;
+            this.lblRoundEnd.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRoundEnd.Location = new System.Drawing.Point(314, 458);
+            this.lblRoundEnd.Name = "lblRoundEnd";
+            this.lblRoundEnd.Size = new System.Drawing.Size(242, 22);
+            this.lblRoundEnd.TabIndex = 26;
+            this.lblRoundEnd.Text = "Round End; next round beginning";
+            this.lblRoundEnd.Visible = false;
+            // 
             // frmGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(858, 749);
+            this.Controls.Add(this.lblRoundEnd);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lblTricks);
             this.Controls.Add(this.label1);
@@ -538,6 +552,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblTricks;
+        private System.Windows.Forms.Label lblRoundEnd;
     }
 }
 

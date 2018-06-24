@@ -68,7 +68,7 @@ namespace Main_Game
                 {
                     if (!Game.PlayerLead())
                     {
-                        if (AI.CheckScore(GetTricks()))
+                        if (CheckScore(GetTricks()))
                         {
                             foreach(Card card in Card.OpponentCurrentHand())
                             {
@@ -143,7 +143,7 @@ namespace Main_Game
                                 foreach (Card card in Card.OpponentCurrentHand())
                                 {
 
-                                    if (AI.CheckScore(GetTricks()))
+                                    if (CheckScore(GetTricks()))
                                     {
                                         if (card.CardSuit != Card.Trump().CardSuit)
                                         {
@@ -206,5 +206,90 @@ namespace Main_Game
             Game.SetOpponentCard(chosenCard);
             return Card.OpponentPlayCard(chosenCard);
         }
+
+
+        public static Card ChangeDecree()
+        {//TODO: Finish setting up how a switch happens if the computer plays a 3.
+            Card choice = null;
+            int moons = 0;
+            int keys = 0;
+            int bells = 0;
+            string suitChoice = "Bell";
+
+            if(!Game.PlayerLead())
+            {
+                foreach(Card card in Card.OpponentCurrentHand())
+                {
+                    if (card.CardSuit == "Moon")
+                    {
+                        moons++;
+                    }
+                    else if (card.CardSuit == "Key")
+                    {
+                        keys++;
+                    }
+                    else
+                    {
+                        bells++;
+                    }
+                }
+
+                if (moons == Math.Max(Math.Max(moons, bells), keys))
+                {
+                    suitChoice = "Moon";
+                }
+                else if (keys == Math.Max(Math.Max(moons, bells), keys))
+                {
+                    suitChoice = "Key";
+                }
+                else if (bells == Math.Max(Math.Max(moons, bells), keys))
+                {
+                    suitChoice = "Bell";
+                }
+
+                foreach(Card card in Card.OpponentCurrentHand())
+                {
+                    if(card.CardSuit == suitChoice)
+                    {
+
+                    }
+                }
+
+            }
+            else
+            {
+                //If the computer is going second and they want points, they will try to get a card that will change the suit to the detriment of the player.
+                if(CheckScore(GetTricks()))
+                {
+                    foreach(Card card in Card.OpponentCurrentHand())
+                    {
+                        if(card.CardSuit != Game.PlayerChosenCard().CardSuit && card.CardSuit != Card.Trump().CardSuit)
+                        {
+                            choice = card;
+                        }
+                    }
+                }
+                //If they don't want points, they will try to get a card that will change the suit to the "benefit" of the player.
+                else
+                {
+                    foreach (Card card in Card.OpponentCurrentHand())
+                    {
+                        if (card.CardSuit == Game.PlayerChosenCard().CardSuit)
+                        {
+                            choice = card;
+                        }
+                    }
+                }
+            }
+            //If nothing gets chosen in the end, and not because there's nothing left, just the first card is chosen.
+            if(choice == null && Card.OpponentCurrentHand().Any())
+            {
+                choice = Card.OpponentCurrentHand()[0];
+            }
+
+
+            return choice;
+        }
+
     }
 }
