@@ -32,7 +32,9 @@ namespace Main_Game
 
         public static void SetTrump(Card choice)
         {
-            trump = choice;
+            trump.CardNumber = choice.CardNumber;
+            trump.CardSuit = choice.CardSuit;
+            trump.CardKey = choice.CardKey;
         }
 
         public Card()

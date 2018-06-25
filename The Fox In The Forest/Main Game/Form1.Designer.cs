@@ -160,7 +160,7 @@
             // creditsToolStripMenuItem
             // 
             this.creditsToolStripMenuItem.Name = "creditsToolStripMenuItem";
-            this.creditsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.creditsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.creditsToolStripMenuItem.Text = "Credits";
             this.creditsToolStripMenuItem.Click += new System.EventHandler(this.creditsToolStripMenuItem_Click);
             // 
@@ -228,7 +228,7 @@
             this.ilCards.Images.SetKeyName(28, "10_Bell.png");
             this.ilCards.Images.SetKeyName(29, "10_Key.png");
             this.ilCards.Images.SetKeyName(30, "10_Moon.png");
-            this.ilCards.Images.SetKeyName(31, "11_bell.png");
+            this.ilCards.Images.SetKeyName(31, "11_Bell.png");
             this.ilCards.Images.SetKeyName(32, "11_Key.png");
             this.ilCards.Images.SetKeyName(33, "11_Moon.png");
             this.ilCards.Images.SetKeyName(34, "FitFScoreRef.png");

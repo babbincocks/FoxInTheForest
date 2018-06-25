@@ -55,7 +55,7 @@ namespace Main_Game
 
 
         public static Card TakeTurn()
-        {       //TODO: Find inconsistency somewhere probably in here; it causes error to pop up when opponent takes their turn, typically after they've played most of their cards.
+        {       
             Card chosenCard = new Card();
             bool overrideChoice = false;
             bool no11 = false;
@@ -251,7 +251,10 @@ namespace Main_Game
                 {
                     if(card.CardSuit == suitChoice)
                     {
-
+                        if(CheckScore(GetTricks()) && card.CardNumber % 2 == 0)
+                        {
+                            choice = card;
+                        }
                     }
                 }
 

@@ -52,16 +52,67 @@ namespace Main_Game
         Point initialPoint;
         List<Card> deck = new List<Card>();
 
+        List<Card> playerElevenChoices = new List<Card>();
+
         private void picMouseDown(object sender, MouseEventArgs e)
         {
             PictureBox pic = (PictureBox)sender;
+            bool followsuit = false;
+            
             initialPoint = pic.Location;
             if (Game.PlayerTurn())
             {
-                x = e.X;
-                y = e.Y;
-                //initialPoint = this.FindForm().PointToClient(this.Parent.PointToScreen(this.Location));
-                drag = true;
+                if (!Game.PlayerLead())
+                {
+                    if (pic.Tag.ToString().Contains(Game.OpponentChosenCard().CardSuit) && !playerElevenChoices.Any())
+                    {
+                        followsuit = false;
+                    }
+                    else if (playerElevenChoices.Any())
+                    {
+                        foreach(Card card in playerElevenChoices)
+                        {
+                            string cardcut = card.CardKey.Replace(".png", "");
+                            if(cardcut == pic.Tag.ToString())
+                            {
+                                followsuit = false;
+                                break;
+
+                            }
+                            else
+                            {
+                                followsuit = true;
+                            }
+                        }
+                    }
+                    else if (!pic.Tag.ToString().Contains(Game.OpponentChosenCard().CardSuit))
+                    {
+                        //Goes through the player's hand to see if they have a card to follow suit with.
+                        foreach (Card card in Card.YourCurrentHand())
+                        {
+                            if (card.CardSuit == Game.OpponentChosenCard().CardSuit)
+                            {
+                                followsuit = true;
+                                break;
+                            }
+
+
+                        }
+                    }
+
+                }
+            
+                
+
+                if (!followsuit)
+                {
+
+
+                    x = e.X;
+                    y = e.Y;
+                    //initialPoint = this.FindForm().PointToClient(this.Parent.PointToScreen(this.Location));
+                    drag = true;
+                }
             }
         }
 
@@ -101,7 +152,7 @@ namespace Main_Game
                     newSwitch.ShowDialog();
                     if (newSwitch.DialogResult == DialogResult.OK)
                     {
-                        Card place = Card.Trump();
+                        Card place = new Card(Card.Trump().CardNumber, Card.Trump().CardSuit);
                         foreach (Card card in Card.YourCurrentHand())
                         {
                             if (card.CardKey == newSwitch.GetChosen())
@@ -131,11 +182,7 @@ namespace Main_Game
             }
         }
 
-        private void FoxSwitch(Card handCard, Card decreeCard)
-        {
 
-            
-        }
 
         private void choosePlayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -351,8 +398,10 @@ namespace Main_Game
 
             }
 
+            playerElevenChoices.Clear();
+
             Game.ResetRoundPoints();
-            lblRoundEnd.Visible = true;
+            
 
             UpdateLabels();
 
@@ -374,6 +423,7 @@ namespace Main_Game
                 currentGame.YourTricks = 0;
                 currentGame.OpponentTricks = 0;
 
+                lblRoundEnd.Visible = true;
                 UpdateLabels();
                 
                 if (Game.CheckEnd(currentGame.YourScore, currentGame.OpponentScore))
@@ -482,17 +532,31 @@ namespace Main_Game
             
                     if (loc.Tag != null)
                     {
+                        if(loc.Tag.ToString().Contains("3"))
+                        {
 
-                        string[] bareChosen = loc.Tag.ToString().Split('_');
-                        Card cardChoice = new Card(int.Parse(bareChosen[0]), bareChosen[1]);
-                        Game.SetPlayerCard(cardChoice);
-                        Card.PlayCard(cardChoice);
+                            Card.PlayCard(Game.PlayerChosenCard());
+
+                            int index = ilCards.Images.IndexOfKey(Game.PlayerChosenCard().CardKey);
+                            pbPlayerCard.Image = ilCards.Images[index];
+                            lblPlayerCard.Visible = true;
+
+                            this.Controls.Remove(loc);
+                        }
+                        else
+                        {
+                            string[] bareChosen = loc.Tag.ToString().Split('_');
+                            Card cardChoice = new Card(int.Parse(bareChosen[0]), bareChosen[1]);
+                            Game.SetPlayerCard(cardChoice);
+                            Card.PlayCard(cardChoice);
+
+                            int index = ilCards.Images.IndexOfKey(cardChoice.CardKey);
+                            pbPlayerCard.Image = ilCards.Images[index];
+                            lblPlayerCard.Visible = true;
+
+                            this.Controls.Remove(loc);
+                        }
                         
-                        int index = ilCards.Images.IndexOfKey(cardChoice.CardKey);
-                        pbPlayerCard.Image = ilCards.Images[index];
-                        lblPlayerCard.Visible = true;
-
-                        this.Controls.Remove(loc);
 
                         if (Game.PlayerLead())
                         {
@@ -582,8 +646,26 @@ namespace Main_Game
                Card oppChoice = AI.TakeTurn();
 
                 if (oppChoice.CardNumber == 3)
-                {
+                { //TODO: It's not displaying the new card if the AI switches the decree.
                     Card.SetTrump(AI.ChangeDecree());
+
+                    Card place = new Card(Card.Trump().CardNumber, Card.Trump().CardSuit);
+                    foreach (Card card in Card.OpponentCurrentHand())
+                    {
+                        if (card.CardKey == oppChoice.CardKey)
+                        {
+
+                            Card.SetTrump(card);
+                            card.CardNumber = place.CardNumber;
+                            card.CardSuit = place.CardSuit;
+                            card.CardKey = card.CardNumber + "_" + card.CardSuit + ".png";
+
+
+                            int i = ilCards.Images.IndexOfKey(oppChoice.CardKey);
+                            pbTrump.Image = ilCards.Images[i];
+                            break;
+                        }
+                    }
                 }
 
                         
@@ -594,12 +676,49 @@ namespace Main_Game
                 //If the player didn't go first, it's assumed that the player now needs to go, so now they can.
                 if (!Game.PlayerLead())
                 {
+
+                    if (oppChoice.CardNumber == 11)
+                    {
+                        int highest = 0;
+                        foreach(Card card in Card.YourCurrentHand())
+                        {
+                            if(card.CardSuit == oppChoice.CardSuit)
+                            {
+                                if(card.CardNumber == 1)
+                                {
+                                    playerElevenChoices.Add(card);
+                                }
+                                else
+                                {
+                                    if (card.CardNumber > highest)
+                                    {
+                                        highest = card.CardNumber;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (highest > 0)
+                        {
+                            foreach(Card card in Card.YourCurrentHand())
+                            {
+                                if(card.CardSuit == oppChoice.CardSuit && card.CardNumber == highest)
+                                {
+                                    playerElevenChoices.Add(card);
+                                    break;
+                                }
+                            }
+                        }
+                    }
                     Game.SetTurn(true);
                     lblPlayerTurn.Visible = false;
                     lblWinFlip.Visible = false;
                     lblLoseFlip.Visible = false;
                     lblOppTurn.Visible = false;
                     lblPlayerTurn.Visible = true;
+                    //TODO: Make it so the player can only choose their highest number card or a 1 if the AI plays an 11.
+                    
+                    
                 }
                 //If the player did go first, that means both have put a card down by now, so the result is checked.
                 else if (Game.PlayerLead())
