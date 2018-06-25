@@ -209,7 +209,7 @@ namespace Main_Game
 
 
         public static Card ChangeDecree()
-        {//TODO: Finish setting up how a switch happens if the computer plays a 3.
+        {
             Card choice = null;
             int moons = 0;
             int keys = 0;

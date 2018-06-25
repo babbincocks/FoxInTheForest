@@ -85,10 +85,10 @@ namespace Main_Game
 
 
 
-        //Method to populate the list of players.
+        //Method to populate the list of players, so the player can choose a profile.
         public static List<Player> PlayerList (string path)
         {
-            //const string fileLocation = @"../../../Profiles/Profiles.csv";
+            //const string fileLocation = @"../../Profiles/Profiles.csv";
 
             players = new List<Player>();
             try
@@ -139,6 +139,24 @@ namespace Main_Game
         public static Player CurrentPlayer()
         {
             return currPlayer;
+        }
+
+        public static void UpdatePlayerStats(Player player)
+        {
+            string path = @"../../Profiles.csv";
+            if(File.Exists(path))
+            {
+                using (StreamReader reader = new StreamReader(path))
+                {
+
+                }
+
+                using (StreamWriter target = new StreamWriter(path))
+                {
+
+                }
+            }
+          
         }
 
     }

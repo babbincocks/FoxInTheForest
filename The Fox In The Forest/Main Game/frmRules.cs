@@ -18,7 +18,7 @@ namespace Main_Game
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
+        {       //Show new trick taking instruction window.
             frmTrickTake newTake = new frmTrickTake();
 
             newTake.Show();
