@@ -141,22 +141,50 @@ namespace Main_Game
             return currPlayer;
         }
 
-        public static void UpdatePlayerStats(Player player)
+        public static void UpdatePlayerStats()
         {
             string path = @"../../Profiles.csv";
-            if(File.Exists(path))
+            List<string> lines = new List<string>();
+            try
             {
-                using (StreamReader reader = new StreamReader(path))
+                if (File.Exists(path))
                 {
+                    using (StreamReader reader = new StreamReader(path))
+                    {
+                        string line;
 
-                }
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            if (line.Contains(","))
+                            {
+                                string[] split = line.Split(',');
 
-                using (StreamWriter target = new StreamWriter(path))
-                {
+                                if (split[0].Contains(CurrentPlayer().Name))
+                                {
+                                    split[1] = CurrentPlayer().TotalWins.ToString();
+                                    split[2] = CurrentPlayer().TotalLosses.ToString();
+                                    split[3] = CurrentPlayer().TotalTricks.ToString();
+                                    split[4] = CurrentPlayer().TotalPoints.ToString();
+                                    line = string.Join(",", split);
+                                }
+                            }
+                            lines.Add(line);
+                        }
+                    }
 
+                    using (StreamWriter target = new StreamWriter(path, false))
+                    {
+                        foreach (string line in lines)
+                        {
+                            target.WriteLine(line);
+                        }
+                    }
                 }
             }
-          
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }

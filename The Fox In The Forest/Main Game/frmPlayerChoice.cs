@@ -68,12 +68,6 @@ namespace Main_Game
         {
             try
             {
-                //if (txtNewName.Text.Length > 15)
-                //{
-                //    MessageBox.Show("Name is too long. Please shorten profile name.");
-                //}
-                //else
-                //{ 
 
                 bool c = true;
                 foreach (Player player in players)
@@ -95,13 +89,13 @@ namespace Main_Game
                             playerWrite.WriteLine(newPlayer.PlayStats);
                         }
                         int a = players.Count - 1;
-                        lbExistingPlayers.SelectedIndex = a;//(txtNewName.Text);
+                        lbExistingPlayers.SelectedIndex = a;
 
 
                         Player.SetCurrentPlayer(lbExistingPlayers.SelectedIndex);
-
+                    DialogResult = DialogResult.OK;
                     } 
-                //}
+
             }
             catch (Exception ex)
             {
@@ -115,40 +109,51 @@ namespace Main_Game
             if (index != System.Windows.Forms.ListBox.NoMatches)
             {
                 Player.SetCurrentPlayer(lbExistingPlayers.SelectedIndex);
-                Close();
+                this.DialogResult = DialogResult.OK;
             }
         }
 
         private void lbExistingPlayers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Player.SetCurrentPlayer(lbExistingPlayers.SelectedIndex);
-            Player statCheck = Player.CurrentPlayer();
+            try
+            {
+                int i = lbExistingPlayers.SelectedIndex;
+                if (i != -1)
+                {
+                    Player.SetCurrentPlayer(i);
+                }
+                Player statCheck = Player.CurrentPlayer();
 
-            lblTricks.Text = statCheck.TotalTricks.ToString();
-            lblPoints.Text = statCheck.TotalPoints.ToString();
+                lblTricks.Text = statCheck.TotalTricks.ToString();
+                lblPoints.Text = statCheck.TotalPoints.ToString();
 
-            double wins = statCheck.TotalWins;
-            double loss = statCheck.TotalLosses;
-            double WL = 0;
+                double wins = statCheck.TotalWins;
+                double loss = statCheck.TotalLosses;
+                double WL = 0;
 
-            if (wins == 0 && loss == 0)
-            {
-                WL = 0;
+                if (wins == 0 && loss == 0)
+                {
+                    WL = 0;
+                }
+                else if (wins != 0 && loss == 0)
+                {
+                    WL += wins;
+                }
+                else if (wins == 0 && loss != 0)
+                {
+                    WL -= loss;
+                }
+                else
+                {
+                    WL = wins / loss;
+                }
+
+                lblWL.Text = wins.ToString() + "/" + loss.ToString() + " ( " + WL.ToString("n2") + " )";
             }
-            else if (wins != 0 && loss == 0)
+            catch(Exception ex)
             {
-                WL += wins;
+                MessageBox.Show(ex.Message);
             }
-            else if (wins == 0 && loss != 0)
-            {
-                WL -= loss;
-            }
-            else
-            {
-                WL = wins / loss;
-            }
-                 
-            lblWL.Text = wins.ToString() + "/" + loss.ToString() + " ( " + WL.ToString("n2") + " )";
             
         }
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Main_Game
 {
     class AI
-    {
+    {       //AI class, for determining actions that the computer opponent will do.
 
         private static int score;
         private static int tricks;
@@ -210,84 +210,92 @@ namespace Main_Game
 
         public static Card ChangeDecree()
         {
-            Card choice = null;
-            int moons = 0;
-            int keys = 0;
-            int bells = 0;
-            string suitChoice = "Bell";
-
-            if(!Game.PlayerLead())
+            
+                Card choice = null;
+                int moons = 0;
+                int keys = 0;
+                int bells = 0;
+                string suitChoice = "Bell";
+            try
             {
-                foreach(Card card in Card.OpponentCurrentHand())
-                {
-                    if (card.CardSuit == "Moon")
-                    {
-                        moons++;
-                    }
-                    else if (card.CardSuit == "Key")
-                    {
-                        keys++;
-                    }
-                    else
-                    {
-                        bells++;
-                    }
-                }
 
-                if (moons == Math.Max(Math.Max(moons, bells), keys))
-                {
-                    suitChoice = "Moon";
-                }
-                else if (keys == Math.Max(Math.Max(moons, bells), keys))
-                {
-                    suitChoice = "Key";
-                }
-                else if (bells == Math.Max(Math.Max(moons, bells), keys))
-                {
-                    suitChoice = "Bell";
-                }
-
-                foreach(Card card in Card.OpponentCurrentHand())
-                {
-                    if(card.CardSuit == suitChoice)
-                    {
-                        if(CheckScore(GetTricks()) && card.CardNumber % 2 == 0)
-                        {
-                            choice = card;
-                        }
-                    }
-                }
-
-            }
-            else
-            {
-                //If the computer is going second and they want points, they will try to get a card that will change the suit to the detriment of the player.
-                if(CheckScore(GetTricks()))
-                {
-                    foreach(Card card in Card.OpponentCurrentHand())
-                    {
-                        if(card.CardSuit != Game.PlayerChosenCard().CardSuit && card.CardSuit != Card.Trump().CardSuit)
-                        {
-                            choice = card;
-                        }
-                    }
-                }
-                //If they don't want points, they will try to get a card that will change the suit to the "benefit" of the player.
-                else
+                if (!Game.PlayerLead())
                 {
                     foreach (Card card in Card.OpponentCurrentHand())
                     {
-                        if (card.CardSuit == Game.PlayerChosenCard().CardSuit)
+                        if (card.CardSuit == "Moon")
                         {
-                            choice = card;
+                            moons++;
+                        }
+                        else if (card.CardSuit == "Key")
+                        {
+                            keys++;
+                        }
+                        else
+                        {
+                            bells++;
+                        }
+                    }
+
+                    if (moons == Math.Max(Math.Max(moons, bells), keys))
+                    {
+                        suitChoice = "Moon";
+                    }
+                    else if (keys == Math.Max(Math.Max(moons, bells), keys))
+                    {
+                        suitChoice = "Key";
+                    }
+                    else if (bells == Math.Max(Math.Max(moons, bells), keys))
+                    {
+                        suitChoice = "Bell";
+                    }
+
+                    foreach (Card card in Card.OpponentCurrentHand())
+                    {
+                        if (card.CardSuit == suitChoice)
+                        {
+                            if (CheckScore(GetTricks()) && card.CardNumber % 2 == 0)
+                            {
+                                choice = card;
+                            }
+                        }
+                    }
+
+                }
+                else
+                {
+                    //If the computer is going second and they want points, they will try to get a card that will change the suit to the detriment of the player.
+                    if (CheckScore(GetTricks()))
+                    {
+                        foreach (Card card in Card.OpponentCurrentHand())
+                        {
+                            if (card.CardSuit != Game.PlayerChosenCard().CardSuit && card.CardSuit != Card.Trump().CardSuit)
+                            {
+                                choice = card;
+                            }
+                        }
+                    }
+                    //If they don't want points, they will try to get a card that will change the suit to the "benefit" of the player.
+                    else
+                    {
+                        foreach (Card card in Card.OpponentCurrentHand())
+                        {
+                            if (card.CardSuit == Game.PlayerChosenCard().CardSuit)
+                            {
+                                choice = card;
+                            }
                         }
                     }
                 }
+                //If nothing gets chosen in the end, and not because there's nothing left, just the first card is chosen.
+                if (choice == null && Card.OpponentCurrentHand().Any())
+                {
+                    choice = Card.OpponentCurrentHand()[0];
+                }
             }
-            //If nothing gets chosen in the end, and not because there's nothing left, just the first card is chosen.
-            if(choice == null && Card.OpponentCurrentHand().Any())
+            catch(Exception ex)
             {
-                choice = Card.OpponentCurrentHand()[0];
+                throw ex;
             }
 
 

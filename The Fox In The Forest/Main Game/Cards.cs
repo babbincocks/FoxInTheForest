@@ -25,13 +25,20 @@ namespace Main_Game
         }
 
         public static void SetTrump()
-        {
-            trump = deck.Last();
-            deck.RemoveAt(deck.Count - 1);
+        {       //Set decree card at beginning of round.
+            try
+            {
+                trump = deck.Last();
+                deck.RemoveAt(deck.Count - 1);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public static void SetTrump(Card choice)
-        {
+        {       //For when switching decree card with card in hand.
             trump.CardNumber = choice.CardNumber;
             trump.CardSuit = choice.CardSuit;
             trump.CardKey = choice.CardKey;
@@ -69,12 +76,11 @@ namespace Main_Game
             get { return cardKey; }
             set { cardKey = number + "_" + suit + ".png"; }
         }
+        
 
-        //As odd-numbered cards have special effects that can affect a play, it needs to be handled somewhere. Maybe here?
-
-            //11 is handled in the AI class, if the player plays it at least.
+            //11 is handled elsewhere.
         public static int Effect(Card yourCard, Card oppCard)
-        {
+        {       //Logic for certain effect cards are handled here (1, 5, 7, and 9)
             int result = 0;
 
 
@@ -83,7 +89,7 @@ namespace Main_Game
                 if (oppCard.CardNumber > 1)
                 {
                     if (oppCard.CardSuit == yourCard.CardSuit)
-                    {
+                    {       //3 means loss, but player will go first.
                         result = 3;
                         
                     }
@@ -97,13 +103,8 @@ namespace Main_Game
 
                 //}
             }
-            else if (yourCard.CardNumber == 3)
-            {
-                FoxSwitch();
-            }
             else if (yourCard.CardNumber == 5)
             {
-                //This might not work, actions might need to be switched over to the new discard form.
                 DrawCard();
                 frmDiscardSelect newDiscard = new frmDiscardSelect();
                 newDiscard.ShowDialog();
@@ -206,16 +207,13 @@ namespace Main_Game
             return result;
         }
 
-        public static void FoxSwitch()
-        {
-
-        }
 
 
 
-        //Variable that will be the current state of the deck, and another for the used cards to go.
+
+        //Variable that will be the current state of the deck
         private static List<Card> deck;
-        private static List<Card> discard = new List<Card>();
+
 
         //If the deck needs to be retrieved in its entirety.
         public static List<Card> Deck()
@@ -223,26 +221,9 @@ namespace Main_Game
             return deck;
         }
 
-        //If the discard pile needs to be retrieved in its entirety.
-        public static List<Card> DiscardPile()
-        {
-            return discard;
-        }
 
-        public static void Discard(List<Card> cards)
-        {
-            try
-            {
-                foreach (Card card in cards)
-                {
-                    discard.Add(card);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+
+
 
         //Discard for the effect of a 5 card.
         public static void Discard(Card card)
@@ -286,6 +267,7 @@ namespace Main_Game
 
             foreach (string card in cards)
             {
+                //Don't want to put the card back face or the scoring sheet reference in the deck, so this if statement.
                 if (!card.Contains("Owl") && !card.Contains("FitF"))
                 {
                     string[] cardEle = card.Split('_');
@@ -327,6 +309,7 @@ namespace Main_Game
             
         }
 
+        //Cards currently in player hand and opponent hand.
         private static List<Card> yourHand = new List<Card>();
         private static List<Card> oppHand = new List<Card>();
 

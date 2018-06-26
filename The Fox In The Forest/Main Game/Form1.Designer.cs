@@ -34,16 +34,12 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.choosePlayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rulesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sortCardsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showScoringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hideScoringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.creditsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rulesToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ilCards = new System.Windows.Forms.ImageList(this.components);
             this.lblOppScore = new System.Windows.Forms.Label();
@@ -92,9 +88,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newGameToolStripMenuItem,
-            this.choosePlayerToolStripMenuItem,
-            this.saveToolStripMenuItem,
-            this.loadToolStripMenuItem});
+            this.choosePlayerToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
@@ -102,33 +96,20 @@
             // newGameToolStripMenuItem
             // 
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newGameToolStripMenuItem.Text = "&New Game";
             this.newGameToolStripMenuItem.Click += new System.EventHandler(this.newGameToolStripMenuItem_Click);
             // 
             // choosePlayerToolStripMenuItem
             // 
             this.choosePlayerToolStripMenuItem.Name = "choosePlayerToolStripMenuItem";
-            this.choosePlayerToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.choosePlayerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.choosePlayerToolStripMenuItem.Text = "Choose &Player";
             this.choosePlayerToolStripMenuItem.Click += new System.EventHandler(this.choosePlayerToolStripMenuItem_Click);
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.saveToolStripMenuItem.Text = "&Save";
-            // 
-            // loadToolStripMenuItem
-            // 
-            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.loadToolStripMenuItem.Text = "&Load";
             // 
             // rulesToolStripMenuItem
             // 
             this.rulesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sortCardsToolStripMenuItem,
             this.showScoringToolStripMenuItem,
             this.hideScoringToolStripMenuItem,
             this.creditsToolStripMenuItem});
@@ -136,39 +117,31 @@
             this.rulesToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.rulesToolStripMenuItem.Text = "&Game";
             // 
-            // sortCardsToolStripMenuItem
-            // 
-            this.sortCardsToolStripMenuItem.Name = "sortCardsToolStripMenuItem";
-            this.sortCardsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.sortCardsToolStripMenuItem.Text = "Sort &Hand";
-            this.sortCardsToolStripMenuItem.Click += new System.EventHandler(this.sortCardsToolStripMenuItem_Click);
-            // 
             // showScoringToolStripMenuItem
             // 
             this.showScoringToolStripMenuItem.Name = "showScoringToolStripMenuItem";
-            this.showScoringToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.showScoringToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.showScoringToolStripMenuItem.Text = "Show Scoring";
             this.showScoringToolStripMenuItem.Click += new System.EventHandler(this.showScoringToolStripMenuItem_Click);
             // 
             // hideScoringToolStripMenuItem
             // 
             this.hideScoringToolStripMenuItem.Name = "hideScoringToolStripMenuItem";
-            this.hideScoringToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.hideScoringToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.hideScoringToolStripMenuItem.Text = "Hide Scoring";
             this.hideScoringToolStripMenuItem.Click += new System.EventHandler(this.hideScoringToolStripMenuItem_Click);
             // 
             // creditsToolStripMenuItem
             // 
             this.creditsToolStripMenuItem.Name = "creditsToolStripMenuItem";
-            this.creditsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.creditsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.creditsToolStripMenuItem.Text = "Credits";
             this.creditsToolStripMenuItem.Click += new System.EventHandler(this.creditsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.rulesToolStripMenuItem2,
-            this.guideToolStripMenuItem});
+            this.rulesToolStripMenuItem2});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "&Help";
@@ -176,15 +149,9 @@
             // rulesToolStripMenuItem2
             // 
             this.rulesToolStripMenuItem2.Name = "rulesToolStripMenuItem2";
-            this.rulesToolStripMenuItem2.Size = new System.Drawing.Size(105, 22);
+            this.rulesToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
             this.rulesToolStripMenuItem2.Text = "&Rules";
             this.rulesToolStripMenuItem2.Click += new System.EventHandler(this.rulesToolStripMenuItem2_Click);
-            // 
-            // guideToolStripMenuItem
-            // 
-            this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
-            this.guideToolStripMenuItem.Text = "G&uide";
             // 
             // exitToolStripMenuItem
             // 
@@ -517,10 +484,7 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rulesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sortCardsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newGameToolStripMenuItem;
         private System.Windows.Forms.PictureBox pbDeck;
@@ -533,7 +497,6 @@
         private System.Windows.Forms.ToolStripMenuItem hideScoringToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rulesToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem guideToolStripMenuItem;
         public System.Windows.Forms.ImageList ilCards;
         private System.Windows.Forms.ToolStripMenuItem creditsToolStripMenuItem;
         private System.Windows.Forms.PictureBox pbTrump;

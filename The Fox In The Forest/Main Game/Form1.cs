@@ -216,6 +216,10 @@ namespace Main_Game
                     newForm.ShowDialog();
                     setNamePosition();
                     //TODO: Have it so if the player chooses a new player, the game will reset.
+                    if (newForm.DialogResult == DialogResult.OK)
+                    {
+                        RestartGame();
+                    }
 
                 }
             }
@@ -229,22 +233,28 @@ namespace Main_Game
 
         private void setNamePosition()
         {
-
-            curPlayer = Player.CurrentPlayer();
-            if (curPlayer.Name.Length >= 5 && curPlayer.Name.Length < 10)
+            try
             {
-                lblName.Text = curPlayer.Name + "'s" + Environment.NewLine + "Score";
-                lblName.Location = new Point(746, 479);
+                curPlayer = Player.CurrentPlayer();
+                if (curPlayer.Name.Length >= 5 && curPlayer.Name.Length < 10)
+                {
+                    lblName.Text = curPlayer.Name + "'s" + Environment.NewLine + "Score";
+                    lblName.Location = new Point(746, 479);
+                }
+                else if (curPlayer.Name.Length >= 10)
+                {
+                    lblName.Text = curPlayer.Name + "'s" + Environment.NewLine + "Score";
+                    lblName.Location = new Point(731, 479);
+                }
+                else
+                {
+                    lblName.Text = curPlayer.Name + "'s Score";
+                    lblName.Location = new Point(735, 503);
+                }
             }
-            else if (curPlayer.Name.Length >= 10)
+            catch(Exception ex)
             {
-                lblName.Text = curPlayer.Name + "'s" + Environment.NewLine + "Score";
-                lblName.Location = new Point(731, 479);
-            }
-            else
-            {
-                lblName.Text = curPlayer.Name + "'s Score";
-                lblName.Location = new Point(735, 503);
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -260,7 +270,7 @@ namespace Main_Game
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (ongoingGame != true)
+            if (!ongoingGame)
             {
                 List<string> preCards = new List<string>();
                 //TODO: Change how retrieving scores is set up.
@@ -278,78 +288,8 @@ namespace Main_Game
                             setNamePosition();
                         }
                     }
-                    foreach (string card in ilCards.Images.Keys)
-                    {
-                        preCards.Add(card);
-                    }
-
-                    currentGame = new Game();
-                    ongoingGame = true;
-
-
-                    UpdateLabels();
-
-                    deck = Game.SetCards(preCards);
-
-                    Card.PopulateHands();
-
-                    RefreshCardDisplay();
-
-                    Card.SetTrump();
-
-                    int a = ilCards.Images.IndexOfKey(Card.Trump().CardKey);
-                    pbTrump.Image = ilCards.Images[a];
-
-                    lblDecree.Visible = true;
-
-                    //Asks user to call heads or tails to see who leads; the form returns Yes if they choose Heads, No if Tails.
-                    frmCoinCall coin = new frmCoinCall();
-                    coin.ShowDialog();
-                    int result = -1;
-                    if(coin.DialogResult == DialogResult.Yes)
-                    {
-                        result = 1;
-                    }
-                    else if ((coin.DialogResult == DialogResult.No))
-                    {
-                        result = 0;
-                    }
-                    if (result != -1)
-                    {
-                        //A true result means the user's call matches the flip result, so the player goes first. False result means the
-                        //user's call did not match the flip result, so the opponent goes first.
-                        bool coinWin = Game.Flip(result);
-
-                        if (coinWin == true)
-                        {
-                            
-                            lblWinFlip.Show();
-
-                            Game.SetLead(coinWin);
-                            Game.SetTurn(coinWin);
-
-                        }
-                        else
-                        {
-                            
-                            lblLoseFlip.Show();
-
-                            Game.SetLead(coinWin);
-                            Game.SetTurn(coinWin);
-
-                            var t = Task.Run(async delegate
-                            {
-                                Random rng = new Random();
-                                await Task.Delay(rng.Next(1000));
-                                
-                            });
-                            t.Wait();
-                            AITurn();
-
-                        }
-
-                        
-                    }
+                    //Since the game won't be going on, it will "restart" the game by really just starting the game.
+                    RestartGame();
 
 
                 }
@@ -366,7 +306,8 @@ namespace Main_Game
                 newForm.ShowDialog();
                 if(newForm.DialogResult == DialogResult.Yes)
                 {
-                    //TODO: Reset everything, add a loss to the player's records, and start a new game.
+                    
+                    RestartGame();
                 }
             }
             
@@ -462,8 +403,10 @@ namespace Main_Game
                         }
 
                         ongoingGame = false;
-                        pbTrump.Image = null;
+                        pbTrump.Image = ilCards.Images[0];
                         Card.Deck().Clear();
+                        Player.UpdatePlayerStats();
+                        
 
 
 
@@ -541,6 +484,109 @@ namespace Main_Game
 
         }
 
+
+        private void RestartGame()
+        {
+            try
+            {
+                List<string> preCards = new List<string>();
+
+                if (ongoingGame)
+                {
+                    Player.CurrentPlayer().TotalLosses++;
+                    Player.UpdatePlayerStats();
+                    deck.Clear();
+                    Card.OpponentCurrentHand().Clear();
+                    Card.YourCurrentHand().Clear();
+                    UpdateLabels();
+                    RefreshCardDisplay();
+                    pbPlayerCard.Image = null;
+                    pbOppCard.Image = null;
+                    pbTrump.Image = null;
+
+
+                }
+
+                foreach (string card in ilCards.Images.Keys)
+                {
+                    preCards.Add(card);
+                }
+
+                currentGame = new Game();
+                ongoingGame = true;
+
+
+                UpdateLabels();
+
+                deck = Game.SetCards(preCards);
+
+                Card.PopulateHands();
+
+                RefreshCardDisplay();
+
+                Card.SetTrump();
+
+                int a = ilCards.Images.IndexOfKey(Card.Trump().CardKey);
+                pbTrump.Image = ilCards.Images[a];
+
+                lblDecree.Visible = true;
+
+                //Asks user to call heads or tails to see who leads; the form returns Yes if they choose Heads, No if Tails.
+                frmCoinCall coin = new frmCoinCall();
+                coin.ShowDialog();
+                int result = -1;
+                if (coin.DialogResult == DialogResult.Yes)
+                {
+                    result = 1;
+                }
+                else if ((coin.DialogResult == DialogResult.No))
+                {
+                    result = 0;
+                }
+                if (result != -1)
+                {
+                    //A true result means the user's call matches the flip result, so the player goes first. False result means the
+                    //user's call did not match the flip result, so the opponent goes first.
+                    bool coinWin = Game.Flip(result);
+
+                    if (coinWin == true)
+                    {
+
+                        lblWinFlip.Show();
+
+                        Game.SetLead(coinWin);
+                        Game.SetTurn(coinWin);
+
+                    }
+                    else
+                    {
+
+                        lblLoseFlip.Show();
+
+                        Game.SetLead(coinWin);
+                        Game.SetTurn(coinWin);
+
+                        var t = Task.Run(async delegate
+                        {
+                            Random rng = new Random();
+                            await Task.Delay(rng.Next(1000));
+
+                        });
+                        t.Wait();
+                        AITurn();
+
+                    }
+
+
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
+        }
+
         //private void CompThink()
         //{
         //    var think = Task.Run(async delegate
@@ -553,69 +599,74 @@ namespace Main_Game
 
         private void InitiatePlay(object sender, EventArgs e)
         {       //This is the code of what happens when the player plays a card.
+            try
+            {
+                PictureBox loc = (sender as PictureBox);
+                //Point p = loc.Location;
+                //int x = p.X;
+                //int y = p.Y;
+                //if (x > 200 && x < 700 && y > 280 && y < 460)
+                //{
 
-            PictureBox loc = (sender as PictureBox);
-            //Point p = loc.Location;
-            //int x = p.X;
-            //int y = p.Y;
-            //if (x > 200 && x < 700 && y > 280 && y < 460)
-            //{
-            
-                    if (loc.Tag != null)
+                if (loc.Tag != null)
+                {
+                    if (loc.Tag.ToString().Contains("3"))
                     {
-                        if(loc.Tag.ToString().Contains("3"))
+
+                        Card.PlayCard(Game.PlayerChosenCard());
+
+                        int index = ilCards.Images.IndexOfKey(Game.PlayerChosenCard().CardKey);
+                        pbPlayerCard.Image = ilCards.Images[index];
+                        lblPlayerCard.Visible = true;
+
+                        this.Controls.Remove(loc);
+                    }
+                    else
+                    {
+                        string[] bareChosen = loc.Tag.ToString().Split('_');
+                        Card cardChoice = new Card(int.Parse(bareChosen[0]), bareChosen[1]);
+                        Game.SetPlayerCard(cardChoice);
+                        Card.PlayCard(cardChoice);
+
+                        int index = ilCards.Images.IndexOfKey(cardChoice.CardKey);
+                        pbPlayerCard.Image = ilCards.Images[index];
+                        lblPlayerCard.Visible = true;
+
+                        this.Controls.Remove(loc);
+                    }
+
+
+                    if (Game.PlayerLead())
+                    {
+                        Game.SetTurn(false);
+                        lblPlayerTurn.Visible = false;
+                        lblWinFlip.Visible = false;
+                        lblLoseFlip.Visible = false;
+                        lblOppTurn.Visible = true;
+
+                        var t = Task.Run(async delegate
                         {
-
-                            Card.PlayCard(Game.PlayerChosenCard());
-
-                            int index = ilCards.Images.IndexOfKey(Game.PlayerChosenCard().CardKey);
-                            pbPlayerCard.Image = ilCards.Images[index];
-                            lblPlayerCard.Visible = true;
-
-                            this.Controls.Remove(loc);
-                        }
-                        else
-                        {
-                            string[] bareChosen = loc.Tag.ToString().Split('_');
-                            Card cardChoice = new Card(int.Parse(bareChosen[0]), bareChosen[1]);
-                            Game.SetPlayerCard(cardChoice);
-                            Card.PlayCard(cardChoice);
-
-                            int index = ilCards.Images.IndexOfKey(cardChoice.CardKey);
-                            pbPlayerCard.Image = ilCards.Images[index];
-                            lblPlayerCard.Visible = true;
-
-                            this.Controls.Remove(loc);
-                        }
-                        
-
-                        if (Game.PlayerLead())
-                        {
-                            Game.SetTurn(false);
-                            lblPlayerTurn.Visible = false;
-                            lblWinFlip.Visible = false;
-                            lblLoseFlip.Visible = false;
-                            lblOppTurn.Visible = true;
-
-                            var t = Task.Run(async delegate
-                            {
-                                Random rng = new Random();
-                                await Task.Delay(rng.Next(1000));
-                            });
-                            t.Wait();
-                            AITurn();
-                        }
-                        //If the player did go first, that means both have put a card down by now, so the result is checked.
-                        else if (!Game.PlayerLead())
-                        {
+                            Random rng = new Random();
+                            await Task.Delay(rng.Next(1000));
+                        });
+                        t.Wait();
+                        AITurn();
+                    }
+                    //If the player did go first, that means both have put a card down by now, so the result is checked.
+                    else if (!Game.PlayerLead())
+                    {
 
                         HandFinish();
-   
-                        }
-                        
-                        
+
                     }
-                
+
+
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             //}
             //else
             //{
@@ -633,11 +684,18 @@ namespace Main_Game
 
         private void UpdateLabels()
         {       //Code to update the scoring labels.
-            lblTricks.Text = currentGame.YourTricks.ToString();
-            lblOppTricks.Text = currentGame.OpponentTricks.ToString();
+            try
+            {
+                lblTricks.Text = currentGame.YourTricks.ToString();
+                lblOppTricks.Text = currentGame.OpponentTricks.ToString();
 
-            lblScore.Text = currentGame.YourScore.ToString();
-            lblOppScore.Text = currentGame.OpponentScore.ToString();
+                lblScore.Text = currentGame.YourScore.ToString();
+                lblOppScore.Text = currentGame.OpponentScore.ToString();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
 
@@ -822,98 +880,105 @@ namespace Main_Game
 
         private void RefreshCardDisplay()
         {       //Code for refreshing what cards are in both player's hands.
-
-            //Goes through all of the pictureboxes on the form and removes the ones that have the name of a suit in it.
-            foreach(Control ctrl in this.Controls.OfType<PictureBox>().ToList())
+            try
             {
-                
-                if (ctrl.Tag.ToString().Contains("Bell") || ctrl.Tag.ToString().Contains("Key") || ctrl.Tag.ToString().Contains("Moon"))
-                {
-                    this.Controls.Remove(ctrl);
-                }
-            }
-
-            //Coordinates
-            int left = 53;
-            int top = 529;
-            int row = 0;
-            //Adds all cards that the player currently has to be displayed near the bottom half of the form. Tags these new cards with the card
-            //that they are as well.
-            foreach (Card card in Card.YourCurrentHand())
-            {
-
-                string cardFile = card.CardKey;
-                foreach (string cardImage in ilCards.Images.Keys)
+                //Goes through all of the pictureboxes on the form and removes the ones that have the name of a suit in it.
+                foreach (Control ctrl in this.Controls.OfType<PictureBox>().ToList())
                 {
 
-                    if (cardFile == cardImage)
+                    if (ctrl.Tag.ToString().Contains("Bell") || ctrl.Tag.ToString().Contains("Key") || ctrl.Tag.ToString().Contains("Moon"))
                     {
-
-                        PictureBox newCard = new PictureBox();
-                        int index = ilCards.Images.IndexOfKey(cardImage);
-                        newCard.Image = ilCards.Images[index];
-                        newCard.SizeMode = PictureBoxSizeMode.Zoom;
-                        newCard.Size = new Size(70, 100);
-                        newCard.Location = new Point(left, top);
-                        newCard.Tag = card.CardNumber + "_" + card.CardSuit;
-
-                        if (row == 0)
-                        {
-                            top += 110;
-                            left += 45;
-                            row++;
-                        }
-                        else
-                        {
-                            top -= 110;
-                            left += 45;
-                            row--;
-                        }
-
-                        //Adds click events to the new card and adds it to the form.
-                        this.Controls.Add(newCard);
-                        newCard.MouseDown += new MouseEventHandler(picMouseDown);
-                        newCard.MouseMove += new MouseEventHandler(picMouseMove);
-                        newCard.MouseUp += new MouseEventHandler(picMouseUp);
-                        break;
+                        this.Controls.Remove(ctrl);
                     }
                 }
+
+
+                //Coordinates
+                int left = 53;
+                int top = 529;
+                int row = 0;
+                //Adds all cards that the player currently has to be displayed near the bottom half of the form. Tags these new cards with the card
+                //that they are as well.
+                foreach (Card card in Card.YourCurrentHand())
+                {
+
+                    string cardFile = card.CardKey;
+                    foreach (string cardImage in ilCards.Images.Keys)
+                    {
+
+                        if (cardFile == cardImage)
+                        {
+
+                            PictureBox newCard = new PictureBox();
+                            int index = ilCards.Images.IndexOfKey(cardImage);
+                            newCard.Image = ilCards.Images[index];
+                            newCard.SizeMode = PictureBoxSizeMode.Zoom;
+                            newCard.Size = new Size(70, 100);
+                            newCard.Location = new Point(left, top);
+                            newCard.Tag = card.CardNumber + "_" + card.CardSuit;
+
+                            if (row == 0)
+                            {
+                                top += 110;
+                                left += 45;
+                                row++;
+                            }
+                            else
+                            {
+                                top -= 110;
+                                left += 45;
+                                row--;
+                            }
+
+                            //Adds click events to the new card and adds it to the form.
+                            this.Controls.Add(newCard);
+                            newCard.MouseDown += new MouseEventHandler(picMouseDown);
+                            newCard.MouseMove += new MouseEventHandler(picMouseMove);
+                            newCard.MouseUp += new MouseEventHandler(picMouseUp);
+                            break;
+                        }
+                    }
+                }
+
+                //Changes the coordinates to display them up where the AI's cards would be. They all have the same image (card back face), but are
+                //tagged as their representative value.
+                left = 42;
+                top = 50;
+                row = 0;
+                foreach (Card card in Card.OpponentCurrentHand())
+                {
+                    PictureBox newCard = new PictureBox();
+
+                    newCard.Image = ilCards.Images[0];
+                    newCard.SizeMode = PictureBoxSizeMode.Zoom;
+                    newCard.Size = new Size(70, 100);
+                    newCard.Tag = "oppCard_" + card.CardKey;
+
+
+                    newCard.Location = new Point(left, top);
+
+
+
+                    if (row == 0)
+                    {
+                        top += 110;
+                        left += 45;
+                        row++;
+                    }
+                    else
+                    {
+                        top -= 110;
+                        left += 45;
+                        row--;
+                    }
+
+                    this.Controls.Add(newCard);
+
+                }
             }
-
-            //Changes the coordinates to display them up where the AI's cards would be. They all have the same image (card back face), but are
-            //tagged as their representative value.
-            left = 42;
-            top = 50;
-            row = 0;
-            foreach (Card card in Card.OpponentCurrentHand())
+            catch(Exception ex)
             {
-                PictureBox newCard = new PictureBox();
-
-                newCard.Image = ilCards.Images[0];
-                newCard.SizeMode = PictureBoxSizeMode.Zoom;
-                newCard.Size = new Size(70, 100);
-                newCard.Tag = "oppCard_" + card.CardKey;
-
-
-                newCard.Location = new Point(left, top);
-
-
-
-                if (row == 0)
-                {
-                    top += 110;
-                    left += 45;
-                    row++;
-                }
-                else
-                {
-                    top -= 110;
-                    left += 45;
-                    row--;
-                }
-
-                this.Controls.Add(newCard);
-
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -922,5 +987,7 @@ namespace Main_Game
             frmCredits newForm = new frmCredits();
             newForm.Show();
         }
+
+
     }
 }
