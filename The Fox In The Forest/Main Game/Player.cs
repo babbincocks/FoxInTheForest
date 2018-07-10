@@ -187,5 +187,19 @@ namespace Main_Game
             }
         }
 
+        public static void WriteLog(string line)
+        {
+            const string filePath = @"../../Log.txt";
+            if(!File.Exists(filePath))
+            {
+                File.Create(filePath);
+            }
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                writer.WriteLine(DateTime.Now.ToLongTimeString() + ": " + line);
+            }
+        }
+
+
     }
 }

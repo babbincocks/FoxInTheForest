@@ -392,17 +392,20 @@ namespace Main_Game
                         if (Game.Winner(currentGame.YourScore, currentGame.OpponentScore))
                         {
                             MessageBox.Show("You've won!");
+                            Player.WriteLog("Game finished. Player won with the score being " + currentGame.YourScore + " to " + currentGame.OpponentScore + ".");
                             Player.CurrentPlayer().TotalWins++;
                             Player.CurrentPlayer().TotalPoints += currentGame.YourScore;
                         }
                         else
                         {
                             MessageBox.Show("You've lost...");
+                            Player.WriteLog("Game finished. Player lost with the score being " + currentGame.YourScore + " to " + currentGame.OpponentScore + ".");
                             Player.CurrentPlayer().TotalLosses++;
                             Player.CurrentPlayer().TotalPoints += currentGame.YourScore;
                         }
 
                         ongoingGame = false;
+                        
                         pbTrump.Image = ilCards.Images[0];
                         Card.Deck().Clear();
                         Player.UpdatePlayerStats();
@@ -514,7 +517,7 @@ namespace Main_Game
 
                 currentGame = new Game();
                 ongoingGame = true;
-
+                Player.WriteLog("New game began.");
 
                 UpdateLabels();
 
@@ -526,12 +529,15 @@ namespace Main_Game
 
                 Card.SetTrump();
 
+                Player.WriteLog("The decree card was set as a " + Card.Trump().CardNumber + " of " + Card.Trump().CardSuit + ".");
+
                 int a = ilCards.Images.IndexOfKey(Card.Trump().CardKey);
                 pbTrump.Image = ilCards.Images[a];
 
                 lblDecree.Visible = true;
 
                 //Asks user to call heads or tails to see who leads; the form returns Yes if they choose Heads, No if Tails.
+                
                 frmCoinCall coin = new frmCoinCall();
                 coin.ShowDialog();
                 int result = -1;
@@ -634,6 +640,7 @@ namespace Main_Game
 
                         this.Controls.Remove(loc);
                     }
+                    Player.WriteLog("The player played a " + Game.PlayerChosenCard().CardNumber + " of " + Game.PlayerChosenCard().CardSuit + ".");
 
 
                     if (Game.PlayerLead())
